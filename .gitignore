@@ -1,0 +1,14 @@
+### Emacs created
+*~
+elpa/
+auto-save-list/
+network-security.data
+
+## personal (host-specific) save data
+meta/
+
+## undo-tree
+*~undo-tree~*
+
+### Tangled output
+init.el
