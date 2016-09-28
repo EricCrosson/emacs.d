@@ -50,15 +50,15 @@ rendering these bars only to remove them.
    
 Configure remote package archives
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-(require 'package)
-(setq package-enable-at-startup nil)
-    (mapc (lambda (source) (add-to-list 'package-archives source) t)
-          '(("gnu" . "http://elpa.gnu.org/packages/")
-            ("marmalade" . "http://marmalade-repo.org/packages/")
-            ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-            ("melpa" . "http://melpa.milkbox.net/packages/")
-            ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
+  (require 'package)
+  (setq package-enable-at-startup nil)
+      (mapc (lambda (source) (add-to-list 'package-archives source) t)
+            '(("gnu" . "http://elpa.gnu.org/packages/")
+              ("marmalade" . "http://marmalade-repo.org/packages/")
+              ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
+              ("melpa" . "http://melpa.milkbox.net/packages/")
+              ("org" . "http://orgmode.org/elpa/")))
+  (package-initialize)
 #+END_SRC
    
 First there was =use-package=
