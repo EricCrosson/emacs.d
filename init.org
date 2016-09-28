@@ -304,53 +304,63 @@ I did not grow up in an era where this is a straightforward mnemonic.
 
 *** Evil config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-;;; evil configuration
-(use-package evil :ensure t
-  :init
-  (setq evil-want-C-u-scroll t)
-  :config
-  (evil-mode 1))
+  ;;; evil configuration
+  (use-package evil :ensure t
+    :init
+    (setq evil-want-C-u-scroll t)
+    :config
+    (evil-mode 1))
 
-(use-package evil-leader :ensure t
-  :config
-  (setq evil-leader/leader "<SPC>")
-  (setq evil-leader/no-prefix-mode-rx '("dired-mode"
-                                        "magit-.*-mode"))
-  (evil-leader/set-key
-    
-    "y" 'execute-extended-command
+  (use-package evil-visualstar
+    :commands (evil-visualstar/begin-search-forward
+               evil-visualstar/begin-search-backward)
+    :init
+    (progn
+      (define-key evil-visual-state-map (kbd "*")
+        'evil-visualstar/begin-search-forward)
+      (define-key evil-visual-state-map (kbd "#")
+        'evil-visualstar/begin-search-backward)))
 
-    ;;; file commands
-    "ff" 'counsel-find-file
-    "fr" 'counsel-recentf
-    ;; TODO: cull unnecessary entries from recentf list (machine files)
+  (use-package evil-leader :ensure t
+    :config
+    (setq evil-leader/leader "<SPC>")
+    (setq evil-leader/no-prefix-mode-rx '("dired-mode"
+                                          "magit-.*-mode"))
+    (evil-leader/set-key
+      
+      "y" 'execute-extended-command
 
-    ;;; buffer commands
-    "bd" 'kill-this-buffer
-    "bb" 'ivy-switch-buffer
-    ;; TODO: implement function "<TAB>" 'alternate-buffer
-    ;; TODO: implement function "bF" 'follow-mode-full-frame
+      ;;; file commands
+      "ff" 'counsel-find-file
+      "fr" 'counsel-recentf
+      ;; TODO: cull unnecessary entries from recentf list (machine files)
 
-    ;;; movement commands
-    "ss" 'swiper
+      ;;; buffer commands
+      "bd" 'kill-this-buffer
+      "bb" 'ivy-switch-buffer
+      ;; TODO: implement function "<TAB>" 'alternate-buffer
+      ;; TODO: implement function "bF" 'follow-mode-full-frame
 
-    ;;; magit commands
-    "gs" 'magit-status
-    )
-  (global-evil-leader-mode))
+      ;;; movement commands
+      "ss" 'swiper
 
-(use-package evil-magit :ensure t
-  :config
-  (add-hook 'git-commikt-mode-hook 'evil-insert-state))
+      ;;; magit commands
+      "gs" 'magit-status
+      )
+    (global-evil-leader-mode))
 
-(use-package evil-escape :ensure t
-  :config
-  (setq-default evil-escape-key-sequence "fd")
-  (evil-escape-mode 1))
+  (use-package evil-magit :ensure t
+    :config
+    (add-hook 'git-commikt-mode-hook 'evil-insert-state))
 
-(use-package evil-surround :ensure t
-  :config
-  (global-evil-surround-mode 1))
+  (use-package evil-escape :ensure t
+    :config
+    (setq-default evil-escape-key-sequence "fd")
+    (evil-escape-mode 1))
+
+  (use-package evil-surround :ensure t
+    :config
+    (global-evil-surround-mode 1))
 
 
 #+END_SRC
