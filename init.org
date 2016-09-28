@@ -262,7 +262,6 @@ I did not grow up in an era where this is a straightforward mnemonic.
 ;;; ace-jumps
 ;;; which-func?
 ;;; midnight
-;;; winner
 ;;; unselectable-buffer
 ;;; dedicated-buffer
 ;;; ibuffer{-vc,}
@@ -279,6 +278,28 @@ I did not grow up in an era where this is a straightforward mnemonic.
 ;;; dictionary
    
    #+END_SRC
+
+*** Winner config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package winner
+    :init
+    (progn
+      (winner-mode t)
+      (setq esc/winner-boring-buffers '("*Completions*"
+                                              "*Compile-Log*"
+                                              "*inferior-lisp*"
+                                              "*Fuzzy Completions*"
+                                              "*Apropos*"
+                                              "*Help*"
+                                              "*cvs*"
+                                              "*Buffer List*"
+                                              "*Ibuffer*"
+                                              "*esh command on file*"
+                                              ))
+      (setq winner-boring-buffers
+            (append winner-boring-buffers esc/winner-boring-buffers))
+      (winner-mode t)))
+#+END_SRC
 
 *** Evil config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
