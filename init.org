@@ -235,29 +235,6 @@ I did not grow up in an era where this is a straightforward mnemonic.
         '((t   . ivy--regex-ignore-order))))
 
 
-;;; evil configuration
-(use-package evil :ensure t
-  :config
-  (evil-mode 1))
-
-(use-package evil-leader :ensure t
-  :config
-  (setq evil-leader/leader "<SPC>")
-  (setq evil-leader/no-prefix-mode-rx '("dired-mode"
-                                        "magit-.*-mode"))
-  (evil-leader/set-key "y" 'execute-extended-command)
-  (evil-leader-mode 1))
-
-(use-package evil-escape :ensure t
-  :config
-  (setq-default evil-escape-key-sequence "fd")
-  (evil-escape-mode 1))
-
-(use-package evil-surround :ensure t
-  :config
-  (global-evil-surround-mode 1))
-
-
 ;;; configure which-key
 (use-package which-key :ensure t
   :init
@@ -293,6 +270,44 @@ I did not grow up in an era where this is a straightforward mnemonic.
    
    #+END_SRC
 
+*** Evil config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+;;; evil configuration
+(use-package evil :ensure t
+  :config
+  (evil-mode 1))
+
+(use-package evil-leader :ensure t
+  :config
+  (setq evil-leader/leader "<SPC>")
+  (setq evil-leader/no-prefix-mode-rx '("dired-mode"
+                                        "magit-.*-mode"))
+  (evil-leader/set-key
+    
+    "y" 'execute-extended-command
+
+    ;;; buffer commands
+    "bd" 'kill-this-buffer
+    "bb" 'ivy-switch-buffer
+    ;; TODO: implement function "<TAB>" 'alternate-buffer
+    ;; TODO: implement function "bF" 'follow-mode-full-frame
+
+    ;;; magit commands
+    "gs" 'magit-status
+    )
+  (global-evil-leader-mode))
+
+(use-package evil-escape :ensure t
+  :config
+  (setq-default evil-escape-key-sequence "fd")
+  (evil-escape-mode 1))
+
+(use-package evil-surround :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
+
+#+END_SRC
 *** Compilation buffer config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'same-window-buffer-names "*compilation*")
