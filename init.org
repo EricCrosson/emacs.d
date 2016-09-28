@@ -369,7 +369,14 @@ I did not grow up in an era where this is a straightforward mnemonic.
   (add-to-list 'same-window-buffer-names "*compilation*")
 #+END_SRC
 
-*** Org indent header config
+*** Org config
+
+#+BEGIN_SRC
+(setq org-src-fontify-natively t)
+#+END_SRC
+
+    Org indent config
+
 TODO: use like =org-indent-mode=
 #+BEGIN_SRC emacs-lisp :comments link :tangle no
   (use-package org-indent-header :ensure t)
