@@ -351,7 +351,7 @@ I did not grow up in an era where this is a straightforward mnemonic.
 
   (use-package evil-magit :ensure t
     :config
-    (add-hook 'git-commikt-mode-hook 'evil-insert-state))
+    (add-hook 'git-commit-mode-hook 'evil-insert-state))
 
   (use-package evil-escape :ensure t
     :config
@@ -362,9 +362,9 @@ I did not grow up in an era where this is a straightforward mnemonic.
   (use-package evil-surround :ensure t
     :config
     (global-evil-surround-mode 1))
-
-
 #+END_SRC
+    
+TODO: remove finished shell buffers
 *** Compilation buffer config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'same-window-buffer-names "*compilation*")
