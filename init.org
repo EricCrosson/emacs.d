@@ -282,6 +282,8 @@ I did not grow up in an era where this is a straightforward mnemonic.
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
 ;;; evil configuration
 (use-package evil :ensure t
+  :init
+  (setq evil-want-C-u-scroll t)
   :config
   (evil-mode 1))
 
