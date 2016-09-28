@@ -222,7 +222,9 @@ I did not grow up in an era where this is a straightforward mnemonic.
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
 ;;; configure ivy
 (use-package ivy :ensure t
-  :init (use-package avy :ensure t)
+  :init
+  (use-package avy :ensure t)
+  (use-package counsel :ensure t)
   :diminish (ivy-mode . "")
   :bind
   (:map ivy-mode-map
@@ -296,11 +298,19 @@ I did not grow up in an era where this is a straightforward mnemonic.
     
     "y" 'execute-extended-command
 
+    ;;; file commands
+    "ff" 'counsel-find-file
+    "fr" 'counsel-recentf
+    ;; TODO: cull unnecessary entries from recentf list (machine files)
+
     ;;; buffer commands
     "bd" 'kill-this-buffer
     "bb" 'ivy-switch-buffer
     ;; TODO: implement function "<TAB>" 'alternate-buffer
     ;; TODO: implement function "bF" 'follow-mode-full-frame
+
+    ;;; movement commands
+    "ss" 'swiper
 
     ;;; magit commands
     "gs" 'magit-status
