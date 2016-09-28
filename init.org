@@ -97,6 +97,14 @@ Fire up the mood lighting
           '((highlight "#333")
             (region    "#444")))
 #+END_SRC
+
+We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]].
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+(use-package fill-column-indicator :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'fci-mode))
+#+END_SRC
     
 ** Fonts
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
