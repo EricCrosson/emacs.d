@@ -356,6 +356,7 @@ I did not grow up in an era where this is a straightforward mnemonic.
   (use-package evil-escape :ensure t
     :config
     (setq-default evil-escape-key-sequence "fd")
+    (after 'diminish (diminish 'evil-escape-mode))
     (evil-escape-mode 1))
 
   (use-package evil-surround :ensure t
