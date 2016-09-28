@@ -297,6 +297,8 @@ I did not grow up in an era where this is a straightforward mnemonic.
     )
   (global-evil-leader-mode))
 
+(use-package evil-magit :ensure t)
+
 (use-package evil-escape :ensure t
   :config
   (setq-default evil-escape-key-sequence "fd")
