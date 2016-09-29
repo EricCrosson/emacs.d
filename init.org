@@ -278,7 +278,6 @@ I did not grow up in an era where this is a straightforward mnemonic.
 ;;; spacemacs concept of frames and window numbering
 ;;; dictionary
 ;;; help-plus (custom package)
-   
    #+END_SRC
 
 *** Winner config
