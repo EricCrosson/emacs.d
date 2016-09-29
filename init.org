@@ -105,6 +105,48 @@ We must always remember [[http://programmers.stackexchange.com/a/148678][our ori
   :config
   (add-hook 'prog-mode-hook 'fci-mode))
 #+END_SRC
+
+Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]].
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (defun esc-fancy-mode-line-render (left center right &optional lpad rpad)
+    "Return a string the width of the current window with 
+  LEFT, CENTER, and RIGHT spaced out accordingly, LPAD and RPAD,
+  can be used to add a number of spaces to the front and back of the string."
+    (condition-case err
+        (let* ((left (if lpad (concat (make-string lpad ?\s) left) left))
+               (right (if rpad (concat right (make-string rpad ?\s)) right))
+               (width (apply '+ (window-width) (let ((m (window-margins))) (list (or (car m) 0) (or (cdr m) 0)))))
+               (total-length (+ (length left) (length center) (length right) 2)))
+          (when (> total-length width) (setq left "" right ""))
+          (let* ((left-space (/ (- width (length center)) 2))
+                 (right-space (- width left-space (length center)))
+                 (lspaces (max (- left-space (length left)) 1))
+                 (rspaces (max (- right-space (length right)) 1 0)))
+            (concat left (make-string lspaces  ?\s)
+                    center
+                    (make-string rspaces ?\s)
+                    right)))
+      (error (format "[%s]: (%s) (%s) (%s)" err left center right))))
+
+  (defvar esc-mode-line-format
+    '((:eval (esc-fancy-mode-line-render
+              (format-mode-line (format " %s (%%l/%d) "
+                                        (downcase (format-mode-line mode-name))
+                                        (line-number-at-pos (point-max))))
+              (concat
+               (cond
+                ((and default-directory (file-remote-p default-directory)) "@ ")
+                (t ""))
+               (buffer-name)
+               (cond
+                ((not (buffer-file-name)) " ")
+                ((buffer-modified-p) "*")
+                (t " ")))
+              (format-mode-line mode-line-process) 1 3))))
+
+  (setq-default mode-line-format esc-mode-line-format)
+#+END_SRC
     
 ** Fonts
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
@@ -143,7 +185,6 @@ Hello, My Name Is
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
   (fset 'yes-or-no-p 'y-or-n-p)           ;change yes-no to y-n
-  (setq-default size-indication-mode t)
   (setq ;debug-on-error t
         inhibit-startup-screen t
         initial-scratch-message nil
