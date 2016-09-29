@@ -110,7 +110,7 @@ We must always remember [[http://programmers.stackexchange.com/a/148678][our ori
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defun font-exists-p (font)
     "Nil unless FONT is recognized by Emacs."
-    (if (null (x-list-fonts font)) nil t))
+    (member esc-font (font-family-list)))
 #+END_SRC
 
 Favored font of late
