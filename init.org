@@ -319,7 +319,7 @@ I did not grow up in an era where this is a straightforward mnemonic.
      ;;; goto last change
      ;;; multiple-cursors
      ;;; ace-jumps
-     ;;; which-func?
+     ;;; wind-move
      ;;; midnight
      ;;; unselectable-buffer
      ;;; dedicated-buffer
