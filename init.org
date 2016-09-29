@@ -277,64 +277,65 @@ I did not grow up in an era where this is a straightforward mnemonic.
 ** Configuration
    ;; TODO: sort this incipient work into org home
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-;;; configure ivy
-(use-package ivy :ensure t
-  :init
-  (use-package avy :ensure t)
-  (use-package counsel :ensure t)
-  :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-   ("C-'" . ivy-avy))
-  :config
-  (ivy-mode 1)
-  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  (setq ivy-use-virtual-buffers t)
-  ;; number of result lines to display
-  (setq ivy-height 10)
-  ;; does not count candidates
-  (setq ivy-count-format "")
-  ;; no regexp by default
-  (setq ivy-initial-inputs-alist nil)
-  ;; configure regexp engine.
-  (setq ivy-re-builders-alist
-	;; allow input not in order
-        '((t   . ivy--regex-ignore-order))))
+     ;;; configure ivy
+     (use-package ivy :ensure t
+       :init
+       (use-package avy :ensure t)
+       (use-package counsel :ensure t)
+       :diminish (ivy-mode . "")
+       :bind
+       (:map ivy-minibuffer-map
+             ("C-j" . ivy-next-line)
+             ("C-k" . ivy-previous-line))
+       :config
+       (ivy-mode 1)
+       ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+       (setq ivy-use-virtual-buffers t)
+       ;; number of result lines to display
+       (setq ivy-height 10)
+       ;; does not count candidates
+       (setq ivy-count-format "")
+       ;; no regexp by default
+       (setq ivy-initial-inputs-alist nil)
+       ;; configure regexp engine.
+       (setq ivy-re-builders-alist
+             ;; allow input not in order
+             '((t   . ivy--regex-ignore-order))))
 
 
-;;; configure which-key
-(use-package which-key :ensure t
-  :init
-  (which-key-setup-side-window-right-bottom)
-  :config
-  (which-key-mode 1)
-  (after 'diminish (diminish 'which-key-mode)))
+     ;;; configure which-key
+     (use-package which-key :ensure t
+       :init
+       (which-key-setup-side-window-right-bottom)
+       :config
+       (which-key-mode 1)
+       (after 'diminish (diminish 'which-key-mode)))
 
-;; features to add
-;;; eldoc
-;;; color theme
-;;; quelpa?
-;;; git-gutter
-;;; goto last change
-;;; multiple-cursors
-;;; ace-jumps
-;;; which-func?
-;;; midnight
-;;; unselectable-buffer
-;;; dedicated-buffer
-;;; ibuffer{-vc,}
-;;; tea-time
-;;; conf-mode
-;;; bury-successful copmpilation buffer (see section Compilation config)
-;;; latex config
-;;; flyspell
-;;; latex
-;;; uniquify
-;;; idle-highlight?
-;;; skeletons... abbrev? yasnippet?
-;;; spacemacs concept of frames and window numbering
-;;; dictionary
-;;; help-plus (custom package)
+     ;; features to add
+     ;;; eldoc
+     ;;; color theme
+     ;;; quelpa?
+     ;;; git-gutter
+     ;;; goto last change
+     ;;; multiple-cursors
+     ;;; ace-jumps
+     ;;; which-func?
+     ;;; midnight
+     ;;; unselectable-buffer
+     ;;; dedicated-buffer
+     ;;; ibuffer{-vc,}
+     ;;; tea-time
+     ;;; conf-mode
+     ;;; bury-successful copmpilation buffer (see section Compilation config)
+     ;;; latex config
+     ;;; flyspell
+     ;;; latex
+     ;;; uniquify
+     ;;; idle-highlight?
+     ;;; skeletons... abbrev? yasnippet?
+     ;;; spacemacs concept of frames and window numbering
+     ;;; dictionary
+     ;;; help-plus (custom package)
    #+END_SRC
 
 *** Programming modes config
@@ -343,6 +344,10 @@ I did not grow up in an era where this is a straightforward mnemonic.
         :config
         (global-aggressive-indent-mode 1))
     #+END_SRC
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
 *** Winner config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package winner
@@ -391,6 +396,9 @@ I did not grow up in an era where this is a straightforward mnemonic.
     (evil-leader/set-key
 
       "y" 'execute-extended-command
+
+      ;;; ace-jump commands
+      "l" 'ivy-avy
 
       ;;; file commands
       "ff" 'counsel-find-file
