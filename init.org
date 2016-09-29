@@ -250,7 +250,8 @@ I did not grow up in an era where this is a straightforward mnemonic.
   :init
   (which-key-setup-side-window-right-bottom)
   :config
-  (which-key-mode 1))
+  (which-key-mode 1)
+  (after 'diminish (diminish 'which-key-mode)))
 
 ;; features to add
 ;;; eldoc
