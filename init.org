@@ -627,15 +627,19 @@
    
 ** FIC-mode config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package fic-mode
-    :ensure t
-    :defer t
-    :config 
-    (defun turn-on-fic-mode ()
-       "Turn fic-mode on."
-       (interactive)
-       (fic-mode 1))
-    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
+     (use-package fic-mode
+       :ensure t
+       :defer t
+       :config
+       ;; strange happenstance here. This function is defined in some
+       ;; versions of this package, but not in the elpa version.
+       ;;
+       ;; perhaps include a wrapper, only defining if not already a defun
+       (defun turn-on-fic-mode ()
+          "Turn fic-mode on."
+          (interactive)
+          (fic-mode 1))
+       (add-hook 'prog-mode-hook 'turn-on-fic-mode))
    #+END_SRC
    
 ** undo-tree config
