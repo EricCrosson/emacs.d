@@ -331,7 +331,7 @@ I did not grow up in an era where this is a straightforward mnemonic.
      ;;; flyspell
      ;;; latex
      ;;; uniquify
-     ;;; idle-highlight?
+     ;;; eyebrowse
      ;;; skeletons... abbrev? yasnippet?
      ;;; spacemacs concept of frames and window numbering
      ;;; dictionary
