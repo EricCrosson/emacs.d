@@ -458,6 +458,7 @@ TODO: use like =org-indent-mode=
   (use-package org
     :config
     (add-hook 'org-mode-hook 'org-indent-mode)
+    (add-hook 'org-mode-hook 'auto-fill-mode)
     )
 #+END_SRC
 
