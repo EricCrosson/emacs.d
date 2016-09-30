@@ -450,11 +450,15 @@ TODO: remove finished shell buffers
 (setq org-src-fontify-natively t)
 #+END_SRC
 
-    Org indent config
+Org indent config
 
 TODO: use like =org-indent-mode=
 #+BEGIN_SRC emacs-lisp :comments link :tangle no
   (use-package org-indent-header :ensure t)
+  (use-package org
+    :config
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    )
 #+END_SRC
 
 *** Dired config
