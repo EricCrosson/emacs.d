@@ -39,16 +39,16 @@
         '(menu-bar-mode
           tool-bar-mode
           scroll-bar-mode))
-  #+END_SRC
-  
-  This code is important to run as early as possible, to avoid initially
-  rendering these bars only to remove them.
-  
-  
-* Bootstrap
-  
-  Configure remote package archives
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+END_SRC
+
+This code is important to run as early as possible, to avoid initially
+rendering these bars only to remove them.
+
+
+** Bootstrap
+
+Configure remote package archives
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (require 'package)
   (setq package-enable-at-startup nil)
       (mapc (lambda (source) (add-to-list 'package-archives source) t)
@@ -58,10 +58,10 @@
               ("melpa" . "http://melpa.milkbox.net/packages/")
               ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
-  #+END_SRC
-  
-  First there was =use-package=
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+END_SRC
+
+First there was =use-package=
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -103,17 +103,75 @@
 (use-package fill-column-indicator :ensure t
   :config
   (add-hook 'prog-mode-hook 'fci-mode))
-  #+END_SRC
-      
-* Fonts
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+END_SRC
+
+Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]].
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (defun esc-fancy-mode-line-render (left center right &optional lpad rpad)
+    "Return a string the width of the current window with
+  LEFT, CENTER, and RIGHT spaced out accordingly, LPAD and RPAD,
+  can be used to add a number of spaces to the front and back of the string."
+    (condition-case err
+        (let* ((left
+                (if lpad
+                    (concat (make-string lpad ?\s) left)
+                  left))
+               (right
+                (if rpad
+                    (concat right (make-string rpad ?\s))
+                  right))
+               (width (apply '+ (window-width)
+                             (let ((m (window-margins)))
+                               (list (or (car m)
+                                         0)
+                                     (or (cdr m)
+                                         0)))))
+               (total-length (+ (length left)
+                                (length center)
+                                (length right) 2)))
+          (when (> total-length width)
+            (setq left "" right ""))
+          (let* ((left-space (/ (- width (length center)) 2))
+                 (right-space (- width left-space (length center)))
+                 (lspaces (max (- left-space (length left)) 1))
+                 (rspaces (max (- right-space (length right)) 1 0)))
+            (concat left (make-string lspaces  ?\s) center
+                    (make-string rspaces ?\s) right)))
+      (error
+       (format "[%s]: (%s) (%s) (%s)" err left center right))))
+
+  (defvar esc-mode-line-format
+    '((:eval (esc-fancy-mode-line-render
+              (format-mode-line
+               (format " %s (%%l/%d) " (downcase
+                                        (format-mode-line
+                                         mode-name))
+                       (line-number-at-pos (point-max))))
+              (concat
+               (cond ((and
+                       default-directory
+                       (file-remote-p default-directory)) "@ ")
+                     (t ""))
+               (buffer-name)
+               (cond ((not (buffer-file-name)) " ")
+                     ((buffer-modified-p) "*")
+                     (t " ")))
+              (format-mode-line mode-line-process) 1 3))))
+
+  (setq-default mode-line-format esc-mode-line-format)
+#+END_SRC
+    
+** Fonts
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defun font-exists-p (font)
     "Nil unless FONT is recognized by Emacs."
-    (if (null (x-list-fonts font)) nil t))
-  #+END_SRC
-  
-  Favored font of late
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+    (member esc-font (font-family-list)))
+#+END_SRC
+
+Favored font of late
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (let ((esc-font "Meslo LG S 8"))
     (when (font-exists-p esc-font)
       (set-face-attribute 'default nil :font esc-font)))
@@ -141,7 +199,6 @@
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
   (fset 'yes-or-no-p 'y-or-n-p)           ;change yes-no to y-n
-  (setq-default size-indication-mode t)
   (setq ;debug-on-error t
         inhibit-startup-screen t
         initial-scratch-message nil
@@ -215,87 +272,97 @@
 - auto-package-update config
 - esc-mode
 - persistent scratch
-  
-* Configuration
-  ;; TODO: sort this incipient work into org home
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-;;; configure ivy
-(use-package ivy :ensure t
-  :init
-  (use-package avy :ensure t)
-  (use-package counsel :ensure t)
-  :diminish (ivy-mode . "")
-  :bind
-  (:map ivy-mode-map
-   ("C-'" . ivy-avy))
-  :config
-  (ivy-mode 1)
-  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-  (setq ivy-use-virtual-buffers t)
-  ;; number of result lines to display
-  (setq ivy-height 10)
-  ;; does not count candidates
-  (setq ivy-count-format "")
-  ;; no regexp by default
-  (setq ivy-initial-inputs-alist nil)
-  ;; configure regexp engine.
-  (setq ivy-re-builders-alist
-	;; allow input not in order
-        '((t   . ivy--regex-ignore-order))))
 
-
-;;; configure which-key
-(use-package which-key :ensure t
-  :init
-  (which-key-setup-side-window-right-bottom)
-  :config
-  (which-key-mode 1))
-
-;; features to add
-;;; eldoc
-;;; color theme
-;;; quelpa?
-;;; git-gutter
-;;; goto last change
-;;; multiple-cursors
-;;; ace-jumps
-;;; which-func?
-;;; midnight
-;;; unselectable-buffer
-;;; dedicated-buffer
-;;; ibuffer{-vc,}
-;;; tea-time
-;;; conf-mode
-;;; bury-successful copmpilation buffer (see section Compilation config)
-;;; latex config
-;;; flyspell
-;;; latex
-;;; uniquify
-;;; idle-highlight?
-;;; skeletons... abbrev? yasnippet?
-;;; spacemacs concept of frames and window numbering
-;;; dictionary
-;;; help-plus (custom package)
-   
-  #+END_SRC
-  
-** Winner config
+** Configuration
+   ;; TODO: sort this incipient work into org home
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     ;;; configure ivy
+     (use-package ivy :ensure t
+       :init
+       (use-package avy :ensure t)
+       (use-package counsel :ensure t)
+       :diminish (ivy-mode . "")
+       :bind
+       (:map ivy-minibuffer-map
+             ("C-j" . ivy-next-line)
+             ("C-k" . ivy-previous-line))
+       :config
+       (ivy-mode 1)
+       ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+       (setq ivy-use-virtual-buffers t)
+       ;; number of result lines to display
+       (setq ivy-height 10)
+       ;; does not count candidates
+       (setq ivy-count-format "")
+       ;; no regexp by default
+       (setq ivy-initial-inputs-alist nil)
+       ;; configure regexp engine.
+       (setq ivy-re-builders-alist
+             ;; allow input not in order
+             '((t   . ivy--regex-ignore-order))))
+
+
+     ;;; configure which-key
+     (use-package which-key :ensure t
+       :init
+       (which-key-setup-side-window-right-bottom)
+       :config
+       (which-key-mode 1)
+       (after 'diminish (diminish 'which-key-mode)))
+
+     ;; features to add
+     ;;; eldoc
+     ;;; color theme
+     ;;; quelpa?
+     ;;; git-gutter
+     ;;; goto last change
+     ;;; multiple-cursors
+     ;;; ace-jumps
+     ;;; wind-move
+     ;;; midnight
+     ;;; unselectable-buffer
+     ;;; dedicated-buffer
+     ;;; ibuffer{-vc,}
+     ;;; tea-time
+     ;;; conf-mode
+     ;;; bury-successful copmpilation buffer (see section Compilation config)
+     ;;; latex config
+     ;;; flyspell
+     ;;; latex
+     ;;; uniquify
+     ;;; idle-highlight?
+     ;;; skeletons... abbrev? yasnippet?
+     ;;; spacemacs concept of frames and window numbering
+     ;;; dictionary
+     ;;; help-plus (custom package)
+   #+END_SRC
+
+*** Programming modes config
+    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+      (use-package aggressive-indent :ensure t
+        :config
+        (global-aggressive-indent-mode 1))
+    #+END_SRC
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
+*** Winner config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package winner
     :init
     (progn
       (winner-mode t)
       (setq esc/winner-boring-buffers '("*Completions*"
-                                              "*Compile-Log*"
-                                              "*inferior-lisp*"
-                                              "*Fuzzy Completions*"
-                                              "*Apropos*"
-                                              "*Help*"
-                                              "*cvs*"
-                                              "*Buffer List*"
-                                              "*Ibuffer*"
-                                              "*esh command on file*"
-                                              ))
+                                        "*Compile-Log*"
+                                        "*inferior-lisp*"
+                                        "*Fuzzy Completions*"
+                                        "*Apropos*"
+                                        "*Help*"
+                                        "*cvs*"
+                                        "*Buffer List*"
+                                        "*Ibuffer*"
+                                        "*esh command on file*"))
       (setq winner-boring-buffers
             (append winner-boring-buffers esc/winner-boring-buffers))
       (winner-mode t)))
@@ -326,8 +393,11 @@
     (setq evil-leader/no-prefix-mode-rx '("dired-mode"
                                           "magit-.*-mode"))
     (evil-leader/set-key
-      
+
       "y" 'execute-extended-command
+
+      ;;; ace-jump commands
+      "l" 'ivy-avy
 
       ;;; file commands
       "ff" 'counsel-find-file
@@ -345,26 +415,31 @@
 
       ;;; magit commands
       "gs" 'magit-status
+
+      ;;; user commands
+      "od" 'xorg-dim
+      ; TODO: define xorg-dim
       )
     (global-evil-leader-mode))
 
   (use-package evil-magit :ensure t
     :config
-    (add-hook 'git-commikt-mode-hook 'evil-insert-state))
+    (add-hook 'git-commit-mode-hook 'evil-insert-state))
 
   (use-package evil-escape :ensure t
     :config
     (setq-default evil-escape-key-sequence "fd")
+    (after 'diminish (diminish 'evil-escape-mode))
     (evil-escape-mode 1))
 
   (use-package evil-surround :ensure t
     :config
     (global-evil-surround-mode 1))
+#+END_SRC
 
-
-   #+END_SRC
-** Compilation buffer config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+TODO: remove finished shell buffers
+*** Compilation buffer config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'same-window-buffer-names "*compilation*")
    #+END_SRC
    
@@ -623,57 +698,49 @@
         backup-by-copying-when-mismatch t)
   (mkdir (car desktop-path) t)            ; ensure desktop-save dir exists
   (desktop-save-mode 1)                   ;use desktop file
-   #+END_SRC
-   
-** FIC-mode config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-     (use-package fic-mode
-       :ensure t
-       :defer t
-       :config
-       ;; strange happenstance here. This function is defined in some
-       ;; versions of this package, but not in the elpa version.
-       ;;
-       ;; perhaps include a wrapper, only defining if not already a defun
-       (defun turn-on-fic-mode ()
-          "Turn fic-mode on."
-          (interactive)
-          (fic-mode 1))
-       (add-hook 'prog-mode-hook 'turn-on-fic-mode))
-   #+END_SRC
-   
-** undo-tree config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-     (use-package undo-tree
-       :ensure t
-       :config
-       (setq undo-limit (* 1024 1024))
-       ;; todo: associate with esc-mode
-       (undo-tree-mode 1)
-       (setq undo-tree-auto-save-history t)
-       (defadvice undo-tree-make-history-save-file-name
-           (after undo-tree activate)
-         "Make zipped `undo-tree' files obvious."
-         (setq ad-return-value (concat ad-return-value ".gz")))
+#+END_SRC
+
+*** FIC-mode config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package fic-mode
+    :ensure t
+    :config
+    ;; TODO: autoload to kick this beast out of memory
+    (defun turn-on-fic-mode ()
+       "Turn fic-mode on."
+       (interactive)
+       (fic-mode 1))
+    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
+#+END_SRC
+
+*** undo-tree config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package undo-tree
+    :ensure t
+    :config
+    (setq undo-limit (* 1024 1024))
+    ;; todo: associate with esc-mode
+    (undo-tree-mode 1)
+    (setq undo-tree-auto-save-history t)
+    (defadvice undo-tree-make-history-save-file-name
+        (after undo-tree activate)
+      "Make zipped `undo-tree' files obvious."
+      (setq ad-return-value (concat ad-return-value ".gz")))
 
-       ;;; Thanks to
-       ;;; [[http://whattheemacsd.com/my-misc.el-02.html][Magnar]] for the
-       ;;; advice.
-       (defadvice undo-tree-undo (around keep-region activate)
-         (if (use-region-p)
-             (let ((m (set-marker (make-marker) (mark)))
-                   (p (set-marker (make-marker) (point))))
-               ad-do-it
-               (goto-char p)
-               (set-mark m)
-               (set-marker p nil)
-               (set-marker m nil))
-           ad-do-it)))
-   #+END_SRC
-   
-   
-* Fin
-  Start the emacs server we got this far without error
+    ;;; Thanks to
+    ;;; [[http://whattheemacsd.com/my-misc.el-02.html][Magnar]] for the
+    ;;; advice.
+    (defadvice undo-tree-undo (around keep-region activate)
+      (if (use-region-p)
+          (let ((m (set-marker (make-marker) (mark)))
+                (p (set-marker (make-marker) (point))))
+            ad-do-it
+            (goto-char p)
+            (set-mark m)
+            (set-marker p nil)
+            (set-marker m nil))
+        ad-do-it)))
+#+END_SRC
 
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (server-start)
