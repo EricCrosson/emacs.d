@@ -760,3 +760,6 @@
   ;;; .emacs.el ends here
     #+END_SRC
     
+
+* TODOs
+  - make reindention a hook on save? I know there's aggressive indent but what about org mode?
