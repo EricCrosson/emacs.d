@@ -527,7 +527,18 @@
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
    #+END_SRC
    
-** Windmove config
+** Window manipulation
+*** Zoom frame config
+    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+      (use-package zoom-frm :ensure t
+        ;; TODO: include core-micro-state.el from
+        ;; https://github.com/syl20bnr/spacemacs/blob/master/core/core-micro-state.el
+
+        ;; perhaps make the above into a standalone package
+        ;; then bind zoom commands with a microstate
+        )
+    #+END_SRC
+*** Windmove config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   ;; Windmove from shift keys
   (use-package windmove
@@ -638,6 +649,12 @@
     (browse-kill-ring-default-keybindings))
    #+END_SRC
    
+** Writegood mode config
+   TODO: use-package that feller
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   (use-package writegood-mode :ensure t
+      :defer t)
+   #+END_SRC
 ** Clipmon config
    TODO: conform to use-packages way of creating stubs
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
