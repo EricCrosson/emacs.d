@@ -195,6 +195,14 @@
         user-mail-address "esc@ericcrosson.com")
   #+END_SRC
   
+* Functions
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (defun switch-to-previous-buffer ()
+    "Switch to previously open buffer.
+  Repeated invocations toggle between the two most recently opened buffers."
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) 1)))
+#+END_SRC
 * Behavioral modifications
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
@@ -408,7 +416,7 @@
       ;;; buffer commands
       "bd" 'kill-this-buffer
       "bb" 'ivy-switch-buffer
-      ;; TODO: implement function "<TAB>" 'alternate-buffer
+      "C-i" 'switch-to-previous-buffer
       ;; TODO: implement function "bF" 'follow-mode-full-frame
 
       ;;; movement commands
