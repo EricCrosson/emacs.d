@@ -379,71 +379,78 @@
     
 ** Evil config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  ;;; evil configuration
-  (use-package evil :ensure t
-    :init
-    (setq evil-want-C-u-scroll t)
-    :config
-    (evil-mode 1))
+     ;;; evil configuration
+     (use-package evil :ensure t
+       :init
+       (setq evil-want-C-u-scroll t)
+       :config
+       (evil-mode 1))
 
-  (use-package evil-visualstar
-    :commands (evil-visualstar/begin-search-forward
-               evil-visualstar/begin-search-backward)
-    :init
-    (progn
-      (define-key evil-visual-state-map (kbd "*")
-        'evil-visualstar/begin-search-forward)
-      (define-key evil-visual-state-map (kbd "#")
-        'evil-visualstar/begin-search-backward)))
+     (use-package evil-visualstar
+       :commands (evil-visualstar/begin-search-forward
+                  evil-visualstar/begin-search-backward)
+       :init
+       (progn
+         (define-key evil-visual-state-map (kbd "*")
+           'evil-visualstar/begin-search-forward)
+         (define-key evil-visual-state-map (kbd "#")
+           'evil-visualstar/begin-search-backward)))
 
-  (use-package evil-leader :ensure t
-    :config
-    (setq evil-leader/leader "<SPC>")
-    (setq evil-leader/no-prefix-mode-rx '("dired-mode"
-                                          "magit-.*-mode"))
-    (evil-leader/set-key
+     (use-package evil-commentary :ensure t
+       :config
+       (evil-commentary-mode t))
 
-      "y" 'execute-extended-command
+     (use-package evil-leader :ensure t
+       :config
+       (setq evil-leader/leader "<SPC>")
+       (setq evil-leader/no-prefix-mode-rx '("dired-mode"
+                                             "magit-.*-mode"))
+       (evil-leader/set-key
 
-      ;;; ace-jump commands
-      "l" 'ivy-avy
+         "y" 'execute-extended-command
 
-      ;;; file commands
-      "ff" 'counsel-find-file
-      "fr" 'counsel-recentf
-      ;; TODO: cull unnecessary entries from recentf list (machine files)
+         ;;; ace-jump commands
+         "l" 'ivy-avy
 
-      ;;; buffer commands
-      "bd" 'kill-this-buffer
-      "bb" 'ivy-switch-buffer
-      "C-i" 'switch-to-previous-buffer
-      ;; TODO: implement function "bF" 'follow-mode-full-frame
+         ;; comment
+         ";" 'evil-commentary
 
-      ;;; movement commands
-      "ss" 'swiper
+         ;;; file commands
+         "ff" 'counsel-find-file
+         "fr" 'counsel-recentf
+         ;; TODO: cull unnecessary entries from recentf list (machine files)
 
-      ;;; magit commands
-      "gs" 'magit-status
+         ;;; buffer commands
+         "bd" 'kill-this-buffer
+         "bb" 'ivy-switch-buffer
+         "C-i" 'switch-to-previous-buffer
+         ;; TODO: implement function "bF" 'follow-mode-full-frame
 
-      ;;; user commands
-      "od" 'xorg-dim
-      ; TODO: define xorg-dim
-      )
-    (global-evil-leader-mode))
+         ;;; movement commands
+         "ss" 'swiper
 
-  (use-package evil-magit :ensure t
-    :config
-    (add-hook 'git-commit-mode-hook 'evil-insert-state))
+         ;;; magit commands
+         "gs" 'magit-status
 
-  (use-package evil-escape :ensure t
-    :config
-    (setq-default evil-escape-key-sequence "fd")
-    (after 'diminish (diminish 'evil-escape-mode))
-    (evil-escape-mode 1))
+         ;;; user commands
+         "od" 'xorg-dim
+         ;; TODO: define xorg-dim
+         )
+       (global-evil-leader-mode))
 
-  (use-package evil-surround :ensure t
-    :config
-    (global-evil-surround-mode 1))
+     (use-package evil-magit :ensure t
+       :config
+       (add-hook 'git-commit-mode-hook 'evil-insert-state))
+
+     (use-package evil-escape :ensure t
+       :config
+       (setq-default evil-escape-key-sequence "fd")
+       (after 'diminish (diminish 'evil-escape-mode))
+       (evil-escape-mode 1))
+
+     (use-package evil-surround :ensure t
+       :config
+       (global-evil-surround-mode 1))
    #+END_SRC
 
    TODO: remove finished shell buffers
