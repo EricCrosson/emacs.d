@@ -629,7 +629,7 @@
    
 ** Org cliplink config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package org-cliplink
+  (use-package org-cliplink :ensure t
     :init (after 'esc-mode
             (esc-key "C-c C-M-l" 'org-cliplink)))
    #+END_SRC
