@@ -766,6 +766,21 @@
         mouse-yank-at-point t)
    #+END_SRC
    
+** Tea time config
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (use-package tea-time :ensure t
+       :defer t
+       :commands tea-time
+       :config
+       (use-package notifications
+         :commands notifications-notify)
+       (defun esc/notify-tea-steeped ()
+         (notifications-notify :title "Tea time"
+                               :body "Rip out that sac, because your tea bag is done"
+                               :app-name "Tea Time"
+                               :sound-name "alarm-clock-elapsed"))
+       (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
+   #+END_SRC
 ** Saveplace config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package saveplace
