@@ -451,6 +451,10 @@
      (use-package evil-surround :ensure t
        :config
        (global-evil-surround-mode 1))
+
+     (use-package vi-tilde-fringe :ensure t
+       :config
+       (global-vi-tilde-fringe-mode))
    #+END_SRC
 
    TODO: remove finished shell buffers
