@@ -499,10 +499,8 @@
    #+END_SRC
 
    Org indent config
-
-   TODO: use like =org-indent-mode=
-   #+BEGIN_SRC emacs-lisp :comments link :tangle no
-  (use-package org-indent-header :ensure t)
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (add-hook 'org-mode-hook 'org-indent-mode)
    #+END_SRC
    
 ** Dired config
