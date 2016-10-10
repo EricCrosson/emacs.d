@@ -35,15 +35,18 @@
 * Time sensitive
   Now that the legal stuff is out of the way, let's get out the rat poison.
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
-        '(menu-bar-mode
-          tool-bar-mode
-          scroll-bar-mode))
+    ;; This code is important to run as early as possible, to avoid
+    ;; initially rendering these bars only to remove them.
+
+    (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
+          '(menu-bar-mode
+            tool-bar-mode
+            scroll-bar-mode))
   #+END_SRC
 
-  This code is important to run as early as possible, to avoid initially
-  rendering these bars only to remove them.
-
+  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+    (setq gc-cons-threshold 100000000)
+  #+END_SRC
   
 ** Bootstrap
 
@@ -82,9 +85,8 @@
   #+END_SRC
 * UI
   Fire up the mood lighting
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package bliss-theme
-    :ensure t
+  #+BEGIN_SRC emacs-lisp :comments link :tangle no
+  (use-package bliss-theme :ensure t
     ;; TODO: switch with color-theme stack
     :config (load-theme 'bliss t))
 
@@ -95,6 +97,15 @@
                                         :background (cadr data)))
           '((highlight "#333")
             (region    "#444")))
+  #+END_SRC
+
+  These days I'm intrigued by the darkokai theme
+
+  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package darkokai-theme :ensure t
+    :config
+    (setq darkokai-mode-line-padding 1)
+    (load-theme 'darkokai t))
   #+END_SRC
 
   We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]].
