@@ -494,8 +494,8 @@
     
 ** Org config
 
-   #+BEGIN_SRC
-(setq org-src-fontify-natively t)
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (setq org-src-fontify-natively t)
    #+END_SRC
 
    Org indent config
