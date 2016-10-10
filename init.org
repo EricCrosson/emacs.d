@@ -85,6 +85,7 @@
   #+END_SRC
 * UI
   Fire up the mood lighting
+
   #+BEGIN_SRC emacs-lisp :comments link :tangle no
   (use-package bliss-theme :ensure t
     ;; TODO: switch with color-theme stack
@@ -99,7 +100,7 @@
             (region    "#444")))
   #+END_SRC
 
-  These days I'm intrigued by the darkokai theme
+  These days I'm intrigued by =darkokai= theme
 
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package darkokai-theme :ensure t
@@ -111,9 +112,9 @@
   We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]].
 
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-(use-package fill-column-indicator :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'fci-mode))
+    (use-package fill-column-indicator :ensure t
+      :config
+      (add-hook 'prog-mode-hook 'fci-mode))
   #+END_SRC
 
   Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]].
