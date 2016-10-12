@@ -503,6 +503,11 @@
      (add-hook 'org-mode-hook 'org-indent-mode)
    #+END_SRC
    
+** RestructuredText config
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (use-package rst :ensure t
+       :config (add-hook 'rst-mode-hook 'auto-fill-mode))
+   #+END_SRC
 ** Dired config
    TODO: keymaps go in =esc-mode=
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
