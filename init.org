@@ -722,29 +722,29 @@
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
    ;; TODO: fix esc-mode-map
    #+BEGIN_SRC emacs-lisp :comments link :tangle no
-  (use-package expand-region
-    :ensure t
-    :init (bind-key "C-;" 'er/expand-region esc-mode-map)
-    :config
-    (defadvice er/expand-region (around fill-out-region activate)
-      (if (or (not (region-active-p))
-              (eq last-command 'er/expand-region))
-          ad-do-it
-        (if (< (point) (mark))
-            (let ((beg (point)))
-              (goto-char (mark))
-              (end-of-line)
-              (forward-char 1)
-              (push-mark)
-              (goto-char beg)
-              (beginning-of-line))
-          (let ((end (point)))
-            (goto-char (mark))
-            (beginning-of-line)
-            (push-mark)
-            (goto-char end)
-            (end-of-line)
-            (forward-char 1))))))
+     (use-package expand-region
+       :ensure t
+       :bind ("C-;" . er/expand-region)
+       :config
+       (defadvice er/expand-region (around fill-out-region activate)
+         (if (or (not (region-active-p))
+                 (eq last-command 'er/expand-region))
+             ad-do-it
+           (if (< (point) (mark))
+               (let ((beg (point)))
+                 (goto-char (mark))
+                 (end-of-line)
+                 (forward-char 1)
+                 (push-mark)
+                 (goto-char beg)
+                 (beginning-of-line))
+             (let ((end (point)))
+               (goto-char (mark))
+               (beginning-of-line)
+               (push-mark)
+               (goto-char end)
+               (end-of-line)
+               (forward-char 1))))))
    #+END_SRC
    
 ** Magit config
