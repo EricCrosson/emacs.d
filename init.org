@@ -501,6 +501,7 @@
    Org indent config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (add-hook 'org-mode-hook 'org-indent-mode)
+     (add-hook 'org-mode-hook 'auto-fill-mode)
    #+END_SRC
    
 ** RestructuredText config
