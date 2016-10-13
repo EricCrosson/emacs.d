@@ -613,6 +613,11 @@
 
    #+END_SRC
    
+** Bitbake config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
+  (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
+#+END_SRC
 ** Diminish config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package diminish
