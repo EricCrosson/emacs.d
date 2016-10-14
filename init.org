@@ -788,8 +788,8 @@
 ** Clipmon config
    TODO: conform to use-packages way of creating stubs
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (defvar clipmon--autoinsert " clipmon--autoinserted-this")
-  (use-package clipmon :ensure t)
+  (use-package clipmon :ensure t
+    :init (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
    #+END_SRC
    
 ** Mouse avoidance config
