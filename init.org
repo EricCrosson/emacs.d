@@ -422,11 +422,11 @@
          "y" 'execute-extended-command
 
          ;;; ace-jump commands
-         "l" 'ivy-avy
+         "jl" 'ivy-avy
+         "jf" 'avy-goto-char
 
          ;; comment
          ";" 'evil-commentary
-
 
          ;;; file commands
          "ff" 'counsel-find-file
