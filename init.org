@@ -415,6 +415,7 @@
      (use-package evil-leader :ensure t
        :init
        (defun revert-buffer-no-confirm ()
+         "Revert buffer without prompting the user for anything."
          (interactive)
          (revert-buffer :noconfirm t))
        :config
