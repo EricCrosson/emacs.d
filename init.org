@@ -413,6 +413,10 @@
        (evil-commentary-mode t))
 
      (use-package evil-leader :ensure t
+       :init
+       (defun revert-buffer-no-confirm ()
+         (interactive)
+         (revert-buffer :noconfirm t))
        :config
        (setq evil-leader/leader "<SPC>")
        (setq evil-leader/no-prefix-mode-rx '("dired-mode"
@@ -438,6 +442,7 @@
          "bb" 'ivy-switch-buffer
          "C-i" 'switch-to-previous-buffer
          ;; TODO: implement function "bF" 'follow-mode-full-frame
+         "br" 'revert-buffer-no-confirm
 
          ;;; movement commands
          "ss" 'swiper
