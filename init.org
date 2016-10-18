@@ -414,14 +414,28 @@
 
      (use-package evil-leader :ensure t
        :init
+       ;; TODO: autoload these defuns
        (defun revert-buffer-no-confirm ()
          "Revert buffer without prompting the user for anything."
          (interactive)
          (revert-buffer :noconfirm t))
+
        (defun xorg-dim ()
          "Run the command `xset dpms force off` to dim Xorg screens."
          (interactive)
          (call-process-shell-command "xset dpms force off"))
+
+       (defun esc-insert-long-date ()
+         "Insert date at point in YYYY-MM-DD format."
+         (interactive)
+         (insert (format-time-string "%A %B %d, %Y")))
+
+       (defun esc-insert-short-date ()
+         "Insert date at point in human-readable format, e.g. Tuesday
+          October 18, 2016."
+         (interactive)
+         (insert (format-time-string "%Y-%m-%d")))
+
        :config
        (setq evil-leader/leader "<SPC>")
        (setq evil-leader/no-prefix-mode-rx '("dired-mode"
@@ -457,6 +471,10 @@
 
          ;;; user commands
          "od" 'xorg-dim
+
+         ;;; insertion commands
+         "id" 'esc-insert-short-date
+         "iD" 'esc-insert-long-date
          )
        (global-evil-leader-mode))
 
