@@ -418,6 +418,10 @@
          "Revert buffer without prompting the user for anything."
          (interactive)
          (revert-buffer :noconfirm t))
+       (defun xorg-dim ()
+         "Run the command `xset dpms force off` to dim Xorg screens."
+         (interactive)
+         (call-process-shell-command "xset dpms force off"))
        :config
        (setq evil-leader/leader "<SPC>")
        (setq evil-leader/no-prefix-mode-rx '("dired-mode"
@@ -453,7 +457,6 @@
 
          ;;; user commands
          "od" 'xorg-dim
-         ;; TODO: define xorg-dim
          )
        (global-evil-leader-mode))
 
