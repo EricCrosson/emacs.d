@@ -703,6 +703,26 @@
          (add-hook 'org-shiftright-final-hook 'windmove-right)))
    #+END_SRC
    
+** Git gutter config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package git-gutter+ :ensure t
+    :init
+    :config
+    (global-git-gutter+-mode)
+    (evil-leader/set-key
+      ;;; jump between hunks
+      "gn" 'git-gutter+-next-hunk
+      "gp" 'git-gutter+-previous-hunk
+      ;;; act on hunks
+      "gr" 'git-gutter+-revert-hunks
+      ;; stage hunk at point, or all inside region
+      "gt" 'git-gutter+-stage-hunks
+      "gc" 'git-gutter+-commit
+      "gC" 'git-gutter+-stage-and-commit
+      "gy" 'git-gutter+-stage-and-commit-whole-buffer
+      "gu" 'git-gutter+-unstage-whole-buffer
+      ))
+#+END_SRC
 ** Org cliplink config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package org-cliplink :ensure t
