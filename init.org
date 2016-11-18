@@ -566,8 +566,6 @@
        ;;   (define-key wdired-mode-map
        ;;     (vector 'remap 'end-of-buffer) 'esc/dired-jump-to-bottom))
 
-       ;; TODO: add h and l as dired up and down
-
        (setq diredp-hide-details-initially-flag t)
        (use-package dired-x
          :config
