@@ -612,6 +612,7 @@
 
        (setq dired-dwim-target t)
        (after "dired"
+         (add-hook 'dired-mode-hook 'auto-revert-mode)
          (defun dired-find-parent-directory ()
            (interactive)
            (find-alternate-file ".."))
