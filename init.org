@@ -617,8 +617,8 @@
          (defun dired-find-parent-directory ()
            (interactive)
            (find-alternate-file ".."))
-         (define-key dired-mode-map (kbd "<right>") 'dired-find-alternate-file)
-         (define-key dired-mode-map (vector 'remap 'evil-forward-char) 'dired-find-alternate-file)
+         (define-key dired-mode-map (kbd "<right>") 'dired-find-file)
+         (define-key dired-mode-map (vector 'remap 'evil-forward-char) 'dired-find-file)
          (define-key dired-mode-map (kbd "<left>") 'dired-find-parent-directory)
          (define-key dired-mode-map (vector 'remap 'evil-backward-char) 'dired-find-parent-directory)
 
