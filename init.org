@@ -644,6 +644,10 @@
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
 #+END_SRC
+** Docker config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
+#+END_SRC
 ** Diminish config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package diminish
