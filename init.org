@@ -848,8 +848,8 @@
   (setq recentf-auto-cleanup 'never)
   (use-package recentf
     :ensure t
-    :config (setq recentf-max-menu-items 80
-                  recentf-max-saved-items 80
+    :config (setq recentf-max-menu-items 200
+                  recentf-max-saved-items 15
                   recentf-save-file (format "%s/recentf" esc-meta-path)
                   recentf-keep '(file-remote-p file-readable-p)))
    #+END_SRC
