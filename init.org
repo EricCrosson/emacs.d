@@ -389,6 +389,12 @@
       (winner-mode t)))
     #+END_SRC
     
+** Projectile config
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (use-package counsel-projectile :ensure t
+       :config (counsel-projectile-on))
+   #+END_SRC
+   
 ** Evil config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      ;;; evil configuration
@@ -475,6 +481,12 @@
          ;;; insertion commands
          "id" 'esc-insert-short-date
          "iD" 'esc-insert-long-date
+
+         "pf" 'counsel-projectile-find-file
+         "pd" 'counsel-projectile-find-dir
+         "ps" 'counsel-projectile-ag
+         "pb" 'counsel-projectile-switch-to-buffer
+         "pp" 'counsel-projectile-switch-project
          )
        (global-evil-leader-mode))
 
@@ -836,7 +848,6 @@
       :defer t)
    #+END_SRC
 ** Clipmon config
-   TODO: conform to use-packages way of creating stubs
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package clipmon :ensure t
     :init (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
