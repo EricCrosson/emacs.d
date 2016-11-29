@@ -485,6 +485,7 @@
          "pf" 'counsel-projectile-find-file
          "pd" 'counsel-projectile-find-dir
          "ps" 'counsel-projectile-ag
+         "a" 'counsel-projectile-ag
          "pb" 'counsel-projectile-switch-to-buffer
          "pp" 'counsel-projectile-switch-project
          )
