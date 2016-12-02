@@ -311,6 +311,8 @@
        (ivy-mode 1)
        ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
        (setq ivy-use-virtual-buffers t)
+       ;; ignore undo-tree files when switching buffers
+       (add-to-list 'ivy-ignore-buffers "\\.~undo-tree~\\.gz")
        ;; number of result lines to display
        (setq ivy-height 10)
        ;; does not count candidates
