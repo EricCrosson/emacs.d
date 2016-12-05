@@ -480,6 +480,9 @@
          ;;; user commands
          "od" 'xorg-dim
 
+         ;;; registers
+         "ry" 'browse-kill-ring
+
          ;;; insertion commands
          "id" 'esc-insert-short-date
          "iD" 'esc-insert-long-date
