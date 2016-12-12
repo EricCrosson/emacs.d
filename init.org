@@ -589,7 +589,7 @@
          :config
          (setq-default dired-omit-files-p t)
          (setq dired-omit-files
-               (concat dired-omit-files "\\|\\.pyc$\\|\\.elc$\\|\\.~undo-tree~\\.gz$")))
+               (concat dired-omit-files "\\|\\.pyc$\\|\\.elc$\\|\\.~undo-tree~\\.gz$\\|\\.projectile$")))
 
        (after "dired-aux"
          (setq dired-free-space-args "-Ph")
@@ -751,6 +751,12 @@
             (esc-key "C-c C-M-l" 'org-cliplink)))
    #+END_SRC
    
+** Qml mode config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package qml-mode :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+#+END_SRC
 ** Rainbow delimeters mode config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package rainbow-delimiters
