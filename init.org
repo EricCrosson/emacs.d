@@ -571,7 +571,7 @@ new terminal.
           "/bin/bash"))
 #+END_SRC
 
-Destroy shell buffers when the process is exited.
+Destroy term buffers when the process is exited.
 
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defadvice term-handle-exit
