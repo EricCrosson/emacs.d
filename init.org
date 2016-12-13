@@ -480,8 +480,19 @@
          ;;; user commands
          "od" 'xorg-dim
 
+         ;;; fixme: does this need to be bound to insert-mode?
+         ;;; company
+         "k" 'counsel-company
+
          ;;; registers
          "ry" 'browse-kill-ring
+
+         ;;; time-clocking
+         "co" 'org-clock-out
+         "ci" 'org-clock-in
+         "cl" 'org-clock-in-last
+         "cq" 'org-clock-cancel
+         "cd" 'org-clock-display
 
          ;;; insertion commands
          "id" 'esc-insert-short-date
@@ -530,8 +541,7 @@
        (define-key evil-normal-state-map "K" 'evil-jump-out-args)
        )
    #+END_SRC
-
-   TODO: remove finished shell buffers
+   
 *** Compilation buffer config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'same-window-buffer-names "*compilation*")
@@ -548,6 +558,34 @@
      (add-hook 'org-mode-hook 'org-indent-mode)
      (add-hook 'org-mode-hook 'auto-fill-mode)
    #+END_SRC
+   
+** Shell config
+
+There's no reason to query you about your favorite shell with every
+new terminal.
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (setq explicit-shell-file-name
+        (if (file-exists-p "/usr/bin/zsh")
+            "/usr/bin/zsh"
+          "/bin/bash"))
+#+END_SRC
+
+Destroy shell buffers when the process is exited.
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (defadvice term-handle-exit
+      (after term-kill-buffer-on-exit activate)
+    (kill-buffer))
+#+END_SRC
+   
+** Company mode config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package company :ensure t
+    :config (add-hook 'after-init-hook 'global-company-mode))
+  (use-package company-qml :ensure t
+    :config (add-to-list 'company-backends 'company-qml))
+#+END_SRC
    
 ** RestructuredText config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
@@ -698,6 +736,11 @@
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
    #+END_SRC
    
+** TIme clocking config...
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+#+END_SRC
 ** Window manipulation
 *** Zoom frame config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
