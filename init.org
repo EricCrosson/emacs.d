@@ -292,6 +292,11 @@
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq search-whitespace-regexp "[ \t\r\n]+")
   #+END_SRC
+
+  Avoid accidental termination.
+  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+    (global-unset-key (kbd "C-x C-c"))
+  #+END_SRC
   
 * Aliases
   I did not grow up in an era where this is a straightforward mnemonic.
