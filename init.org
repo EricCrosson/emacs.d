@@ -469,7 +469,9 @@
                                              "magit-.*-mode"))
        (evil-leader/set-key
 
+         ;;; stock emacs functions
          "y" 'execute-extended-command
+         "qQ" 'save-buffers-kill-terminal
 
          ;;; ace-jump commands
          "jl" 'ivy-avy
