@@ -829,7 +829,8 @@ Destroy term buffers when the process is exited.
 #+END_SRC
 ** Eyebrowse config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package eyebrowse :ensure t)
+  (use-package eyebrowse :ensure t
+    :config (eyebrowse-mode t))
 #+END_SRC
 ** Org cliplink config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
