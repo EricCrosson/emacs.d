@@ -821,6 +821,10 @@ Destroy term buffers when the process is exited.
       "gu" 'git-gutter+-unstage-whole-buffer
       ))
 #+END_SRC
+** Eyebrowse config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package eyebrowse :ensure t)
+#+END_SRC
 ** Org cliplink config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package org-cliplink :ensure t
