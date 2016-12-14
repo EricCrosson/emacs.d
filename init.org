@@ -385,6 +385,10 @@
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
     #+END_SRC
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+#+END_SRC
 *** Winner config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package winner
