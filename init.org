@@ -517,6 +517,7 @@
          "id" 'esc-insert-short-date
          "iD" 'esc-insert-long-date
 
+         ;;; counsel commands
          "pf" 'counsel-projectile-find-file
          "pd" 'counsel-projectile-find-dir
          "pa" 'counsel-projectile-ag
