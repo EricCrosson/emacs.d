@@ -185,6 +185,12 @@
 
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (let ((esc-font "Source Code Pro"))
+       ;; install `esc-font`
+       (when (not (font-exists-p esc-font))
+         (call-process
+          (format "~/.emacs.d/bin/%s"
+                  "font-install-source-code-pro.sh")))
+       ;; use `esc-font`
        (when (font-exists-p esc-font)
          (set-face-attribute 'default nil
                              :font esc-font
