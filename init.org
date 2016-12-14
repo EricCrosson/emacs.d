@@ -295,7 +295,11 @@
 
   Avoid accidental termination.
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-    (global-unset-key (kbd "C-x C-c"))
+    (bind-key (kbd "C-x C-c")
+              (defun esc-dont-kill-emacs ()
+                (interactive)
+                (message "I'm afraid I can't do that, %s."
+                         (user-login-name))))
   #+END_SRC
   
 * Aliases
