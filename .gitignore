@@ -14,3 +14,4 @@ meta/
 ### Tangled output
 init.el
 /tramp
+/org-clock-save.el
