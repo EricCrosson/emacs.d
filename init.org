@@ -184,9 +184,13 @@
    Favored font of late
 
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (let ((esc-font "Meslo LG S 8"))
-    (when (font-exists-p esc-font)
-      (set-face-attribute 'default nil :font esc-font)))
+     (let ((esc-font "Source Code Pro"))
+       (when (font-exists-p esc-font)
+         (set-face-attribute 'default nil
+                             :font esc-font
+                             :height 95
+                             :weight 'normal
+                             :width 'normal)))
    #+END_SRC
    
 * Macros
