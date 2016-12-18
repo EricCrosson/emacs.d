@@ -523,6 +523,9 @@
          "id" 'esc-insert-short-date
          "iD" 'esc-insert-long-date
 
+         ;;; magnar is the man
+         "v" 'er/expand-region
+
          ;;; counsel commands
          "pf" 'counsel-projectile-find-file
          "pd" 'counsel-projectile-find-dir
@@ -882,11 +885,9 @@ Destroy term buffers when the process is exited.
    
 ** Expand region config
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
-   ;; TODO: fix esc-mode-map
-   #+BEGIN_SRC emacs-lisp :comments link :tangle no
-     (use-package expand-region
-       :ensure t
-       :bind ("C-;" . er/expand-region)
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (use-package expand-region :ensure t
+       ;; :bind ("C-;" . er/expand-region)
        :config
        (defadvice er/expand-region (around fill-out-region activate)
          (if (or (not (region-active-p))
