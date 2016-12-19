@@ -760,11 +760,19 @@ Destroy term buffers when the process is exited.
 
    #+END_SRC
    
+* Define word
+Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to the likes of magnar.
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package define-word :ensure t
+    :bind ("C-h d"  . define-word-at-point))
+#+END_SRC
+
 * Bitbake config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
 #+END_SRC
+
 * Docker config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
