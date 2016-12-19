@@ -308,12 +308,7 @@
   (defalias 'undefun 'fmakunbound)
   #+END_SRC
   
-* TODOS
-- auto-package-update config
-- esc-mode
-- persistent scratch
-
-** Configuration
+* Configuration
    ;; TODO: sort this incipient work into org home
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      ;;; configure ivy
@@ -414,13 +409,13 @@
       (winner-mode t)))
     #+END_SRC
     
-** Projectile config
+* Projectile config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package counsel-projectile :ensure t
        :config (counsel-projectile-on))
    #+END_SRC
    
-** Evil config
+* Evil config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      ;;; evil configuration
      (use-package evil :ensure t
@@ -517,7 +512,6 @@
          "ci" 'org-clock-in
          "cl" 'org-clock-in-last
          "cq" 'org-clock-cancel
-         "cd" 'org-clock-display
 
          ;;; insertion commands
          "id" 'esc-insert-short-date
@@ -590,19 +584,47 @@
   (add-to-list 'same-window-buffer-names "*compilation*")
     #+END_SRC
     
-** Org config
+* Org config
 
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-     (setq org-src-fontify-natively t)
-   #+END_SRC
+TODO: add current clocked-in task to modeline
 
-   Org indent config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-     (add-hook 'org-mode-hook 'org-indent-mode)
-     (add-hook 'org-mode-hook 'auto-fill-mode)
-   #+END_SRC
-   
-** Shell config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   (setq org-src-fontify-natively t)
+#+END_SRC
+
+TODO: make this work
+#+BEGIN_SRC emacs-lisp :comments link :tangle no
+  (after 'org
+    (bind-key "C-c C-c" 'org-edit-src-exit org-src-mode-map))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (after 'evil-leader
+    (evil-leader/set-key-for-mode 'org-mode
+      ;;; narrow commands
+      "ns" 'org-narrow-to-subtree
+      "nw" 'widen
+
+      ;;; time clocking commands
+      "cd" 'org-clock-display
+      )
+    )
+#+END_SRC
+
+** Org indent config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   (add-hook 'org-mode-hook 'org-indent-mode)
+   (add-hook 'org-mode-hook 'auto-fill-mode)
+#+END_SRC
+
+** Org cliplink config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package org-cliplink :ensure t
+    :init (after 'esc-mode
+            (esc-key "C-c C-M-l" 'org-cliplink)))
+#+END_SRC
+
+* Shell config
 
 There's no reason to query you about your favorite shell with every
 new terminal.
@@ -622,7 +644,7 @@ Destroy term buffers when the process is exited.
     (kill-buffer))
 #+END_SRC
    
-** Company mode config
+* Company mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package company :ensure t
     :config (add-hook 'after-init-hook 'global-company-mode))
@@ -630,12 +652,12 @@ Destroy term buffers when the process is exited.
     :config (add-to-list 'company-backends 'company-qml))
 #+END_SRC
    
-** RestructuredText config
+* RestructuredText config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package rst :ensure t
        :config (add-hook 'rst-mode-hook 'auto-fill-mode))
    #+END_SRC
-** Dired config
+* Dired config
    TODO: keymaps go in =esc-mode=
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package dired-details :ensure t
@@ -738,16 +760,16 @@ Destroy term buffers when the process is exited.
 
    #+END_SRC
    
-** Bitbake config
+* Bitbake config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
 #+END_SRC
-** Docker config
+* Docker config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
 #+END_SRC
-** Diminish config
+* Diminish config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package diminish
     :config
@@ -774,17 +796,17 @@ Destroy term buffers when the process is exited.
     (after 'esc-mode (diminish 'esc-mode)))
    #+END_SRC
    
-** Minibuffer config
+* Minibuffer config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
    #+END_SRC
    
-** TIme clocking config...
+* TIme clocking config...
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
 #+END_SRC
-** Window manipulation
+* Window manipulation
 *** Zoom frame config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
       (use-package zoom-frm :ensure t
@@ -810,7 +832,7 @@ Destroy term buffers when the process is exited.
          (add-hook 'org-shiftright-final-hook 'windmove-right)))
    #+END_SRC
    
-** Git gutter config
+* Git gutter config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package git-gutter+ :ensure t
     :init
@@ -830,39 +852,33 @@ Destroy term buffers when the process is exited.
       "gu" 'git-gutter+-unstage-whole-buffer
       ))
 #+END_SRC
-** Eyebrowse config
+* Eyebrowse config
+TODO: add current eyebrowse window config to modeline
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package eyebrowse :ensure t
     :config (eyebrowse-mode t))
 #+END_SRC
-** Org cliplink config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package org-cliplink :ensure t
-    :init (after 'esc-mode
-            (esc-key "C-c C-M-l" 'org-cliplink)))
-   #+END_SRC
-   
-** Qml mode config
+* Qml mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package qml-mode :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
 #+END_SRC
-** Rainbow delimeters mode config
+* Rainbow delimeters mode config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package rainbow-delimiters
     :ensure t
     :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
    #+END_SRC
    
-** Lexbind config
+* Lexbind config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package lexbind-mode
     :ensure t
     :init (add-hook 'emacs-lisp-mode-hook 'lexbind-mode))
    #+END_SRC
    
-** Misc cmds config
+* Misc cmds config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package misc
     :commands zap-up-to-char
@@ -883,7 +899,7 @@ Destroy term buffers when the process is exited.
 
    #+END_SRC
    
-** Expand region config
+* Expand region config
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package expand-region :ensure t
@@ -910,14 +926,14 @@ Destroy term buffers when the process is exited.
                (forward-char 1))))))
    #+END_SRC
    
-** Magit config
+* Magit config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package magit
     :ensure t
     :commands magit-status)
    #+END_SRC
    
-** Git messenger config
+* Git messenger config
    ;; TODO: fix esc-mode-map
    #+BEGIN_SRC emacs-lisp :comments link :tangle no
   (use-package git-messenger
@@ -925,7 +941,7 @@ Destroy term buffers when the process is exited.
     :init (bind-key "C-c [" 'git-messenger:popup-message esc-mode-map))
    #+END_SRC
    
-** Keyfreq mode config
+* Keyfreq mode config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package keyfreq
     :ensure t
@@ -933,7 +949,7 @@ Destroy term buffers when the process is exited.
             (setq keyfreq-file "~/.emacs.d/meta/keyfreq"))
    #+END_SRC
    
-** Browse kill ring config
+* Browse kill ring config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package browse-kill-ring
     :ensure t
@@ -942,24 +958,24 @@ Destroy term buffers when the process is exited.
     (browse-kill-ring-default-keybindings))
    #+END_SRC
    
-** Writegood mode config
+* Writegood mode config
    TODO: use-package that feller
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
    (use-package writegood-mode :ensure t
       :defer t)
    #+END_SRC
-** Clipmon config
+* Clipmon config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package clipmon :ensure t
     :init (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
    #+END_SRC
    
-** Mouse avoidance config
+* Mouse avoidance config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (mouse-avoidance-mode 'exile)
    #+END_SRC
    
-** Recentf config
+* Recentf config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq recentf-auto-cleanup 'never)
   (use-package recentf
@@ -970,14 +986,14 @@ Destroy term buffers when the process is exited.
                   recentf-keep '(file-remote-p file-readable-p)))
    #+END_SRC
    
-** Xorg yank config
+* Xorg yank config
    TODO: turn this into a minor mode for toggling with =esc-mode=
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq x-select-enable-clipboard t       ;global clipboard
         mouse-yank-at-point t)
    #+END_SRC
    
-** Tea time config
+* Tea time config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package tea-time :ensure t
        :defer t
@@ -992,7 +1008,7 @@ Destroy term buffers when the process is exited.
                                :sound-name "alarm-clock-elapsed"))
        (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
    #+END_SRC
-** Saveplace config
+* Saveplace config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package saveplace
     :ensure t
@@ -1001,7 +1017,7 @@ Destroy term buffers when the process is exited.
     (setq save-place-file (format "%s/places" esc-meta-path)))
    #+END_SRC
    
-** Savehist config
+* Savehist config
    Keep a history of =M-x= across sessions.
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package savehist
@@ -1016,7 +1032,7 @@ Destroy term buffers when the process is exited.
     (savehist-mode 1))
    #+END_SRC
    
-** Save desktop config
+* Save desktop config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defadvice desktop-save-in-desktop-dir (before ensure-desktop-dir-exists activate)
       "Ensure `desktop-dirname' exists before function
@@ -1092,6 +1108,8 @@ Destroy term buffers when the process is exited.
   ;;; .emacs.el ends here
     #+END_SRC
     
-
-* TODOs
-  - make reindention a hook on save? I know there's aggressive indent but what about org mode?
+* TODOS
+- auto-package-update config
+- esc-mode
+- persistent scratch
+- make reindention a hook on save? I know there's aggressive indent but what about org mode?
