@@ -417,7 +417,7 @@
    
 * Evil config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-     ;;; evil configuration
+          ;;; evil configuration
      (use-package evil :ensure t
        :init
        (setq evil-want-C-u-scroll t)
@@ -458,9 +458,21 @@
 
        (defun esc-insert-short-date ()
          "Insert date at point in human-readable format, e.g. Tuesday
-          October 18, 2016."
+               October 18, 2016."
          (interactive)
          (insert (format-time-string "%Y-%m-%d")))
+
+       (defun follow-this-buffer ()
+         "Open the current buffer in `follow-mode`.  Additionally, open
+     as many vertical windows as possible with 80 columns in each."
+         (interactive)
+         (delete-other-windows)
+         (while (< 80 (window-width))
+           (split-window-horizontally)
+           (balance-windows))
+         (delete-window)
+         (balance-windows)
+         (follow-mode t))
 
        :config
        (setq evil-leader/leader "<SPC>")
@@ -468,59 +480,59 @@
                                              "magit-.*-mode"))
        (evil-leader/set-key
 
-         ;;; stock emacs functions
+              ;;; stock emacs functions
          "y" 'execute-extended-command
          "qQ" 'save-buffers-kill-terminal
 
-         ;;; ace-jump commands
+              ;;; ace-jump commands
          "jl" 'ivy-avy
          "jf" 'avy-goto-char
 
          ;; comment
          ";" 'evil-commentary
 
-         ;;; file commands
+              ;;; file commands
          "ff" 'counsel-find-file
          "fr" 'counsel-recentf
          ;; TODO: cull unnecessary entries from recentf list (machine files)
 
-         ;;; buffer commands
+              ;;; buffer commands
          "bd" 'kill-this-buffer
          "bb" 'ivy-switch-buffer
          "C-i" 'switch-to-previous-buffer
-         ;; TODO: implement function "bF" 'follow-mode-full-frame
+         "bF" 'follow-this-buffer
          "br" 'revert-buffer-no-confirm
 
-         ;;; movement commands
+              ;;; movement commands
          "ss" 'swiper
 
-         ;;; magit commands
+              ;;; magit commands
          "gs" 'magit-status
 
-         ;;; user commands
+              ;;; user commands
          "od" 'xorg-dim
 
-         ;;; fixme: does this need to be bound to insert-mode?
-         ;;; company
+              ;;; fixme: does this need to be bound to insert-mode?
+              ;;; company
          "k" 'counsel-company
 
-         ;;; registers
+              ;;; registers
          "ry" 'browse-kill-ring
 
-         ;;; time-clocking
+              ;;; time-clocking
          "co" 'org-clock-out
          "ci" 'org-clock-in
          "cl" 'org-clock-in-last
          "cq" 'org-clock-cancel
 
-         ;;; insertion commands
+              ;;; insertion commands
          "id" 'esc-insert-short-date
          "iD" 'esc-insert-long-date
 
-         ;;; magnar is the man
+              ;;; magnar is the man
          "v" 'er/expand-region
 
-         ;;; counsel commands
+              ;;; counsel commands
          "pf" 'counsel-projectile-find-file
          "pd" 'counsel-projectile-find-dir
          "pa" 'counsel-projectile-ag
@@ -528,7 +540,7 @@
          "pb" 'counsel-projectile-switch-to-buffer
          "pp" 'counsel-projectile-switch-project
 
-         ;;; eyebrowse commands
+              ;;; eyebrowse commands
          "0" 'eyebrowse-switch-to-window-config-0
          "1" 'eyebrowse-switch-to-window-config-1
          "2" 'eyebrowse-switch-to-window-config-2
