@@ -636,6 +636,46 @@ TODO: make this work
             (esc-key "C-c C-M-l" 'org-cliplink)))
 #+END_SRC
 
+* Git config
+** Git time machine config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package git-timemachine :ensure t
+    :config
+    (evil-leader/set-key
+      "gt" 'git-timemachine-toggle))
+#+END_SRC
+** Git gutter config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package git-gutter+ :ensure t
+    :config
+    (global-git-gutter+-mode)
+    (evil-leader/set-key
+      ;;; jump between hunks
+      "gn" 'git-gutter+-next-hunk
+      "gp" 'git-gutter+-previous-hunk
+      ;;; act on hunks
+      "gr" 'git-gutter+-revert-hunks
+      ;; stage hunk at point, or all inside region
+      "ga" 'git-gutter+-stage-hunks
+      "gc" 'git-gutter+-commit
+      "gC" 'git-gutter+-stage-and-commit
+      "gy" 'git-gutter+-stage-and-commit-whole-buffer
+      "gu" 'git-gutter+-unstage-whole-buffer))
+#+END_SRC
+** Magit config
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package magit :ensure t
+    :commands magit-status)
+   #+END_SRC
+   
+** Git messenger config
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package git-messenger :ensure t
+    :config
+    (evil-leader/set-key
+       "gm" 'git-messenger:popup-message)
+   #+END_SRC
+   
 * Shell config
 
 There's no reason to query you about your favorite shell with every
@@ -852,26 +892,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
          (add-hook 'org-shiftright-final-hook 'windmove-right)))
    #+END_SRC
    
-* Git gutter config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package git-gutter+ :ensure t
-    :init
-    :config
-    (global-git-gutter+-mode)
-    (evil-leader/set-key
-      ;;; jump between hunks
-      "gn" 'git-gutter+-next-hunk
-      "gp" 'git-gutter+-previous-hunk
-      ;;; act on hunks
-      "gr" 'git-gutter+-revert-hunks
-      ;; stage hunk at point, or all inside region
-      "gt" 'git-gutter+-stage-hunks
-      "gc" 'git-gutter+-commit
-      "gC" 'git-gutter+-stage-and-commit
-      "gy" 'git-gutter+-stage-and-commit-whole-buffer
-      "gu" 'git-gutter+-unstage-whole-buffer
-      ))
-#+END_SRC
 * Eyebrowse config
 TODO: add current eyebrowse window config to modeline
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
@@ -944,21 +964,6 @@ TODO: add current eyebrowse window config to modeline
                (goto-char end)
                (end-of-line)
                (forward-char 1))))))
-   #+END_SRC
-   
-* Magit config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package magit
-    :ensure t
-    :commands magit-status)
-   #+END_SRC
-   
-* Git messenger config
-   ;; TODO: fix esc-mode-map
-   #+BEGIN_SRC emacs-lisp :comments link :tangle no
-  (use-package git-messenger
-    :ensure t
-    :init (bind-key "C-c [" 'git-messenger:popup-message esc-mode-map))
    #+END_SRC
    
 * Keyfreq mode config
