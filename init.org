@@ -494,6 +494,7 @@
               ;;; file commands
          "ff" 'counsel-find-file
          "fr" 'counsel-recentf
+         "fo" 'ff-find-other-file
          ;; TODO: cull unnecessary entries from recentf list (machine files)
 
               ;;; buffer commands
