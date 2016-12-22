@@ -1074,7 +1074,7 @@ TODO: add current eyebrowse window config to modeline
   (desktop-save-mode 1)                   ;use desktop file
    #+END_SRC
    
-*** FIC-mode config
+* FIC-mode config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package fic-mode
     :ensure t
@@ -1087,7 +1087,7 @@ TODO: add current eyebrowse window config to modeline
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
     #+END_SRC
     
-*** undo-tree config
+* undo-tree config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package undo-tree
     :ensure t
