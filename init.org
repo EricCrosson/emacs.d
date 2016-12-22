@@ -1034,7 +1034,8 @@ TODO: add current eyebrowse window config to modeline
                                :sound-name "alarm-clock-elapsed"))
        (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
    #+END_SRC
-* Saveplace config
+* Save session config
+** Saveplace config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package saveplace
     :ensure t
@@ -1042,8 +1043,7 @@ TODO: add current eyebrowse window config to modeline
     (setq-default save-place t)
     (setq save-place-file (format "%s/places" esc-meta-path)))
    #+END_SRC
-   
-* Savehist config
+** Savehist config
    Keep a history of =M-x= across sessions.
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package savehist
@@ -1057,8 +1057,7 @@ TODO: add current eyebrowse window config to modeline
             regexp-search-ring))
     (savehist-mode 1))
    #+END_SRC
-   
-* Save desktop config
+** Save desktop config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defadvice desktop-save-in-desktop-dir (before ensure-desktop-dir-exists activate)
       "Ensure `desktop-dirname' exists before function
