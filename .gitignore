@@ -15,3 +15,4 @@ meta/
 init.el
 /tramp
 /org-clock-save.el
+/recentf
