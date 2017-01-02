@@ -674,7 +674,7 @@ TODO: make this work
   (use-package git-messenger :ensure t
     :config
     (evil-leader/set-key
-       "gm" 'git-messenger:popup-message)
+       "gm" 'git-messenger:popup-message))
    #+END_SRC
    
 * Shell config
