@@ -710,6 +710,12 @@ Destroy term buffers when the process is exited.
      (use-package rst :ensure t
        :config (add-hook 'rst-mode-hook 'auto-fill-mode))
    #+END_SRC
+* Yaml mode
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package yaml-mode
+    :ensure t
+    :mode (("\\.yml$" . yaml-mode)))
+#+END_SRC
 * Dired config
    TODO: keymaps go in =esc-mode=
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
