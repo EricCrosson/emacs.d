@@ -956,10 +956,18 @@ TODO: add current eyebrowse window config to modeline
 
    #+END_SRC
    
+* Ztree
+   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+     (use-package ztree :ensure t
+       :init
+       (setq ztree-dir-move-focus t))
+   #+END_SRC
+   
 * Goto last change config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package goto-chg :ensure t)
 #+END_SRC
+   
 * Expand region config
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
