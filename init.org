@@ -226,6 +226,7 @@
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 #+END_SRC
 * Behavioral modifications
+
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
   (fset 'yes-or-no-p 'y-or-n-p)           ;change yes-no to y-n
@@ -506,6 +507,7 @@
 
               ;;; movement commands
          "ss" 'swiper
+         "'" 'goto-last-change
 
               ;;; magit commands
          "gs" 'magit-status
@@ -553,7 +555,6 @@
          "8" 'eyebrowse-switch-to-window-config-8
          "9" 'eyebrowse-switch-to-window-config-9
          "`" 'eyebrowse-last-window-config
-         "'" 'eyebrowse-last-window-config
          )
        (global-evil-leader-mode))
 
@@ -955,6 +956,10 @@ TODO: add current eyebrowse window config to modeline
 
    #+END_SRC
    
+* Goto last change config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package goto-chg :ensure t)
+#+END_SRC
 * Expand region config
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
