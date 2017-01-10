@@ -868,6 +868,15 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
    #+END_SRC
    
+* Beacon config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package beacon
+    :ensure t
+    :demand t
+    :diminish beacon-mode
+    :config
+    (beacon-mode 1))
+#+END_SRC
 * TIme clocking config...
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq org-clock-persist 'history)
