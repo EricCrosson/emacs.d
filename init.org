@@ -1135,9 +1135,10 @@ TODO: add current eyebrowse window config to modeline
   (server-start)
     #+END_SRC
 
-    Have a great day~
+* Fin
+Have a great day~
 
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq Don t    ;allows `eval-buffer' on *scratch*
         Panic t  ;with `initial-scratch-message'
         initial-scratch-message
@@ -1146,8 +1147,8 @@ TODO: add current eyebrowse window config to modeline
                  "\n")) ;newline makes inserted text normal-sized
   (message "All done, %s%s" (user-login-name) ".")
   ;;; .emacs.el ends here
-    #+END_SRC
-    
+#+END_SRC
+
 * TODOS
 - auto-package-update config
 - esc-mode
