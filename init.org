@@ -36,12 +36,12 @@
   Now that the legal stuff is out of the way, let's get out the rat poison.
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
     ;; This code is important to run as early as possible, to avoid
-    ;; initially rendering these bars only to remove them.
-
-    (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
-          '(menu-bar-mode
-            tool-bar-mode
-            scroll-bar-mode))
+    ;; initially rendering these bars.
+    (when window-system
+      (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
+            '(menu-bar-mode
+              tool-bar-mode
+              scroll-bar-mode)))
   #+END_SRC
 
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
