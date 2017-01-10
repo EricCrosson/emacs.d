@@ -456,12 +456,23 @@
          "Insert date at point in YYYY-MM-DD format."
          (interactive)
          (insert (format-time-string "%A %B %d, %Y")))
-
        (defun esc-insert-short-date ()
          "Insert date at point in human-readable format, e.g. Tuesday
                October 18, 2016."
          (interactive)
          (insert (format-time-string "%Y-%m-%d")))
+
+       (defun esc/split-below-and-move ()
+         (interactive)
+         (split-window-below)
+         (other-window 1))
+       (defun esc/split-right-and-move ()
+         (interactive)
+         (split-window-right)
+         (other-window 1))
+       (bind-keys
+        ("C-x 2" . esc/split-below-and-move)
+        ("C-x 3" . esc/split-right-and-move))
 
        (defun follow-this-buffer ()
          "Open the current buffer in `follow-mode`.  Additionally, open
