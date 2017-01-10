@@ -246,6 +246,7 @@
         save-interprogram-paste-before-kill t
         set-mark-command-repeat-pop t
         starttls-use-gnutls t
+        vc-follow-symlinks t
         browse-url-browser-function 'browse-web
         kill-buffer-query-functions (remq 'process-kill-buffer-query-function
                                            kill-buffer-query-functions))
