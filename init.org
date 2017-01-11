@@ -1081,6 +1081,10 @@ TODO: add current eyebrowse window config to modeline
                                :sound-name "alarm-clock-elapsed"))
        (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
    #+END_SRC
+* After-save hooks
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+#+END_SRC
 * Save session config
 ** Saveplace config
    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
