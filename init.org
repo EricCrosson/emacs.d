@@ -1137,7 +1137,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     #+END_SRC
     
 * undo-tree config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package undo-tree
     :ensure t
     :config
@@ -1150,9 +1150,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
       "Make zipped `undo-tree' files obvious."
       (setq ad-return-value (concat ad-return-value ".gz")))
 
-    ;;; Thanks to
-    ;;; [[http://whattheemacsd.com/my-misc.el-02.html][Magnar]] for the
-    ;;; advice.
+    ;; Thanks to [[http://whattheemacsd.com/my-misc.el-02.html][Magnar]]
+    ;; for the advice.
     (defadvice undo-tree-undo (around keep-region activate)
       (if (use-region-p)
           (let ((m (set-marker (make-marker) (mark)))
@@ -1163,18 +1162,20 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
             (set-marker p nil)
             (set-marker m nil))
         ad-do-it)))
-    #+END_SRC
+#+END_SRC
+
 * Restart-emacs config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package restart-emacs :ensure t)
 #+END_SRC
 
-
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (server-start)
-    #+END_SRC
-
 * Fin
+Start the server if we made it this far in one piece
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+(server-start)
+#+END_SRC
+
 Have a great day~
 
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
@@ -1190,6 +1191,6 @@ Have a great day~
 
 * TODOS
 - auto-package-update config
-- esc-mode
 - persistent scratch
-- make reindention a hook on save? I know there's aggressive indent but what about org mode?
+- make reindention a hook on save?
+  I know there's aggressive indent but what about org mode?
