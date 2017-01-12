@@ -1164,6 +1164,11 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
             (set-marker m nil))
         ad-do-it)))
     #+END_SRC
+* Restart-emacs config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package restart-emacs :ensure t)
+#+END_SRC
+
 
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (server-start)
