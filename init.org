@@ -658,6 +658,12 @@ TODO: make this work
   (use-package org-bullets :ensure t
     :init (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
+** Org toc config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package toc-org :ensure t
+    :init
+    (add-hook 'org-mode-hook 'toc-org-enable))
+#+END_SRC
 
 * Git config
 ** Git time machine config
