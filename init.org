@@ -647,12 +647,16 @@ TODO: make this work
    (add-hook 'org-mode-hook 'org-indent-mode)
    (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
-
 ** Org cliplink config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package org-cliplink :ensure t
     :init (after 'esc-mode
             (esc-key "C-c C-M-l" 'org-cliplink)))
+#+END_SRC
+** Org bullets
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package org-bullets :ensure t
+    :init (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 
 * Git config
