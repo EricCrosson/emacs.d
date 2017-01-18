@@ -1158,7 +1158,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     (setq undo-limit (* 1024 1024))
     ;; todo: associate with esc-mode
     (undo-tree-mode 1)
-    (setq undo-tree-auto-save-history t)
+    ;; (setq undo-tree-auto-save-history nil)
     (defadvice undo-tree-make-history-save-file-name
         (after undo-tree activate)
       "Make zipped `undo-tree' files obvious."
