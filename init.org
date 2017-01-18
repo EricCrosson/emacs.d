@@ -221,12 +221,28 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
   #+END_SRC
   
 * Functions
+
+The Alt-Tab of buffers.
+
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defun switch-to-previous-buffer ()
     "Switch to previously open buffer.
   Repeated invocations toggle between the two most recently opened buffers."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) 1)))
+#+END_SRC
+
+Anything I end up doing more than three times...
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (defun insert-program-header ()
+    "Insert the user's name and the current date at point."
+    (interactive)
+    (insert "Written by " user-full-name)
+    (open-line 1)
+    (comment-line 1)
+    (esc-insert-short-date)
+    (comment-line 1))
 #+END_SRC
 * Behavioral modifications
 
