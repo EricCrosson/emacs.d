@@ -4,6 +4,8 @@
 elpa/
 auto-save-list/
 network-security.data
+emojis
+url
 
 ## personal (host-specific) save data
 meta/
