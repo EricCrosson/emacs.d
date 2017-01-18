@@ -501,7 +501,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
          "qQ" 'save-buffers-kill-terminal
 
               ;;; ace-jump commands
-         "jl" 'ivy-avy
+         "jl" 'avy-goto-line
          "jf" 'avy-goto-char
 
          ;; comment
