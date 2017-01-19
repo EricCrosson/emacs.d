@@ -681,6 +681,13 @@ TODO: make this work
     (add-hook 'org-mode-hook 'toc-org-enable))
 #+END_SRC
 
+** Org babel config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (sh . t)))
+#+END_SRC
 * Git config
 ** Git time machine config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
