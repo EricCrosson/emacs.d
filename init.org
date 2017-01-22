@@ -309,6 +309,11 @@ Anything I end up doing more than three times...
   (push '("." . "~/.config/.emacs.d/") backup-directory-alist)
   #+END_SRC
 
+  Keep me informed.
+  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+    (global-auto-revert-mode)
+  #+END_SRC
+
   =i-search= is capable of spanning whitespace regions
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq search-whitespace-regexp "[ \t\r\n]+")
@@ -852,7 +857,7 @@ Destroy term buffers when the process is exited.
 
        (setq dired-dwim-target t)
        (after "dired"
-         (add-hook 'dired-mode-hook 'auto-revert-mode)
+         ;; (add-hook 'dired-mode-hook 'auto-revert-mode)
          (defun dired-find-parent-directory ()
            (interactive)
            (find-alternate-file ".."))
