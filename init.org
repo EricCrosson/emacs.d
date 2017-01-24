@@ -738,6 +738,11 @@ TODO: make this work
   (use-package gitignore-mode :ensure t)
   (use-package gitconfig-mode :ensure t)
 #+END_SRC
+* Language configs
+** Python config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (setq python-indent 2)
+#+END_SRC
 * Shell config
 
 There's no reason to query you about your favorite shell with every
