@@ -767,6 +767,13 @@ Destroy term buffers when the process is exited.
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package lua-mode :ensure t)
 #+END_SRC
+* Yasnippet config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package yasnippet :ensure t
+    :config
+    (yas-reload-all)
+    (yas-global-mode 1))
+#+END_SRC
 * Company mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package company :ensure t
