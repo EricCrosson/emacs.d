@@ -743,6 +743,10 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq python-indent 2)
 #+END_SRC
+** Coffeescript config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package coffee-mode :ensure t)
+#+END_SRC
 * Shell config
 
 There's no reason to query you about your favorite shell with every
