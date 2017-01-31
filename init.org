@@ -680,7 +680,7 @@ TODO: make this work
     :init (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
 ** Org toc config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp :comments link :tangle no
   (use-package toc-org :ensure t
     :init
     (add-hook 'org-mode-hook 'toc-org-enable))
@@ -763,6 +763,10 @@ Destroy term buffers when the process is exited.
     (kill-buffer))
 #+END_SRC
    
+* Markdown config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package markdown-mode :ensure t)
+#+END_SRC
 * Lua mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package lua-mode :ensure t)
