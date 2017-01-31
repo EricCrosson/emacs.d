@@ -743,6 +743,10 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq python-indent 2)
 #+END_SRC
+** Coffeescript config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package coffee-mode :ensure t)
+#+END_SRC
 * Shell config
 
 There's no reason to query you about your favorite shell with every
@@ -770,6 +774,13 @@ Destroy term buffers when the process is exited.
 * Lua mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package lua-mode :ensure t)
+#+END_SRC
+* Yasnippet config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package yasnippet :ensure t
+    :config
+    (yas-reload-all)
+    (yas-global-mode 1))
 #+END_SRC
 * Company mode config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes

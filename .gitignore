@@ -6,6 +6,7 @@ auto-save-list/
 network-security.data
 emojis
 url
+/eshell
 
 ## personal (host-specific) save data
 meta/
