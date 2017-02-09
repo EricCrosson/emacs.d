@@ -747,6 +747,11 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package coffee-mode :ensure t)
 #+END_SRC
+** C mode config
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (add-to-list 'cc-search-directories '"../inc")
+  (add-to-list 'cc-search-directories '"../src")
+#+END_SRC
 * Shell config
 
 There's no reason to query you about your favorite shell with every
