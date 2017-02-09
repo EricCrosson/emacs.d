@@ -758,6 +758,10 @@ TODO: make this work
   (add-to-list 'cc-search-directories '"../inc")
   (add-to-list 'cc-search-directories '"../src")
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (setq-default ff-always-in-other-window t)
+#+END_SRC
 * Shell config
 
 There's no reason to query you about your favorite shell with every
@@ -1060,6 +1064,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
 * Dumb jump config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package dumb-jump :ensure t
+    :bind ("C-'" . dumb-jump-go)
     :config
     (dumb-jump-mode))
 #+END_SRC
