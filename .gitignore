@@ -7,6 +7,7 @@ network-security.data
 emojis
 url
 /eshell
+/session.*
 
 ## personal (host-specific) save data
 meta/
@@ -19,3 +20,4 @@ init.el
 /tramp
 /org-clock-save.el
 /recentf
+/quelpa

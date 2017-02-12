@@ -406,7 +406,7 @@ Live edit all files
      ;;; help-plus (custom package)
    #+END_SRC
    
-*** Programming modes config
+** Programming modes config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
       (use-package aggressive-indent :ensure t
         :config
@@ -420,7 +420,7 @@ Live edit all files
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-hook 'prog-mode-hook 'electric-pair-local-mode)
 #+END_SRC
-*** Winner config
+** Winner config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package winner
     :init
@@ -448,14 +448,16 @@ Live edit all files
    #+END_SRC
    
 * Evil config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-          ;;; evil configuration
+** evil
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil :ensure t
        :init
        (setq evil-want-C-u-scroll t)
        :config
        (evil-mode 1))
-
+#+END_SRC
+** evil-visualstar
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-visualstar
        :commands (evil-visualstar/begin-search-forward
                   evil-visualstar/begin-search-backward)
@@ -465,11 +467,15 @@ Live edit all files
            'evil-visualstar/begin-search-forward)
          (define-key evil-visual-state-map (kbd "#")
            'evil-visualstar/begin-search-backward)))
-
+#+END_SRC
+** evil-commentary
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-commentary :ensure t
        :config
        (evil-commentary-mode t))
-
+#+END_SRC
+** evil-leader
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-leader :ensure t
        :init
        ;; TODO: autoload these defuns
@@ -601,25 +607,36 @@ Live edit all files
          "\\" 'eyebrowse-close-window-config
          )
        (global-evil-leader-mode))
-
+#+END_SRC
+** evil-magit
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-magit :ensure t
        :config
        (add-hook 'git-commit-mode-hook 'evil-insert-state))
-
+#+END_SRC
+** evil-escape
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-escape :ensure t
        :diminish (evil-escape-mode . "")
        :config
        (setq-default evil-escape-key-sequence "fd")
-       (after 'diminish (diminish 'evil-escape-mode)))
-
+       (after 'diminish (diminish 'evil-escape-mode))
+       (evil-escape-mode 1))
+#+END_SRC
+** evil-surround
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-surround :ensure t
        :config
        (global-evil-surround-mode 1))
-
+#+END_SRC
+** vi-tilde-fringe
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package vi-tilde-fringe :ensure t
        :config
        (global-vi-tilde-fringe-mode))
-
+#+END_SRC
+** evil-args
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
      (use-package evil-args :ensure t
        :config
        ;; bind evil-args text objects
@@ -635,9 +652,14 @@ Live edit all files
        ;; bind evil-jump-out-args
        (define-key evil-normal-state-map "K" 'evil-jump-out-args)
        )
-   #+END_SRC
-   
-*** Compilation buffer config
+#+END_SRC
+** evil-matchit
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package evil-matchit :ensure t
+    :config (global-evil-matchit-mode 1))
+#+END_SRC
+
+* Buffer config
     #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'same-window-buffer-names "*compilation*")
     #+END_SRC
@@ -760,10 +782,15 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (add-to-list 'cc-search-directories '"../inc")
   (add-to-list 'cc-search-directories '"../src")
+
+  (setq-default ff-always-in-other-window t)
 #+END_SRC
 
+* Magithub config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (setq-default ff-always-in-other-window t)
+  (use-package magithub :ensure t
+    :after magit
+    :config (magithub-feature-autoinject t))
 #+END_SRC
 * Shell config
 
@@ -795,7 +822,8 @@ Destroy term buffers when the process is exited.
 #+END_SRC
 * Yasnippet config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package yasnippet :ensure t
+  (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+  (use-package yasnippet
     :config
     (yas-reload-all)
     (yas-global-mode 1))
