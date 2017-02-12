@@ -772,7 +772,7 @@ TODO: make this work
 * Language configs
 ** Python config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (setq python-indent 2)
+  (setq python-indent 4)
 #+END_SRC
 ** Coffeescript config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
