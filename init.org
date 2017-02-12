@@ -278,6 +278,12 @@ Anything I end up doing more than three times...
                                                  minibuffer-prompt))
   #+END_SRC
 
+Live edit all files
+
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (global-auto-revert-mode t)
+#+END_SRC
+
   Line numbers, when visible, should be loaded after a short delay and
   not loaded eagerly. They're candy, and who spends resources acquiring
   candy?
