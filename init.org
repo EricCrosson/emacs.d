@@ -1217,7 +1217,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   (use-package fic-mode
     :ensure t
     :config
-    ;; TODO: autoload to kick this beast out of memory
     (defun turn-on-fic-mode ()
        "Turn fic-mode on."
        (interactive)
