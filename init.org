@@ -373,11 +373,11 @@ Live edit all files
 
      ;;; configure which-key
      (use-package which-key :ensure t
+       :diminish (which-key-mode . "")
        :init
        (which-key-setup-side-window-right-bottom)
        :config
-       (which-key-mode 1)
-       (after 'diminish (diminish 'which-key-mode)))
+       (which-key-mode 1))
 
      ;; features to add
      ;;; eldoc
@@ -607,10 +607,10 @@ Live edit all files
        (add-hook 'git-commit-mode-hook 'evil-insert-state))
 
      (use-package evil-escape :ensure t
+       :diminish (evil-escape-mode . "")
        :config
        (setq-default evil-escape-key-sequence "fd")
-       (after 'diminish (diminish 'evil-escape-mode))
-       (evil-escape-mode 1))
+       (after 'diminish (diminish 'evil-escape-mode)))
 
      (use-package evil-surround :ensure t
        :config
@@ -954,10 +954,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     ;; (diminish 'global-visual-line-mode)
     (after 'autopair  (diminish 'autopair-mode))
     (after 'abbrev    (diminish 'abbrev-mode))
-    (after 'undo-tree (diminish 'undo-tree-mode))
     (after 'org-indent (diminish 'org-indent-mode))
     (after 'magit (diminish 'magit-auto-revert-mode))
-    (after 'fic-mode (diminish 'fic-mode))
     (after 'eldoc (diminish 'eldoc-mode))
     (after 'smerge-mode (diminish 'smerge-mode))
     ;; (after 'auto-complete (diminish 'auto-complete-mode))
@@ -1216,6 +1214,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package fic-mode
     :ensure t
+    :diminish (fic-mode . "")
     :config
     (push "RESUME" fic-highlighted-words)
     (defun turn-on-fic-mode ()
@@ -1230,6 +1229,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package undo-tree
     :ensure t
+    :diminish (undo-tree-mode . "")
     :config
     (setq undo-limit (* 1024 1024))
     ;; todo: associate with esc-mode
