@@ -1213,7 +1213,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
    #+END_SRC
    
 * FIC-mode config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package fic-mode
     :ensure t
     :config
@@ -1223,8 +1223,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
        (interactive)
        (fic-mode 1))
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
-    #+END_SRC
-    
+  #+END_SRC
+  
 * undo-tree config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package undo-tree
