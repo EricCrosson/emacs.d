@@ -1222,6 +1222,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
        "Turn fic-mode on."
        (interactive)
        (fic-mode 1))
+    (add-hook 'conf-mode-hook 'turn-on-fic-mode)
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
   #+END_SRC
   
