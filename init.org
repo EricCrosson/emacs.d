@@ -705,7 +705,10 @@ TODO: make this work
   (use-package git-timemachine :ensure t
     :config
     (evil-leader/set-key
-      "gt" 'git-timemachine-toggle))
+      "gt" 'git-timemachine-toggle)
+    ;; http://blog.binchen.org/posts/use-git-timemachine-with-evil.html
+    (evil-make-overriding-map git-timemachine-mode-map 'normal)
+    (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 #+END_SRC
 ** Git gutter config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
