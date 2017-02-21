@@ -2,8 +2,12 @@
 #+email: esc@ericcrosson.com
 #+todo: TODO(t) VERIFY(v) IN-PROGRESS(p) | OPTIONAL(o) HIATUS(h) DONE(d) DISCARDED(c) HACKED(k)
 #+startup: content
-* Introduction
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+* init.el
+:PROPERTIES:
+:header-args: :comments link :tangle init.el
+:END:
+** Introduction
+  #+BEGIN_SRC emacs-lisp
     ;;; .emacs.el
 
     ;;; Commentary:
@@ -32,9 +36,9 @@
     ;;; Code:
   #+END_SRC
   
-* Time sensitive
+** Time sensitive
   Now that the legal stuff is out of the way, let's get out the rat poison.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     ;; This code is important to run as early as possible, to avoid
     ;; initially rendering these bars.
     (when window-system
@@ -44,14 +48,14 @@
               scroll-bar-mode)))
   #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     (setq gc-cons-threshold 100000000)
   #+END_SRC
   
-** Bootstrap
+*** Bootstrap
 
    Configure remote package archives
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
       (mapc (lambda (source) (add-to-list 'package-archives source) t)
@@ -64,7 +68,7 @@
    #+END_SRC
 
    First there was =use-package=
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -74,7 +78,7 @@
    #+END_SRC
 
    
-* Layout and load paths
+** Layout and load paths
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (defcustom esc-meta-directory "~/.emacs.d/meta/"
     "Path to .emacs.d meta directory, for internal bookkeeping
@@ -83,16 +87,16 @@
     :options '("~/.emacs.d/meta")
     :group 'esc-init)
   #+END_SRC
-* Eyebrowse config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+** Eyebrowse config
+#+BEGIN_SRC emacs-lisp
   (use-package eyebrowse :ensure t
     :config (eyebrowse-mode t))
 #+END_SRC
 TODO: advise eyebrowse-close-window-config to print a message in the mode-line
-* UI
+** UI
   Fire up the mood lighting
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle no
+  #+BEGIN_SRC emacs-lisp :tangle no
   (use-package bliss-theme :ensure t
     ;; TODO: switch with color-theme stack
     :config (load-theme 'bliss t))
@@ -108,7 +112,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
 
   These days I'm intrigued by =darkokai= theme
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (use-package darkokai-theme :ensure t
     :config
     (setq darkokai-mode-line-padding 1)
@@ -117,7 +121,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
 
   We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]].
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     (use-package fill-column-indicator :ensure t
       :config
       (add-hook 'prog-mode-hook 'fci-mode))
@@ -125,7 +129,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
 
   Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]].
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     (defun esc-fancy-mode-line-render (left center right &optional lpad rpad)
       "Return a string the width of the current window with
     LEFT, CENTER, and RIGHT spaced out accordingly, LPAD and RPAD,
@@ -177,8 +181,8 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
     (setq-default mode-line-format esc-mode-line-format)
   #+END_SRC
   
-** Fonts
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Fonts
+   #+BEGIN_SRC emacs-lisp
   (defun font-exists-p (font)
     "Nil unless FONT is recognized by Emacs."
     (member esc-font (font-family-list)))
@@ -186,7 +190,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
 
    Favored font of late
 
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
      (let ((esc-font "Source Code Pro"))
        ;; install `esc-font`
        (when (not (font-exists-p esc-font))
@@ -202,10 +206,10 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
                              :width 'normal)))
    #+END_SRC
    
-* Macros
+** Macros
   I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
   a read; stop what you're doing and go take a look if you haven't.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
@@ -213,18 +217,18 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
      '(progn ,@body)))
   #+END_SRC
   
-* User data
+** User data
   Hello, My Name Is
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Eric Crosson"
         user-mail-address "esc@ericcrosson.com")
   #+END_SRC
   
-* Functions
+** Functions
 
 The Alt-Tab of buffers.
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun switch-to-previous-buffer ()
     "Switch to previously open buffer.
   Repeated invocations toggle between the two most recently opened buffers."
@@ -234,7 +238,7 @@ The Alt-Tab of buffers.
 
 Anything I end up doing more than three times...
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defun insert-program-header ()
     "Insert the user's name and the current date at point."
     (interactive)
@@ -244,9 +248,9 @@ Anything I end up doing more than three times...
     (esc-insert-short-date)
     (comment-line 1))
 #+END_SRC
-* Behavioral modifications
+** Behavioral modifications
 
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
   (fset 'yes-or-no-p 'y-or-n-p)           ;change yes-no to y-n
   (setq ;debug-on-error t
@@ -272,7 +276,7 @@ Anything I end up doing more than three times...
   #+END_SRC
 
   Now everybody agrees that the =*Minibuffer*= prompt is uneditable.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (setq minibuffer-prompt-properties '(read-only t point-entered
                                                  minibuffer-avoid-prompt face
                                                  minibuffer-prompt))
@@ -280,14 +284,14 @@ Anything I end up doing more than three times...
 
 Live edit all files
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
 #+END_SRC
 
   Line numbers, when visible, should be loaded after a short delay and
   not loaded eagerly. They're candy, and who spends resources acquiring
   candy?
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (setq linum-delay t
         linum-eager nil)
   #+END_SRC
@@ -295,7 +299,7 @@ Live edit all files
   These settings keep the text soup that is GNU/Linux as happy as
   GNU/Linux files can be.
   #+NAME: char-and-font-encoding
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   ;; Char and font encoding
   (set-buffer-file-coding-system 'unix)
   (setq-default indent-tabs-mode nil)
@@ -310,23 +314,23 @@ Live edit all files
   tempt users to disable them.
 
   #+NAME: stash-backups
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   ;; Backup settings
   (push '("." . "~/.config/.emacs.d/") backup-directory-alist)
   #+END_SRC
 
   Keep me informed.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     (global-auto-revert-mode)
   #+END_SRC
 
   =i-search= is capable of spanning whitespace regions
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (setq search-whitespace-regexp "[ \t\r\n]+")
   #+END_SRC
 
   Avoid accidental termination.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
     (bind-key (kbd "C-x C-c")
               (defun esc-dont-kill-emacs ()
                 (interactive)
@@ -334,15 +338,15 @@ Live edit all files
                          (user-login-name))))
   #+END_SRC
   
-* Aliases
+** Aliases
   I did not grow up in an era where this is a straightforward mnemonic.
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (defalias 'undefun 'fmakunbound)
   #+END_SRC
   
-* Configuration
+** Configuration
    ;; TODO: sort this incipient work into org home
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
      ;;; configure ivy
      (use-package ivy :ensure t
        :init
@@ -406,22 +410,8 @@ Live edit all files
      ;;; help-plus (custom package)
    #+END_SRC
    
-** Programming modes config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-      (use-package aggressive-indent :ensure t
-        :config
-        (global-aggressive-indent-mode 1))
-    #+END_SRC
-
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-    #+END_SRC
-
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
-#+END_SRC
 ** Winner config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+    #+BEGIN_SRC emacs-lisp
   (use-package winner
     :init
     (progn
@@ -441,15 +431,15 @@ Live edit all files
       (winner-mode t)))
     #+END_SRC
     
-* Projectile config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+** Projectile config
+   #+BEGIN_SRC emacs-lisp
      (use-package counsel-projectile :ensure t
        :config (counsel-projectile-on))
    #+END_SRC
    
-* Evil config
-** evil
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+** Evil config
+   #+BEGIN_SRC emacs-lisp
+          ;;; evil configuration
      (use-package evil :ensure t
        :init
        (setq evil-want-C-u-scroll t)
@@ -659,26 +649,26 @@ Live edit all files
     :config (global-evil-matchit-mode 1))
 #+END_SRC
 
-* Buffer config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+** Compilation buffer config
+    #+BEGIN_SRC emacs-lisp
   (add-to-list 'same-window-buffer-names "*compilation*")
     #+END_SRC
     
-* Org config
+** Org config
 
 TODO: add current clocked-in task to modeline
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
    (setq org-src-fontify-natively t)
 #+END_SRC
 
 TODO: make this work
-#+BEGIN_SRC emacs-lisp :comments link :tangle no
+#+BEGIN_SRC emacs-lisp :tangle no
   (after 'org
     (bind-key "C-c C-c" 'org-edit-src-exit org-src-mode-map))
 #+END_SRC
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (after 'evil-leader
     (evil-leader/set-key-for-mode 'org-mode
       ;;; narrow commands
@@ -691,39 +681,39 @@ TODO: make this work
     )
 #+END_SRC
 
-** Org indent config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Org indent config
+#+BEGIN_SRC emacs-lisp
    (add-hook 'org-mode-hook 'org-indent-mode)
    (add-hook 'org-mode-hook 'auto-fill-mode)
 #+END_SRC
-** Org cliplink config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Org cliplink config
+#+BEGIN_SRC emacs-lisp
   (use-package org-cliplink :ensure t
     :init (after 'esc-mode
             (esc-key "C-c C-M-l" 'org-cliplink)))
 #+END_SRC
-** Org bullets
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Org bullets
+#+BEGIN_SRC emacs-lisp
   (use-package org-bullets :ensure t
     :init (add-hook 'org-mode-hook 'org-bullets-mode))
 #+END_SRC
-** Org toc config
-#+BEGIN_SRC emacs-lisp :comments link :tangle no
+*** Org toc config
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package toc-org :ensure t
     :init
     (add-hook 'org-mode-hook 'toc-org-enable))
 #+END_SRC
 
-** Org babel config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Org babel config
+#+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
      (sh . t)))
 #+END_SRC
-* Git config
-** Git time machine config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+** Git config
+*** Git time machine config
+#+BEGIN_SRC emacs-lisp
   (use-package git-timemachine :ensure t
     :config
     (evil-leader/set-key
@@ -732,8 +722,8 @@ TODO: make this work
     (evil-make-overriding-map git-timemachine-mode-map 'normal)
     (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 #+END_SRC
-** Git gutter config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Git gutter config
+#+BEGIN_SRC emacs-lisp
   (use-package git-gutter+ :ensure t
     :config
     (global-git-gutter+-mode)
@@ -750,38 +740,49 @@ TODO: make this work
       "gy" 'git-gutter+-stage-and-commit-whole-buffer
       "gu" 'git-gutter+-unstage-whole-buffer))
 #+END_SRC
-** Magit config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Magit config
+   #+BEGIN_SRC emacs-lisp
   (use-package magit :ensure t
     :commands magit-status)
    #+END_SRC
    
-** Git messenger config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Git messenger config
+   #+BEGIN_SRC emacs-lisp
   (use-package git-messenger :ensure t
     :config
     (evil-leader/set-key
        "gm" 'git-messenger:popup-message))
    #+END_SRC
    
-** Git modes
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Git modes
+#+BEGIN_SRC emacs-lisp
   (use-package gitignore-mode :ensure t)
   (use-package gitconfig-mode :ensure t)
 #+END_SRC
-* Language configs
-** Company mode
+** Language configs
+*** Programming modes config
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent :ensure t
+    :config
+    (global-aggressive-indent-mode 1))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+#+END_SRC
+*** Company mode
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
 (use-package company :ensure t
   :defer t
   :init (global-company-mode))
 #+END_SRC
-** Python config
+*** Python config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq python-indent 4
         python-enable-yapf-format-on-save nil)
 #+END_SRC
-*** anaconda mode
+**** anaconda mode
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package anaconda-mode :ensure t
     :defer t
@@ -804,14 +805,14 @@ TODO: make this work
       (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
         (evil--jumps-push))))
 #+END_SRC
-*** company-anaconda
+**** company-anaconda
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package company-anaconda :ensure t
     :defer t
     :init
     (add-to-list 'company-backends 'company-anaconda))
 #+END_SRC
-*** yapf
+**** yapf
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package py-yapf :ensure t
     ;; FIXME: have something this cool
@@ -821,30 +822,31 @@ TODO: make this work
     (when python-enable-yapf-format-on-save
       (add-hook 'python-mode-hook 'py-yapf-enable-on-save)))
 #+END_SRC
-** Coffeescript config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+**** Coffeescript config
+#+BEGIN_SRC emacs-lisp
   (use-package coffee-mode :ensure t)
 #+END_SRC
-** C mode config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (add-to-list 'cc-search-directories '"../inc")
-  (add-to-list 'cc-search-directories '"../src")
+**** C mode config
+TODO: determine when/where these are defined
+#+BEGIN_SRC emacs-lisp
+  ;; (add-to-list 'cc-search-directories '"../inc")
+  ;; (add-to-list 'cc-search-directories '"../src")
 
   (setq-default ff-always-in-other-window t)
 #+END_SRC
 
-* Magithub config
+** Magithub config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (use-package magithub :ensure t
     :after magit
     :config (magithub-feature-autoinject t))
 #+END_SRC
-* Shell config
+*** Shell config
 
 There's no reason to query you about your favorite shell with every
 new terminal.
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq explicit-shell-file-name
         (if (file-exists-p "/usr/bin/zsh")
             "/usr/bin/zsh"
@@ -853,50 +855,50 @@ new terminal.
 
 Destroy term buffers when the process is exited.
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (defadvice term-handle-exit
       (after term-kill-buffer-on-exit activate)
     (kill-buffer))
 #+END_SRC
    
-* Markdown config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Markdown config
+#+BEGIN_SRC emacs-lisp
   (use-package markdown-mode :ensure t)
 #+END_SRC
-* Lua mode config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Lua mode config
+#+BEGIN_SRC emacs-lisp
   (use-package lua-mode :ensure t)
 #+END_SRC
-* Yasnippet config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Yasnippet config
+#+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-  (use-package yasnippet
+  (use-package yasnippet :ensure t
     :config
     (yas-reload-all)
     (yas-global-mode 1))
 #+END_SRC
-* Company mode config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Company mode config
+#+BEGIN_SRC emacs-lisp
   (use-package company :ensure t
     :config (add-hook 'after-init-hook 'global-company-mode))
   (use-package company-qml :ensure t
     :config (add-to-list 'company-backends 'company-qml))
 #+END_SRC
    
-* RestructuredText config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** RestructuredText config
+   #+BEGIN_SRC emacs-lisp
      (use-package rst :ensure t
        :config (add-hook 'rst-mode-hook 'auto-fill-mode))
    #+END_SRC
-* Yaml mode
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Yaml mode
+#+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
     :ensure t
     :mode (("\\.yml$" . yaml-mode)))
 #+END_SRC
-* Dired config
+*** Dired config
    TODO: keymaps go in =esc-mode=
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
      (use-package dired-details :ensure t
        :config (dired-details-install)
        :init
@@ -997,26 +999,26 @@ Destroy term buffers when the process is exited.
 
    #+END_SRC
    
-* Define word
+*** Define word
 Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to the likes of magnar.
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package define-word :ensure t
     :bind ("C-h d"  . define-word-at-point))
 #+END_SRC
 
-* Bitbake config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Bitbake config
+#+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
 #+END_SRC
 
-* Docker config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Docker config
+#+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode :ensure t)
   (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
 #+END_SRC
-* Diminish config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Diminish config
+   #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :config
     (after 'undo-tree-autoloads
@@ -1040,13 +1042,13 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     (after 'esc-mode (diminish 'esc-mode)))
    #+END_SRC
    
-* Minibuffer config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Minibuffer config
+   #+BEGIN_SRC emacs-lisp
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
    #+END_SRC
    
-* Beacon config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Beacon config
+#+BEGIN_SRC emacs-lisp
   (use-package beacon
     :ensure t
     :demand t
@@ -1054,14 +1056,14 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :config
     (beacon-mode 1))
 #+END_SRC
-* TIme clocking config...
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** TIme clocking config...
+#+BEGIN_SRC emacs-lisp
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
 #+END_SRC
-* Window manipulation
-*** Zoom frame config
-    #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Window manipulation
+***** Zoom frame config
+    #+BEGIN_SRC emacs-lisp
       (use-package zoom-frm :ensure t
         ;; TODO: include core-micro-state.el from
         ;; https://github.com/syl20bnr/spacemacs/blob/master/core/core-micro-state.el
@@ -1070,8 +1072,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
         ;; then bind zoom commands with a microstate
         )
     #+END_SRC
-*** Windmove config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+***** Windmove config
+   #+BEGIN_SRC emacs-lisp
      ;; Windmove from shift keys
      (use-package windmove
        :ensure t
@@ -1085,28 +1087,28 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
          (add-hook 'org-shiftright-final-hook 'windmove-right)))
    #+END_SRC
    
-* Qml mode config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Qml mode config
+#+BEGIN_SRC emacs-lisp
   (use-package qml-mode :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
 #+END_SRC
-* Rainbow delimeters mode config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Rainbow delimeters mode config
+   #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
     :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
    #+END_SRC
    
-* Lexbind config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Lexbind config
+   #+BEGIN_SRC emacs-lisp
   (use-package lexbind-mode
     :ensure t
     :init (add-hook 'emacs-lisp-mode-hook 'lexbind-mode))
    #+END_SRC
    
-* Misc cmds config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Misc cmds config
+   #+BEGIN_SRC emacs-lisp
   (use-package misc
     :commands zap-up-to-char
     :init ; seeing as I don't use these commands terribly often
@@ -1122,37 +1124,37 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
    #+END_SRC
 
    TODO : advice mc zap-up-to-char
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
 
    #+END_SRC
    
-* Rtags config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Rtags config
+#+BEGIN_SRC emacs-lisp
   (use-package rtags :ensure t
     :bind ("C-;" . rtags-find-symbol-at-point))
 #+END_SRC
-* Ztree
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Ztree
+   #+BEGIN_SRC emacs-lisp
      (use-package ztree :ensure t
        :init
        (setq ztree-dir-move-focus t))
    #+END_SRC
    
-* Goto last change config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Goto last change config
+#+BEGIN_SRC emacs-lisp
   (use-package goto-chg :ensure t)
 #+END_SRC
    
-* Dumb jump config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Dumb jump config
+#+BEGIN_SRC emacs-lisp
   (use-package dumb-jump :ensure t
     :bind ("C-'" . dumb-jump-go)
     :config
     (dumb-jump-mode))
 #+END_SRC
-* Expand region config
+*** Expand region config
    [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
      (use-package expand-region :ensure t
        ;; :bind ("C-;" . er/expand-region)
        :config
@@ -1177,16 +1179,16 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
                (forward-char 1))))))
    #+END_SRC
    
-* Keyfreq mode config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Keyfreq mode config
+   #+BEGIN_SRC emacs-lisp
   (use-package keyfreq
     :ensure t
     :config (keyfreq-autosave-mode 1)
             (setq keyfreq-file "~/.emacs.d/meta/keyfreq"))
    #+END_SRC
    
-* Browse kill ring config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Browse kill ring config
+   #+BEGIN_SRC emacs-lisp
   (use-package browse-kill-ring
     :ensure t
     :config
@@ -1194,25 +1196,25 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     (browse-kill-ring-default-keybindings))
    #+END_SRC
    
-* Writegood mode config
+*** Writegood mode config
    TODO: use-package that feller
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
    (use-package writegood-mode :ensure t
       :defer t)
    #+END_SRC
-* Clipmon config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Clipmon config
+   #+BEGIN_SRC emacs-lisp
   (use-package clipmon :ensure t
     :init (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
    #+END_SRC
    
-* Mouse avoidance config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Mouse avoidance config
+   #+BEGIN_SRC emacs-lisp
   (mouse-avoidance-mode 'exile)
    #+END_SRC
    
-* Recentf config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Recentf config
+   #+BEGIN_SRC emacs-lisp
   (setq recentf-auto-cleanup 'never)
   (use-package recentf
     :ensure t
@@ -1222,15 +1224,15 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
                   recentf-keep '(file-remote-p file-readable-p)))
    #+END_SRC
    
-* Xorg yank config
+*** Xorg yank config
    TODO: turn this into a minor mode for toggling with =esc-mode=
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
   (setq x-select-enable-clipboard t       ;global clipboard
         mouse-yank-at-point t)
    #+END_SRC
    
-* Tea time config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Tea time config
+   #+BEGIN_SRC emacs-lisp
      (use-package tea-time :ensure t
        :defer t
        :commands tea-time
@@ -1244,22 +1246,22 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
                                :sound-name "alarm-clock-elapsed"))
        (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
    #+END_SRC
-* After-save hooks
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** After-save hooks
+#+BEGIN_SRC emacs-lisp
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
 #+END_SRC
-* Save session config
-** Saveplace config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Save session config
+**** Saveplace config
+   #+BEGIN_SRC emacs-lisp
   (use-package saveplace
     :ensure t
     :config
     (setq-default save-place t)
     (setq save-place-file (concat esc-meta-directory "places")))
    #+END_SRC
-** Savehist config
+**** Savehist config
    Keep a history of =M-x= across sessions.
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+   #+BEGIN_SRC emacs-lisp
   (use-package savehist
     :ensure t
     :config
@@ -1271,8 +1273,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
             regexp-search-ring))
     (savehist-mode 1))
    #+END_SRC
-** Save desktop config
-   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+**** Save desktop config
+   #+BEGIN_SRC emacs-lisp
   (defadvice desktop-save-in-desktop-dir (before ensure-desktop-dir-exists activate)
       "Ensure `desktop-dirname' exists before function
     `desktop-save-in-desktop-dir' attempts to save the desktop
@@ -1288,8 +1290,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   (desktop-save-mode 1)                   ;use desktop file
    #+END_SRC
    
-* FIC-mode config
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** FIC-mode config
+  #+BEGIN_SRC emacs-lisp
   (use-package fic-mode
     :ensure t
     :diminish (fic-mode . "")
@@ -1303,8 +1305,8 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
   #+END_SRC
   
-* undo-tree config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** undo-tree config
+#+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
     :diminish (undo-tree-mode . "")
@@ -1332,21 +1334,21 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
         ad-do-it)))
 #+END_SRC
 
-* Restart-emacs config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+*** Restart-emacs config
+#+BEGIN_SRC emacs-lisp
   (use-package restart-emacs :ensure t)
 #+END_SRC
 
-* Fin
+*** Fin
 Start the server if we made it this far in one piece
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
 (server-start)
 #+END_SRC
 
 Have a great day~
 
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq Don t    ;allows `eval-buffer' on *scratch*
         Panic t  ;with `initial-scratch-message'
         initial-scratch-message
