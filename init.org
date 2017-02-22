@@ -76,7 +76,7 @@
    
 * Layout and load paths
   #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (defcustom esc-meta-path "~/.emacs.d/meta"
+  (defcustom esc-meta-directory "~/.emacs.d/meta/"
     "Path to .emacs.d meta directory, for internal bookkeeping
   records."
     :type 'path
@@ -1182,7 +1182,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :ensure t
     :config (setq recentf-max-menu-items 200
                   recentf-max-saved-items 15
-                  recentf-save-file (format "%s/recentf" esc-meta-path)
+                  recentf-save-file (concat esc-meta-directory "recentf")
                   recentf-keep '(file-remote-p file-readable-p)))
    #+END_SRC
    
@@ -1219,7 +1219,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :ensure t
     :config
     (setq-default save-place t)
-    (setq save-place-file (format "%s/places" esc-meta-path)))
+    (setq save-place-file (concat esc-meta-directory "places")))
    #+END_SRC
 ** Savehist config
    Keep a history of =M-x= across sessions.
