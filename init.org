@@ -771,6 +771,22 @@ TODO: make this work
     :config
     (global-aggressive-indent-mode 1))
 #+END_SRC
+**** Rainbow-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode :ensure t
+    :config
+    (defun turn-on-rainbow-mode()
+      "Turn on `rainbow-mode`."
+      (interactive)
+      (rainbow-mode 1))
+    (defun turn-off-rainbow-mode()
+      "Turn off `rainbow-mode`."
+      (interactive)
+      (rainbow-mode -1))
+    (add-hook 'prog-mode-hook 'turn-on-rainbow-mode)
+    ;; otherwise the first half of `#define` gets highlighted
+    (add-hook 'c-mode-common-hook 'turn-off-rainbow-mode))
+#+END_SRC
 *** Python config
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent :ensure t
