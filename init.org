@@ -772,7 +772,18 @@ TODO: make this work
 * Language configs
 ** Python config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (setq python-indent 4)
+  (setq python-indent 4
+        python-enable-yapf-format-on-save nil)
+#+END_SRC
+*** yapf
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package py-yapf :ensure t
+    ;; FIXME: have something this cool
+    ;; :init
+    ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode "=" 'py-yapf-buffer)
+    :config
+    (when python-enable-yapf-format-on-save
+      (add-hook 'python-mode-hook 'py-yapf-enable-on-save)))
 #+END_SRC
 ** Coffeescript config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
