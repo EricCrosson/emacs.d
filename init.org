@@ -770,10 +770,46 @@ TODO: make this work
   (use-package gitconfig-mode :ensure t)
 #+END_SRC
 * Language configs
+** Company mode
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+(use-package company :ensure t
+  :defer t
+  :init (global-company-mode))
+#+END_SRC
 ** Python config
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
   (setq python-indent 4
         python-enable-yapf-format-on-save nil)
+#+END_SRC
+*** anaconda mode
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package anaconda-mode :ensure t
+    :defer t
+    :init
+    (progn
+      (setq anaconda-mode-installation-directory
+            (concat esc-meta-directory "anaconda-mode"))
+      (add-hook 'python-mode-hook 'anaconda-mode))
+    :config
+    (progn
+      ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode
+      ;;                                           "hh" 'anaconda-mode-show-doc
+      ;;                                           "gg" 'anaconda-mode-find-definitions
+      ;;                                           "ga" 'anaconda-mode-find-assignments
+      ;;                                           "gu" 'anaconda-mode-find-references)
+      ;; (evilified-state-evilify anaconda-mode-view-mode anaconda-mode-view-mode-map
+      ;;                          (kbd "q") 'quit-window)
+      ;; (spacemacs|hide-lighter anaconda-mode)
+
+      (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
+        (evil--jumps-push))))
+#+END_SRC
+*** company-anaconda
+#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  (use-package company-anaconda :ensure t
+    :defer t
+    :init
+    (add-to-list 'company-backends 'company-anaconda))
 #+END_SRC
 *** yapf
 #+BEGIN_SRC emacs-lisp :comments link :tangle yes
