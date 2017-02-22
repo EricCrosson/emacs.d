@@ -1353,10 +1353,10 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
 #+END_SRC
 
 *** Fin
-Start the server if we made it this far in one piece
 
+Start the server if we made it this far in one piece
 #+BEGIN_SRC emacs-lisp
-(server-start)
+  (unless (sever-running-p) (server-start))
 #+END_SRC
 
 Have a great day~
