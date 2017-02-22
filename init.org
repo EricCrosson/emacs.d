@@ -762,6 +762,17 @@ TODO: make this work
 ** Language configs
 *** Programming modes config
 #+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+#+END_SRC
+**** Aggressive indent config
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent :ensure t
+    :config
+    (global-aggressive-indent-mode 1))
+#+END_SRC
+*** Python config
+#+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent :ensure t
     :config
     (global-aggressive-indent-mode 1))
