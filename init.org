@@ -79,7 +79,7 @@
 
    
 ** Layout and load paths
-  #+BEGIN_SRC emacs-lisp :comments link :tangle yes
+  #+BEGIN_SRC emacs-lisp
   (defcustom esc-meta-directory "~/.emacs.d/meta/"
     "Path to .emacs.d meta directory, for internal bookkeeping
   records."
@@ -447,7 +447,7 @@ Live edit all files
        (evil-mode 1))
 #+END_SRC
 ** evil-visualstar
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-visualstar
        :commands (evil-visualstar/begin-search-forward
                   evil-visualstar/begin-search-backward)
@@ -459,13 +459,13 @@ Live edit all files
            'evil-visualstar/begin-search-backward)))
 #+END_SRC
 ** evil-commentary
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-commentary :ensure t
        :config
        (evil-commentary-mode t))
 #+END_SRC
 ** evil-leader
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-leader :ensure t
        :init
        ;; TODO: autoload these defuns
@@ -599,13 +599,13 @@ Live edit all files
        (global-evil-leader-mode))
 #+END_SRC
 ** evil-magit
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-magit :ensure t
        :config
        (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
 ** evil-escape
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-escape :ensure t
        :diminish (evil-escape-mode . "")
        :config
@@ -614,19 +614,19 @@ Live edit all files
        (evil-escape-mode 1))
 #+END_SRC
 ** evil-surround
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-surround :ensure t
        :config
        (global-evil-surround-mode 1))
 #+END_SRC
 ** vi-tilde-fringe
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package vi-tilde-fringe :ensure t
        :config
        (global-vi-tilde-fringe-mode))
 #+END_SRC
 ** evil-args
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
      (use-package evil-args :ensure t
        :config
        ;; bind evil-args text objects
@@ -644,7 +644,7 @@ Live edit all files
        )
 #+END_SRC
 ** evil-matchit
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package evil-matchit :ensure t
     :config (global-evil-matchit-mode 1))
 #+END_SRC
@@ -787,30 +787,45 @@ TODO: make this work
     ;; otherwise the first half of `#define` gets highlighted
     (add-hook 'c-mode-common-hook 'turn-off-rainbow-mode))
 #+END_SRC
-*** Python config
+**** FIC-mode config
 #+BEGIN_SRC emacs-lisp
-  (use-package aggressive-indent :ensure t
+  (use-package fic-mode :ensure t
+    :diminish (fic-mode . "")
     :config
-    (global-aggressive-indent-mode 1))
+    (push "RESUME" fic-highlighted-words)
+    (defun turn-on-fic-mode ()
+       "Turn fic-mode on."
+       (interactive)
+       (fic-mode 1))
+    (add-hook 'conf-mode-hook 'turn-on-fic-mode)
+    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
 #+END_SRC
-
+
+*** C modes config
+**** Rtags config
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+  (use-package rtags :ensure t
+    :bind ("C-;" . rtags-find-symbol-at-point))
 #+END_SRC
 *** Company mode
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
 (use-package company :ensure t
   :defer t
   :init (global-company-mode))
 #+END_SRC
+**** qml
+#+BEGIN_SRC emacs-lisp
+  (use-package company-qml :ensure t
+    :config (add-to-list 'company-backends 'company-qml))
+#+END_SRC
+
 *** Python config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (setq python-indent 4
         python-enable-yapf-format-on-save nil)
 #+END_SRC
 **** anaconda mode
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package anaconda-mode :ensure t
     :defer t
     :init
@@ -833,14 +848,14 @@ TODO: make this work
         (evil--jumps-push))))
 #+END_SRC
 **** company-anaconda
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package company-anaconda :ensure t
     :defer t
     :init
     (add-to-list 'company-backends 'company-anaconda))
 #+END_SRC
 **** yapf
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package py-yapf :ensure t
     ;; FIXME: have something this cool
     ;; :init
@@ -862,17 +877,10 @@ TODO: determine when/where these are defined
   (setq-default ff-always-in-other-window t)
 #+END_SRC
 
-** Magithub config
-#+BEGIN_SRC emacs-lisp :comments link :tangle yes
-  (use-package magithub :ensure t
-    :after magit
-    :config (magithub-feature-autoinject t))
-#+END_SRC
 *** Shell config
 
 There's no reason to query you about your favorite shell with every
 new terminal.
-
 #+BEGIN_SRC emacs-lisp
   (setq explicit-shell-file-name
         (if (file-exists-p "/usr/bin/zsh")
@@ -881,13 +889,17 @@ new terminal.
 #+END_SRC
 
 Destroy term buffers when the process is exited.
-
 #+BEGIN_SRC emacs-lisp
   (defadvice term-handle-exit
       (after term-kill-buffer-on-exit activate)
     (kill-buffer))
 #+END_SRC
-   
+
+Mark scripts executable on save.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+#+END_SRC
+
 *** Markdown config
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode :ensure t)
@@ -895,6 +907,12 @@ Destroy term buffers when the process is exited.
 *** Lua mode config
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode :ensure t)
+#+END_SRC
+*** Magithub config
+#+BEGIN_SRC emacs-lisp
+  (use-package magithub :ensure t
+    :after magit
+    :config (magithub-feature-autoinject t))
 #+END_SRC
 *** Yasnippet config
 #+BEGIN_SRC emacs-lisp
@@ -904,14 +922,6 @@ Destroy term buffers when the process is exited.
     (yas-reload-all)
     (yas-global-mode 1))
 #+END_SRC
-*** Company mode config
-#+BEGIN_SRC emacs-lisp
-  (use-package company :ensure t
-    :config (add-hook 'after-init-hook 'global-company-mode))
-  (use-package company-qml :ensure t
-    :config (add-to-list 'company-backends 'company-qml))
-#+END_SRC
-   
 *** RestructuredText config
    #+BEGIN_SRC emacs-lisp
      (use-package rst :ensure t
@@ -923,7 +933,24 @@ Destroy term buffers when the process is exited.
     :ensure t
     :mode (("\\.yml$" . yaml-mode)))
 #+END_SRC
-*** Dired config
+*** Bitbake config
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
+  (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
+#+END_SRC
+
+*** Docker config
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode :ensure t)
+  (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
+#+END_SRC
+*** Qml mode config
+#+BEGIN_SRC emacs-lisp
+  (use-package qml-mode :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+#+END_SRC
+** Dired config
    TODO: keymaps go in =esc-mode=
    #+BEGIN_SRC emacs-lisp
      (use-package dired-details :ensure t
@@ -1033,17 +1060,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :bind ("C-h d"  . define-word-at-point))
 #+END_SRC
 
-*** Bitbake config
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
-  (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
-#+END_SRC
-
-*** Docker config
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode :ensure t)
-  (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
-#+END_SRC
 *** Diminish config
    #+BEGIN_SRC emacs-lisp
   (use-package diminish
@@ -1089,37 +1105,31 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   (org-clock-persistence-insinuate)
 #+END_SRC
 *** Window manipulation
-***** Zoom frame config
-    #+BEGIN_SRC emacs-lisp
-      (use-package zoom-frm :ensure t
-        ;; TODO: include core-micro-state.el from
-        ;; https://github.com/syl20bnr/spacemacs/blob/master/core/core-micro-state.el
-
-        ;; perhaps make the above into a standalone package
-        ;; then bind zoom commands with a microstate
-        )
-    #+END_SRC
-***** Windmove config
-   #+BEGIN_SRC emacs-lisp
-     ;; Windmove from shift keys
-     (use-package windmove
-       :ensure t
-       :config
-       (windmove-default-keybindings)
-       (after 'org
-         (setq org-replace-disputed-keys t)
-         (add-hook 'org-shiftup-final-hook 'windmove-up)
-         (add-hook 'org-shiftleft-final-hook 'windmove-left)
-         (add-hook 'org-shiftdown-final-hook 'windmove-down)
-         (add-hook 'org-shiftright-final-hook 'windmove-right)))
-   #+END_SRC
-   
-*** Qml mode config
+**** Zoom frame config
 #+BEGIN_SRC emacs-lisp
-  (use-package qml-mode :ensure t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+  (use-package zoom-frm :ensure t
+    ;; TODO: include core-micro-state.el from
+    ;; https://github.com/syl20bnr/spacemacs/blob/master/core/core-micro-state.el
+
+    ;; perhaps make the above into a standalone package
+    ;; then bind zoom commands with a microstate
+    )
 #+END_SRC
+**** Windmove config
+#+BEGIN_SRC emacs-lisp
+ ;; Windmove from shift keys
+ (use-package windmove
+   :ensure t
+   :config
+   (windmove-default-keybindings)
+   (after 'org
+     (setq org-replace-disputed-keys t)
+     (add-hook 'org-shiftup-final-hook 'windmove-up)
+     (add-hook 'org-shiftleft-final-hook 'windmove-left)
+     (add-hook 'org-shiftdown-final-hook 'windmove-down)
+     (add-hook 'org-shiftright-final-hook 'windmove-right)))
+#+END_SRC
+
 *** Rainbow delimeters mode config
    #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
@@ -1155,11 +1165,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
 
    #+END_SRC
    
-*** Rtags config
-#+BEGIN_SRC emacs-lisp
-  (use-package rtags :ensure t
-    :bind ("C-;" . rtags-find-symbol-at-point))
-#+END_SRC
 *** Ztree
    #+BEGIN_SRC emacs-lisp
      (use-package ztree :ensure t
@@ -1273,10 +1278,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
                                :sound-name "alarm-clock-elapsed"))
        (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
    #+END_SRC
-*** After-save hooks
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-#+END_SRC
 *** Save session config
 **** Saveplace config
    #+BEGIN_SRC emacs-lisp
@@ -1317,21 +1318,6 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
   (desktop-save-mode 1)                   ;use desktop file
    #+END_SRC
    
-*** FIC-mode config
-  #+BEGIN_SRC emacs-lisp
-  (use-package fic-mode
-    :ensure t
-    :diminish (fic-mode . "")
-    :config
-    (push "RESUME" fic-highlighted-words)
-    (defun turn-on-fic-mode ()
-       "Turn fic-mode on."
-       (interactive)
-       (fic-mode 1))
-    (add-hook 'conf-mode-hook 'turn-on-fic-mode)
-    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
-  #+END_SRC
-  
 *** undo-tree config
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
@@ -1374,7 +1360,6 @@ Start the server if we made it this far in one piece
 #+END_SRC
 
 Have a great day~
-
 #+BEGIN_SRC emacs-lisp
   (setq Don t    ;allows `eval-buffer' on *scratch*
         Panic t  ;with `initial-scratch-message'
