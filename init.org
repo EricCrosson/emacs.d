@@ -655,15 +655,16 @@ TODO: make this work
            (with-current-buffer "*Async Shell Command*" (rename-uniquely))))
        (ad-activate 'shell-command)
 
-       (evil-leader/set-key
-         "d" (defun dired-here ()
-               (interactive)
-               (let ((cwd (file-name-directory (or (buffer-file-name) ""))))
-                 (cond
-                  ((and cwd (file-exists-p cwd))
-                   (dired cwd))
-                  (t
-                   (message "I'm not sure which dir to view."))))))
+       (after 'evil-leader
+         (evil-leader/set-key
+           "d" (defun dired-here ()
+                 (interactive)
+                 (let ((cwd (file-name-directory (or (buffer-file-name) ""))))
+                   (cond
+                    ((and cwd (file-exists-p cwd))
+                     (dired cwd))
+                    (t
+                     (message "I'm not sure which dir to view.")))))))
 
        (setq dired-dwim-target t)
        (after "dired"
