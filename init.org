@@ -37,25 +37,24 @@
   #+END_SRC
   
 ** Time sensitive
-  Now that the legal stuff is out of the way, let's get out the rat poison.
-  #+BEGIN_SRC emacs-lisp
-    ;; This code is important to run as early as possible, to avoid
-    ;; initially rendering these bars.
-    (when window-system
-      (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
-            '(menu-bar-mode
-              tool-bar-mode
-              scroll-bar-mode)))
-  #+END_SRC
-
-  #+BEGIN_SRC emacs-lisp
-    (setq gc-cons-threshold 100000000)
-  #+END_SRC
-  
+*** System
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold 100000000)
+#+END_SRC
+*** UI
+Now that the legal stuff is out of the way, let's get out the rat
+poison.  This code is important to run as early as possible, to avoid
+initially rendering these bars.
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
+          '(menu-bar-mode
+            tool-bar-mode
+            scroll-bar-mode)))
+#+END_SRC
 *** Bootstrap
-
-   Configure remote package archives
-   #+BEGIN_SRC emacs-lisp
+Configure remote package archives
+#+BEGIN_SRC emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
       (mapc (lambda (source) (add-to-list 'package-archives source) t)
@@ -65,19 +64,19 @@
               ("melpa" . "http://melpa.milkbox.net/packages/")
               ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
-   #+END_SRC
+#+END_SRC
 
-   First there was =use-package=
-   #+BEGIN_SRC emacs-lisp
+First there was =use-package=
+#+BEGIN_SRC emacs-lisp
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
 (require 'use-package)
-   #+END_SRC
+#+END_SRC
 
-   
+
 ** Layout and load paths
   #+BEGIN_SRC emacs-lisp
   (defcustom esc-meta-directory "~/.emacs.d/meta/"
@@ -92,16 +91,13 @@
   (use-package eyebrowse :ensure t
     :config (eyebrowse-mode t))
 #+END_SRC
-TODO: advise eyebrowse-close-window-config to print a message in the mode-line
 ** UI
   Fire up the mood lighting
 
   #+BEGIN_SRC emacs-lisp :tangle no
   (use-package bliss-theme :ensure t
-    ;; TODO: switch with color-theme stack
     :config (load-theme 'bliss t))
 
-  ;; TODO: rehook on color change to bliss
   (mapcar (lambda (data) (set-face-attribute (car data) nil
                                         :underline  nil
                                         :foreground 'unspecified
@@ -226,7 +222,7 @@ TODO: advise eyebrowse-close-window-config to print a message in the mode-line
   
 ** Functions
 
-The Alt-Tab of buffers.
+The Alt-Tab of buffers
 
 #+BEGIN_SRC emacs-lisp
   (defun switch-to-previous-buffer ()
@@ -275,31 +271,25 @@ Anything I end up doing more than three times...
                                            kill-buffer-query-functions))
   #+END_SRC
 
-  Now everybody agrees that the =*Minibuffer*= prompt is uneditable.
-  #+BEGIN_SRC emacs-lisp
+Now everybody agrees that the =*Minibuffer*= prompt is uneditable
+#+BEGIN_SRC emacs-lisp
   (setq minibuffer-prompt-properties '(read-only t point-entered
                                                  minibuffer-avoid-prompt face
                                                  minibuffer-prompt))
-  #+END_SRC
-
-Live edit all files
-
-#+BEGIN_SRC emacs-lisp
-  (global-auto-revert-mode t)
 #+END_SRC
 
-  Line numbers, when visible, should be loaded after a short delay and
-  not loaded eagerly. They're candy, and who spends resources acquiring
-  candy?
-  #+BEGIN_SRC emacs-lisp
+Line numbers, when visible, should be loaded after a short delay and
+not loaded eagerly. They're candy, and who spends resources acquiring
+candy?
+#+BEGIN_SRC emacs-lisp :tangle no
   (setq linum-delay t
         linum-eager nil)
-  #+END_SRC
+#+END_SRC
 
-  These settings keep the text soup that is GNU/Linux as happy as
-  GNU/Linux files can be.
-  #+NAME: char-and-font-encoding
-  #+BEGIN_SRC emacs-lisp
+These settings keep the text soup that is GNU/Linux as happy as
+GNU/Linux files can be
+#+NAME: char-and-font-encoding
+#+BEGIN_SRC emacs-lisp
   ;; Char and font encoding
   (set-buffer-file-coding-system 'unix)
   (setq-default indent-tabs-mode nil)
@@ -308,104 +298,81 @@ Live edit all files
         tab-width 4
         require-final-newline 'visit-save ;compliance
         comment-style 'indent)
-  #+END_SRC
+#+END_SRC
 
-  It is my belief that backup files should not be so obtrusive as to
-  tempt users to disable them.
-
-  #+NAME: stash-backups
-  #+BEGIN_SRC emacs-lisp
-  ;; Backup settings
+It is my belief that backup files should not be so obtrusive as to
+tempt users to disable them.
+#+NAME: stash-backups
+#+BEGIN_SRC emacs-lisp
   (push '("." . "~/.config/.emacs.d/") backup-directory-alist)
-  #+END_SRC
+#+END_SRC
 
-  Keep me informed.
-  #+BEGIN_SRC emacs-lisp
+Keep me informed
+#+BEGIN_SRC emacs-lisp
     (global-auto-revert-mode)
-  #+END_SRC
+#+END_SRC
 
-  =i-search= is capable of spanning whitespace regions
-  #+BEGIN_SRC emacs-lisp
+=i-search= is capable of spanning whitespace regions
+#+BEGIN_SRC emacs-lisp
   (setq search-whitespace-regexp "[ \t\r\n]+")
-  #+END_SRC
+#+END_SRC
 
-  Avoid accidental termination.
-  #+BEGIN_SRC emacs-lisp
-    (bind-key (kbd "C-x C-c")
-              (defun esc-dont-kill-emacs ()
-                (interactive)
-                (message "I'm afraid I can't do that, %s."
-                         (user-login-name))))
-  #+END_SRC
-  
+Avoid accidental termination
+#+BEGIN_SRC emacs-lisp
+   (bind-key (kbd "C-x C-c")
+             (defun esc-dont-kill-emacs ()
+               (interactive)
+               (message "I'm afraid I can't do that, %s."
+                        (user-login-name))))
+#+END_SRC
+
 ** Aliases
-  I did not grow up in an era where this is a straightforward mnemonic.
-  #+BEGIN_SRC emacs-lisp
+I did not grow up in an era where this is a straightforward mnemonic
+#+BEGIN_SRC emacs-lisp
   (defalias 'undefun 'fmakunbound)
-  #+END_SRC
-  
+#+END_SRC
+
 ** Ivy
-   #+BEGIN_SRC emacs-lisp
-     ;;; configure ivy
-     (use-package ivy :ensure t
-       :init
-       (use-package avy :ensure t)
-       (use-package counsel :ensure t)
-       :diminish (ivy-mode . "")
-       :bind
-       (:map ivy-minibuffer-map
-             ("C-j" . ivy-next-line)
-             ("C-k" . ivy-previous-line)
-             ("M-i" . imenu))
-       :config
-       (ivy-mode 1)
-       ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
-       (setq ivy-use-virtual-buffers t)
-       ;; ignore undo-tree files when switching buffers
-       (add-to-list 'ivy-ignore-buffers "\\.~undo-tree~\\.gz")
-       ;; number of result lines to display
-       (setq ivy-height 10)
-       ;; does not count candidates
-       (setq ivy-count-format "")
-       ;; no regexp by default
-       (setq ivy-initial-inputs-alist nil)
-       ;; configure regexp engine.
-       (setq ivy-re-builders-alist
-             ;; allow input not in order
-             '((t   . ivy--regex-ignore-order))))
-
-
-     ;;; configure which-key
-     (use-package which-key :ensure t
-       :diminish (which-key-mode . "")
-       :init
-       (which-key-setup-side-window-right-bottom)
-       :config
-       (which-key-mode 1))
-
-     ;; features to add
-     ;;; eldoc
-     ;;; color theme
-     ;;; quelpa?
-     ;;; multiple-cursors
-     ;;; ace-jumps
-     ;;; wind-move
-     ;;; midnight
-     ;;; unselectable-buffer
-     ;;; dedicated-buffer
-     ;;; ibuffer{-vc,}
-     ;;; conf-mode
-     ;;; bury-successful copmpilation buffer (see section Compilation config)
-     ;;; latex config
-     ;;; flyspell
-     ;;; latex
-     ;;; uniquify
-     ;;; idle-highlight?
-     ;;; persistent workspaces
-     ;;; help-plus (custom package)
-   #+END_SRC
-   ;; TODO: sort this incipient work into org home
-   
+#+BEGIN_SRC emacs-lisp
+   (use-package ivy :ensure t
+     :diminish (ivy-mode . "")
+     :init
+     (use-package avy :ensure t)
+     (use-package counsel :ensure t)
+     :bind
+     (:map ivy-minibuffer-map
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           ("M-i" . imenu))
+     :config
+     (ivy-mode 1)
+     ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
+     (setq ivy-use-virtual-buffers t)
+     ;; ignore undo-tree files when switching buffers
+     (add-to-list 'ivy-ignore-buffers "\\.~undo-tree~\\.gz")
+     ;; number of result lines to display
+     (setq ivy-height 10)
+     ;; does not count candidates
+     (setq ivy-count-format "")
+     ;; no regexp by default
+     (setq ivy-initial-inputs-alist nil)
+     ;; configure regexp engine.
+     (setq ivy-re-builders-alist
+           ;; allow input not in order
+           '((t   . ivy--regex-ignore-order))))
+#+END_SRC
+;; TODO: sort this incipient work into org home
+
+** Which-key mode
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key :ensure t
+    :diminish (which-key-mode . "")
+    :init
+    (which-key-setup-side-window-right-bottom)
+    :config
+    (which-key-mode 1))
+#+END_SRC
+
 ** Winner config
     #+BEGIN_SRC emacs-lisp
   (use-package winner
@@ -442,7 +409,7 @@ Live edit all files
        :config
        (evil-mode 1))
 #+END_SRC
-** evil-visualstar
+*** evil-visualstar
 #+BEGIN_SRC emacs-lisp
      (use-package evil-visualstar
        :commands (evil-visualstar/begin-search-forward
@@ -454,13 +421,13 @@ Live edit all files
          (define-key evil-visual-state-map (kbd "#")
            'evil-visualstar/begin-search-backward)))
 #+END_SRC
-** evil-commentary
+*** evil-commentary
 #+BEGIN_SRC emacs-lisp
      (use-package evil-commentary :ensure t
        :config
        (evil-commentary-mode t))
 #+END_SRC
-** evil-leader
+*** evil-leader
 #+BEGIN_SRC emacs-lisp
      (use-package evil-leader :ensure t
        :init
@@ -593,13 +560,13 @@ Live edit all files
          )
        (global-evil-leader-mode))
 #+END_SRC
-** evil-magit
+*** evil-magit
 #+BEGIN_SRC emacs-lisp
      (use-package evil-magit :ensure t
        :config
        (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
-** evil-escape
+*** evil-escape
 #+BEGIN_SRC emacs-lisp
      (use-package evil-escape :ensure t
        :diminish (evil-escape-mode . "")
@@ -608,19 +575,19 @@ Live edit all files
        (after 'diminish (diminish 'evil-escape-mode))
        (evil-escape-mode 1))
 #+END_SRC
-** evil-surround
+*** evil-surround
 #+BEGIN_SRC emacs-lisp
      (use-package evil-surround :ensure t
        :config
        (global-evil-surround-mode 1))
 #+END_SRC
-** vi-tilde-fringe
+*** vi-tilde-fringe
 #+BEGIN_SRC emacs-lisp
      (use-package vi-tilde-fringe :ensure t
        :config
        (global-vi-tilde-fringe-mode))
 #+END_SRC
-** evil-args
+*** evil-args
 #+BEGIN_SRC emacs-lisp
      (use-package evil-args :ensure t
        :config
@@ -638,7 +605,7 @@ Live edit all files
        (define-key evil-normal-state-map "K" 'evil-jump-out-args)
        )
 #+END_SRC
-** evil-matchit
+*** evil-matchit
 #+BEGIN_SRC emacs-lisp
   (use-package evil-matchit :ensure t
     :config (global-evil-matchit-mode 1))
@@ -826,7 +793,7 @@ TODO: make this work
     :init
     (progn
       (setq anaconda-mode-installation-directory
-            (concat esc-meta-directory "anaconda-mode"))
+            (expand-file-name "anaconda-mode" esc-meta-directory))
       (add-hook 'python-mode-hook 'anaconda-mode))
     :config
     (progn
@@ -1048,14 +1015,14 @@ Mark scripts executable on save.
 
    #+END_SRC
    
-*** Define word
-Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to the likes of magnar.
+** Define word
+More thanks to [[https://github.com/abo-abo][abo-abo]].
 #+BEGIN_SRC emacs-lisp
   (use-package define-word :ensure t
     :bind ("C-h d"  . define-word-at-point))
 #+END_SRC
 
-*** Diminish config
+** Diminish config
    #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :config
@@ -1080,12 +1047,12 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     (after 'esc-mode (diminish 'esc-mode)))
    #+END_SRC
    
-*** Minibuffer config
-   #+BEGIN_SRC emacs-lisp
+** Minibuffer config
+#+BEGIN_SRC emacs-lisp
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
-   #+END_SRC
-   
-*** Beacon config
+#+END_SRC
+
+** Beacon config
 #+BEGIN_SRC emacs-lisp
   (use-package beacon
     :ensure t
@@ -1094,13 +1061,15 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :config
     (beacon-mode 1))
 #+END_SRC
-*** TIme clocking config...
+
+** TIme clocking config...
 #+BEGIN_SRC emacs-lisp
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
 #+END_SRC
-*** Window manipulation
-**** Zoom frame config
+
+** Window manipulation
+*** Zoom frame config
 #+BEGIN_SRC emacs-lisp
   (use-package zoom-frm :ensure t
     ;; TODO: include core-micro-state.el from
@@ -1110,7 +1079,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     ;; then bind zoom commands with a microstate
     )
 #+END_SRC
-**** Windmove config
+*** Windmove config
 #+BEGIN_SRC emacs-lisp
  ;; Windmove from shift keys
  (use-package windmove
@@ -1125,22 +1094,22 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
      (add-hook 'org-shiftright-final-hook 'windmove-right)))
 #+END_SRC
 
-*** Rainbow delimeters mode config
-   #+BEGIN_SRC emacs-lisp
+** Rainbow delimeters mode config
+#+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
     :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-   #+END_SRC
+#+END_SRC
    
-*** Lexbind config
-   #+BEGIN_SRC emacs-lisp
+** Lexbind config
+#+BEGIN_SRC emacs-lisp
   (use-package lexbind-mode
     :ensure t
     :init (add-hook 'emacs-lisp-mode-hook 'lexbind-mode))
-   #+END_SRC
-   
-*** Misc cmds config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Misc cmds config
+#+BEGIN_SRC emacs-lisp
   (use-package misc
     :commands zap-up-to-char
     :init ; seeing as I don't use these commands terribly often
@@ -1153,138 +1122,136 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
     :init ; takes a while to need the get-out-of-jail-free button
     (after 'esc-mode
       (esc-key "C-x M-r" 'revert-buffer-no-confirm)))
-   #+END_SRC
-
-   TODO : advice mc zap-up-to-char
-   #+BEGIN_SRC emacs-lisp
-
-   #+END_SRC
-   
-*** Ztree
-   #+BEGIN_SRC emacs-lisp
-     (use-package ztree :ensure t
-       :init
-       (setq ztree-dir-move-focus t))
-   #+END_SRC
-   
-*** Goto last change config
+#+END_SRC
+
+** Ztree
+#+BEGIN_SRC emacs-lisp
+   (use-package ztree :ensure t
+     :init
+     (setq ztree-dir-move-focus t))
+#+END_SRC
+
+** Goto last change config
 #+BEGIN_SRC emacs-lisp
   (use-package goto-chg :ensure t)
 #+END_SRC
-   
-*** Dumb jump config
+
+** Dumb jump config
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump :ensure t
     :bind ("C-'" . dumb-jump-go)
     :config
     (dumb-jump-mode))
 #+END_SRC
-*** Expand region config
-   [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
-   #+BEGIN_SRC emacs-lisp
-     (use-package expand-region :ensure t
-       ;; :bind ("C-;" . er/expand-region)
-       :config
-       (defadvice er/expand-region (around fill-out-region activate)
-         (if (or (not (region-active-p))
-                 (eq last-command 'er/expand-region))
-             ad-do-it
-           (if (< (point) (mark))
-               (let ((beg (point)))
-                 (goto-char (mark))
-                 (end-of-line)
-                 (forward-char 1)
-                 (push-mark)
-                 (goto-char beg)
-                 (beginning-of-line))
-             (let ((end (point)))
-               (goto-char (mark))
-               (beginning-of-line)
-               (push-mark)
-               (goto-char end)
-               (end-of-line)
-               (forward-char 1))))))
-   #+END_SRC
-   
-*** Keyfreq mode config
-   #+BEGIN_SRC emacs-lisp
+
+** Expand region config
+[[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region :ensure t
+    ;; :bind ("C-;" . er/expand-region)
+    :config
+    (defadvice er/expand-region (around fill-out-region activate)
+      (if (or (not (region-active-p))
+              (eq last-command 'er/expand-region))
+          ad-do-it
+        (if (< (point) (mark))
+            (let ((beg (point)))
+              (goto-char (mark))
+              (end-of-line)
+              (forward-char 1)
+              (push-mark)
+              (goto-char beg)
+              (beginning-of-line))
+          (let ((end (point)))
+            (goto-char (mark))
+            (beginning-of-line)
+            (push-mark)
+            (goto-char end)
+            (end-of-line)
+            (forward-char 1))))))
+#+END_SRC
+
+** Keyfreq mode config
+#+BEGIN_SRC emacs-lisp
   (use-package keyfreq
     :ensure t
     :config (keyfreq-autosave-mode 1)
             (setq keyfreq-file "~/.emacs.d/meta/keyfreq"))
-   #+END_SRC
-   
-*** Browse kill ring config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Browse kill ring config
+#+BEGIN_SRC emacs-lisp
   (use-package browse-kill-ring
     :ensure t
     :config
     (setq kill-ring-max 80)
     (browse-kill-ring-default-keybindings))
-   #+END_SRC
-   
-*** Writegood mode config
-   TODO: use-package that feller
-   #+BEGIN_SRC emacs-lisp
-   (use-package writegood-mode :ensure t
-      :defer t)
-   #+END_SRC
-*** Clipmon config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Writegood mode config
+TODO: use-package that feller
+#+BEGIN_SRC emacs-lisp
+   (use-package writegood-mode :ensure t)
+#+END_SRC
+** Clipmon config
+#+BEGIN_SRC emacs-lisp
   (use-package clipmon :ensure t
-    :init (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
-   #+END_SRC
-   
-*** Mouse avoidance config
-   #+BEGIN_SRC emacs-lisp
+    :init
+    (defvar clipmon--autoinsert " clipmon--autoinserted-this"))
+#+END_SRC
+
+** Mouse avoidance config
+#+BEGIN_SRC emacs-lisp
   (mouse-avoidance-mode 'exile)
-   #+END_SRC
-   
-*** Recentf config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Recentf config
+#+BEGIN_SRC emacs-lisp
   (setq recentf-auto-cleanup 'never)
   (use-package recentf
     :ensure t
     :config (setq recentf-max-menu-items 200
                   recentf-max-saved-items 15
-                  recentf-save-file (concat esc-meta-directory "recentf")
+                  recentf-save-file (expand-file-name
+                                     "recentf" esc-meta-directory)
                   recentf-keep '(file-remote-p file-readable-p)))
-   #+END_SRC
-   
-*** Xorg yank config
-   TODO: turn this into a minor mode for toggling with =esc-mode=
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Xorg yank config
+#+BEGIN_SRC emacs-lisp
   (setq x-select-enable-clipboard t       ;global clipboard
         mouse-yank-at-point t)
-   #+END_SRC
-   
-*** Tea time config
-   #+BEGIN_SRC emacs-lisp
-     (use-package tea-time :ensure t
-       :defer t
-       :commands tea-time
-       :config
-       (use-package notifications
-         :commands notifications-notify)
-       (defun esc/notify-tea-steeped ()
-         (notifications-notify :title "Tea time"
-                               :body "Rip out that sac, because your tea bag is done"
-                               :app-name "Tea Time"
-                               :sound-name "alarm-clock-elapsed"))
-       (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
-   #+END_SRC
-*** Save session config
-**** Saveplace config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+
+** Tea time config
+#+BEGIN_SRC emacs-lisp
+   (use-package tea-time :ensure t
+     :defer t
+     :commands tea-time
+     :config
+     (use-package notifications
+       :commands notifications-notify)
+     (defun esc/notify-tea-steeped ()
+       (notifications-notify :title "Tea time"
+                             :body "Rip out that sac, because your tea bag is done"
+                             :app-name "Tea Time"
+                             :sound-name "alarm-clock-elapsed"))
+     (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
+#+END_SRC
+
+** Save session config
+*** Saveplace config
+#+BEGIN_SRC emacs-lisp
   (use-package saveplace
     :ensure t
     :config
     (setq-default save-place t)
-    (setq save-place-file (concat esc-meta-directory "places")))
-   #+END_SRC
-**** Savehist config
-   Keep a history of =M-x= across sessions.
-   #+BEGIN_SRC emacs-lisp
+    (setq save-place-file (expand-file-name "places"
+                                            esc-meta-directory)))
+#+END_SRC
+*** Savehist config
+Keep a history of =M-x= across sessions.
+#+BEGIN_SRC emacs-lisp
   (use-package savehist
     :ensure t
     :config
@@ -1295,9 +1262,9 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
             search-ring
             regexp-search-ring))
     (savehist-mode 1))
-   #+END_SRC
-**** Save desktop config
-   #+BEGIN_SRC emacs-lisp
+#+END_SRC
+*** Save desktop config
+#+BEGIN_SRC emacs-lisp
   (defadvice desktop-save-in-desktop-dir (before ensure-desktop-dir-exists activate)
       "Ensure `desktop-dirname' exists before function
     `desktop-save-in-desktop-dir' attempts to save the desktop
@@ -1311,16 +1278,15 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
         backup-by-copying-when-mismatch t)
   (mkdir (car desktop-path) t)            ; ensure desktop-save dir exists
   (desktop-save-mode 1)                   ;use desktop file
-   #+END_SRC
-   
-*** undo-tree config
+#+END_SRC
+
+** undo-tree config
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
     :diminish (undo-tree-mode . "")
     :config
     (setq undo-limit (* 1024 1024))
-    ;; todo: associate with esc-mode
     (undo-tree-mode 1)
     ;; (setq undo-tree-auto-save-history nil)
     (defadvice undo-tree-make-history-save-file-name
@@ -1342,14 +1308,14 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
         ad-do-it)))
 #+END_SRC
 
-*** Restart-emacs config
+** Restart-emacs config
 #+BEGIN_SRC emacs-lisp
   (use-package restart-emacs :ensure t)
 #+END_SRC
 
-*** Fin
+** Fin
 
-Start the server if we made it this far in one piece
+Start the server if we made it this far in one piece.
 #+BEGIN_SRC emacs-lisp
   (unless (server-running-p) (server-start))
 #+END_SRC
@@ -1362,8 +1328,12 @@ Have a great day~
          (concat (propertize "Don't\nPanic\n"
                      'font-lock-face '(:height 10.0 :inherit variable-pitch))
                  "\n")) ;newline makes inserted text normal-sized
-  (message "All done, %s%s" (user-login-name) ".")
   ;;; .emacs.el ends here
+#+END_SRC
+
+Inform the driver that init has completed.
+#+BEGIN_SRC emacs-lisp
+  (message "All done, %s%s" (user-login-name) ".")
 #+END_SRC
 
 * TODOS
@@ -1371,3 +1341,23 @@ Have a great day~
 - persistent scratch
 - make reindention a hook on save?
   I know there's aggressive indent but what about org mode?
+- advise mc zap-up-to-char
+** Features
+- [ ] eldoc
+- [ ] color theme
+- [ ] multiple-cursors
+- [ ] ace-jumps
+- [ ] wind-move
+- [ ] midnight
+- [ ] unselectable-buffer
+- [ ] dedicated-buffer
+- [ ] ibuffer{-vc,}
+- [ ] conf-mode
+- [ ] bury-successful copmpilation buffer (see section Compilation config)
+- [ ] latex config
+- [ ] flyspell
+- [ ] latex
+- [ ] uniquify
+- [ ] idle-highlight?
+- [ ] persistent workspaces
+- [ ] help-plus (custom package)
