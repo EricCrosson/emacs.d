@@ -1326,8 +1326,6 @@ Inform the driver that init has completed.
 * TODOS
 - auto-package-update config
 - persistent scratch
-- make reindention a hook on save?
-  I know there's aggressive indent but what about org mode?
 - advise mc zap-up-to-char
 ** Features
 - [ ] eldoc
