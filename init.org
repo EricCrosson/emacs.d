@@ -202,9 +202,8 @@ These days I'm intrigued by =darkokai= theme
 #+END_SRC
 
 And the inverse, for those high-contrast days
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package anti-darkokai
-    :load-path "quelpa/build/"
     :quelpa
     (anti-darkokai :fetcher github
                    :repo "ericcrosson/anti-darkokai"))
