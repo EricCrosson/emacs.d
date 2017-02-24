@@ -12,9 +12,9 @@
 set -o nounset
 set -o errexit
 
-# FIXME: convert to mktemp
-mkdir /tmp/adodefont
-cd /tmp/adodefont
+workdir=$(mktemp -d adobefont.XXXXX)
+mkdir -p ${workdir}
+pushd ${workdir} >/dev/null
 
 wget https://github.com/adobe-fonts/source-code-pro/archive/2.010R-ro/1.030R-it.zip
 unzip 1.030R-it.zip
@@ -23,3 +23,6 @@ mkdir -p ~/.fonts
 
 cp source-code-pro-2.010R-ro-1.030R-it/OTF/*.otf ~/.fonts/
 fc-cache -f -v
+
+popd >/dev/null
+rm -rf ${workdir}
