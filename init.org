@@ -371,6 +371,10 @@ location
     :diminish (fic-mode . "")
     :config
     (push "RESUME" fic-highlighted-words)
+    (defun turn-off-fic-mode ()
+       "Turn fic-mode off."
+       (interactive)
+       (fic-mode -1))
     (defun turn-on-fic-mode ()
        "Turn fic-mode on."
        (interactive)
