@@ -344,8 +344,7 @@ Live edit all files
   (defalias 'undefun 'fmakunbound)
   #+END_SRC
   
-** Configuration
-   ;; TODO: sort this incipient work into org home
+** Ivy
    #+BEGIN_SRC emacs-lisp
      ;;; configure ivy
      (use-package ivy :ensure t
@@ -387,8 +386,6 @@ Live edit all files
      ;;; eldoc
      ;;; color theme
      ;;; quelpa?
-     ;;; git-gutter
-     ;;; goto last change
      ;;; multiple-cursors
      ;;; ace-jumps
      ;;; wind-move
@@ -396,7 +393,6 @@ Live edit all files
      ;;; unselectable-buffer
      ;;; dedicated-buffer
      ;;; ibuffer{-vc,}
-     ;;; tea-time
      ;;; conf-mode
      ;;; bury-successful copmpilation buffer (see section Compilation config)
      ;;; latex config
@@ -404,11 +400,10 @@ Live edit all files
      ;;; latex
      ;;; uniquify
      ;;; idle-highlight?
-     ;;; skeletons... abbrev? yasnippet?
-     ;;; spacemacs concept of frames and window numbering
-     ;;; dictionary
+     ;;; persistent workspaces
      ;;; help-plus (custom package)
    #+END_SRC
+   ;; TODO: sort this incipient work into org home
    
 ** Winner config
     #+BEGIN_SRC emacs-lisp
@@ -546,7 +541,6 @@ Live edit all files
               ;;; movement commands
          "ss" 'swiper
          "sd" 'dump-jump-go
-         "'" 'goto-last-change
 
               ;;; magit commands
          "gs" 'magit-status
