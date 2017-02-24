@@ -582,11 +582,10 @@ I did not grow up in an era where this is a straightforward mnemonic
        (global-evil-surround-mode 1))
 #+END_SRC
 *** vi-tilde-fringe
-#+BEGIN_SRC emacs-lisp
-     (use-package vi-tilde-fringe :ensure t
-       :functions define-fringe-bitmap
-       :config
-       (global-vi-tilde-fringe-mode))
+#+BEGIN_SRC emacs-lisp :tangle no
+    (use-package vi-tilde-fringe :ensure t
+      :config
+      (global-vi-tilde-fringe-mode))
 #+END_SRC
 *** evil-args
 #+BEGIN_SRC emacs-lisp
