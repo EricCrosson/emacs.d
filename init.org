@@ -911,8 +911,8 @@ Mark scripts executable on save.
 #+END_SRC
 *** Yasnippet config
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-  (use-package yasnippet :ensure t
+  (use-package yasnippet
+    :load-path "~/.emacs.d/plugins/yasnippet"
     :config
     (yas-reload-all)
     (yas-global-mode 1))
