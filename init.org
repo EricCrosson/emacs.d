@@ -204,6 +204,7 @@ These days I'm intrigued by =darkokai= theme
 And the inverse, for those high-contrast days
 #+BEGIN_SRC emacs-lisp
   (use-package anti-darkokai
+    :load-path "quelpa/build/"
     :quelpa
     (anti-darkokai :fetcher github
                    :repo "ericcrosson/anti-darkokai"))
