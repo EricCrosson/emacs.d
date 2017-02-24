@@ -355,7 +355,8 @@ Live edit all files
        :bind
        (:map ivy-minibuffer-map
              ("C-j" . ivy-next-line)
-             ("C-k" . ivy-previous-line))
+             ("C-k" . ivy-previous-line)
+             ("M-i" . imenu))
        :config
        (ivy-mode 1)
        ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -1350,7 +1351,7 @@ Thanks again to [[https://github.com/abo-abo][@abo-abo]], rapidly ascending to t
 
 Start the server if we made it this far in one piece
 #+BEGIN_SRC emacs-lisp
-  (unless (sever-running-p) (server-start))
+  (unless (server-running-p) (server-start))
 #+END_SRC
 
 Have a great day~
