@@ -83,6 +83,7 @@ First there was =use-package=
 *** Quelpa
 #+BEGIN_SRC emacs-lisp
   (use-package quelpa :ensure t)
+  (use-package quelpa-use-package :ensure t)
 #+END_SRC
 
 ** Layout and load paths
@@ -96,39 +97,14 @@ First there was =use-package=
   #+END_SRC
 
 ** UI
-Fire up the mood lighting
-
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package bliss-theme :ensure t
-    :config (load-theme 'bliss t))
-
-  (mapcar (lambda (data) (set-face-attribute (car data) nil
-                                        :underline  nil
-                                        :foreground 'unspecified
-                                        :background (cadr data)))
-          '((highlight "#333")
-            (region    "#444")))
-#+END_SRC
-
-These days I'm intrigued by =darkokai= theme
-
-#+BEGIN_SRC emacs-lisp
-  (use-package darkokai-theme :ensure t
-    :config
-    (setq darkokai-mode-line-padding 1)
-    (load-theme 'darkokai t))
-#+END_SRC
-
-We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]].
-
+We must always remember [[http://programmers.stackexchange.com/a/148678][our origins]]
 #+BEGIN_SRC emacs-lisp
     (use-package fill-column-indicator :ensure t
       :config
       (add-hook 'prog-mode-hook 'fci-mode))
 #+END_SRC
 
-Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]].
-
+Mode line [[https://github.com/jordonbiondo/.emacs.d/blob/master/jordon/jordon-mode-line.el][minimization]]
 #+BEGIN_SRC emacs-lisp
     (defun esc-fancy-mode-line-render (left center right &optional lpad rpad)
       "Return a string the width of the current window with
@@ -202,6 +178,35 @@ Favored font of late
                           :height 95
                           :weight 'normal
                           :width 'normal)))
+#+END_SRC
+*** Themes
+Fire up the mood lighting
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package bliss-theme :ensure t
+    :config (load-theme 'bliss t))
+
+  (mapcar (lambda (data) (set-face-attribute (car data) nil
+                                        :underline  nil
+                                        :foreground 'unspecified
+                                        :background (cadr data)))
+          '((highlight "#333")
+            (region    "#444")))
+#+END_SRC
+
+These days I'm intrigued by =darkokai= theme
+#+BEGIN_SRC emacs-lisp
+  (use-package darkokai-theme :ensure t
+    :config
+    (setq darkokai-mode-line-padding 1)
+    (load-theme 'darkokai t))
+#+END_SRC
+
+And the inverse, for those high-contrast days
+#+BEGIN_SRC emacs-lisp
+  (use-package anti-darkokai
+    :quelpa
+    (anti-darkokai :fetcher github
+                   :repo "ericcrosson/anti-darkokai"))
 #+END_SRC
 
 ** Macros
