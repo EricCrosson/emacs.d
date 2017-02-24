@@ -584,6 +584,7 @@ I did not grow up in an era where this is a straightforward mnemonic
 *** vi-tilde-fringe
 #+BEGIN_SRC emacs-lisp
      (use-package vi-tilde-fringe :ensure t
+       :functions define-fringe-bitmap
        :config
        (global-vi-tilde-fringe-mode))
 #+END_SRC
