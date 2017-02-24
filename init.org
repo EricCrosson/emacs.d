@@ -382,7 +382,6 @@ location
     (add-hook 'conf-mode-hook 'turn-on-fic-mode)
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
 #+END_SRC
-
 *** C modes config
 **** Rtags config
 #+BEGIN_SRC emacs-lisp
@@ -395,12 +394,6 @@ location
   :defer t
   :init (global-company-mode))
 #+END_SRC
-**** qml
-#+BEGIN_SRC emacs-lisp
-  (use-package company-qml :ensure t
-    :config (add-to-list 'company-backends 'company-qml))
-#+END_SRC
-
 *** Python config
 #+BEGIN_SRC emacs-lisp
   (setq python-indent 4
@@ -520,7 +513,6 @@ Mark scripts executable on save.
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
 #+END_SRC
-
 *** Docker config
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode :ensure t)
@@ -531,6 +523,9 @@ Mark scripts executable on save.
   (use-package qml-mode :ensure t
     :config
     (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+
+  (use-package company-qml :ensure t
+    :config (add-to-list 'company-backends 'company-qml))
 #+END_SRC
 *** Prose
 **** Writegood mode config
