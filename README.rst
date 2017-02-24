@@ -1,6 +1,9 @@
 Overview
 ========
 
+.. image:: https://travis-ci.org/EricCrosson/emacs.d.svg?branch=master
+    :target: https://travis-ci.org/EricCrosson/emacs.d
+
 This project contains my personal configurations to `GNU Emacs`_.
 
 These configurations are maintained with `org-mode`_ to enable
