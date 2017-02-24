@@ -1147,7 +1147,7 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
     :ensure t
     :config (keyfreq-autosave-mode 1)
     (setq keyfreq-file
-          (expand-file-name "keyfreq" esc-meta-directory))
+          (expand-file-name "keyfreq" esc-meta-directory)))
 #+END_SRC
 *** Ztree
 #+BEGIN_SRC emacs-lisp
