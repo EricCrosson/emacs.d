@@ -1318,6 +1318,19 @@ Keep a history of =M-x= across sessions.
         ad-do-it)))
 #+END_SRC
 
+** Impatient mode
+#+BEGIN_SRC emacs-lisp
+  (use-package impatient-mode :ensure t
+    :defer t
+    :config
+    (defun markdown-html (buffer)
+      (princ (with-current-buffer buffer
+               (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+             (current-buffer))))
+#+END_SRC
+TODO: consider how useful it would be to extend this to other markdown
+types. pandoc is a possibility, but then you are observing something
+other than what will be published.
 ** Restart-emacs config
 #+BEGIN_SRC emacs-lisp
   (use-package restart-emacs :ensure t)
