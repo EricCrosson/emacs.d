@@ -535,7 +535,7 @@ Mark scripts executable on save.
 #+END_SRC
 
 ** Core
-*** Org config
+*** Org mode config
 
 TODO: add current clocked-in task to modeline
 
