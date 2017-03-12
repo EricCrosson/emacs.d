@@ -592,6 +592,28 @@ TODO: make this work
    '((emacs-lisp . t)
      (sh . t)))
 #+END_SRC
+**** Org gtd
+#+BEGIN_SRC emacs-lisp
+  (after 'org
+    (setq org-todo-keywords
+          '((sequence "TODO(t!/@)" "HOLD(h@)" "NEXT(n!)" "INPROG(i!)"
+                      "WAITING(w@)" "REVIEW(r@)" "|"
+                      "DONE(d@)" "CANCELLED(c@)")
+            (sequence "|" "PLAN(p!)" "MEETING(m!)")
+            (sequence "PROJECT(r!)" "|" "DONE(d@)" "CANCELLED(c@)")))
+    (setq org-todo-keyword-faces
+          '(("TODO" :foreground "red" :weight bold)
+            ("REVIEW" :foreground "orange" :weight bold)
+            ("NEXT" :foreground "orange" :weight bold)
+            ("INPROG" :foreground "orange" :weight bold)
+            ("HOLD" :foreground "orange" :weight bold)
+            ("WAITING" :foreground "orange" :weight bold)
+            ("DONE" org-done)
+            ("CANCELLED" org-done)
+            ("PROJECT" :foreground "purple" :weight bold)
+            ("PLAN" :foreground "purple" :weight bold)
+            ("MEETING" :foreground "blue" :weight bold))))
+#+END_SRC
 *** Dired config
    #+BEGIN_SRC emacs-lisp
      (use-package dired-details :ensure t
