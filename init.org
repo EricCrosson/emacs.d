@@ -381,6 +381,8 @@ location
        (fic-mode 1))
     (add-hook 'conf-mode-hook 'turn-on-fic-mode)
     (add-hook 'yaml-mode-hook 'turn-on-fic-mode)
+    ;; TODO: prove that this works?
+    (add-hook 'markdown-mode-hook 'turn-on-fic-mode)
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
 #+END_SRC
 *** C modes config
