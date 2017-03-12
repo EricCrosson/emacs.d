@@ -347,7 +347,11 @@ location
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent :ensure t
     :config
-    (global-aggressive-indent-mode 1))
+    (global-aggressive-indent-mode 1)
+    (defun turn-off-aggressive-indent-mode ()
+      (interactive)
+      (aggressive-indent-mode -1))
+    (remove-hook 'markdown-mode-hook 'turn-off-aggressive-indent-mode))
 #+END_SRC
 **** Rainbow-mode
 #+BEGIN_SRC emacs-lisp
