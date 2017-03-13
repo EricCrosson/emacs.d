@@ -1260,6 +1260,10 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
      (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
 #+END_SRC
 
+*** Sudo edit
+#+BEGIN_SRC emacs-lisp
+  (use-package sudo-edit :ensure t)
+#+END_SRC
 ** Save session config
 *** Saveplace config
 #+BEGIN_SRC emacs-lisp
