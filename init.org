@@ -395,6 +395,11 @@ location
   (use-package rtags :ensure t
     :bind ("C-;" . rtags-find-symbol-at-point))
 #+END_SRC
+**** Qt config
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.pro\\'" . conf-mode))
+  (add-to-list 'auto-mode-alist '("\\.pri\\'" . conf-mode))
+#+END_SRC
 *** Company mode
 #+BEGIN_SRC emacs-lisp
 (use-package company :ensure t
