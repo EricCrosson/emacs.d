@@ -1013,6 +1013,11 @@ TODO: make this work
     :config (global-evil-matchit-mode 1))
 #+END_SRC
 
+**** evil-lion
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-lion :ensure t
+    :config (evil-lion-mode))
+#+END_SRC
 *** Git config
 **** Git time machine config
 #+BEGIN_SRC emacs-lisp
