@@ -912,6 +912,9 @@ TODO: make this work
          "ss" 'swiper
          "sd" 'dump-jump-go
 
+         ;; compilation
+         "cm" 'recompile
+
               ;;; magit commands
          "gs" 'magit-status
 
@@ -1142,6 +1145,12 @@ TODO: make this work
 *** Compilation buffer config
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'same-window-buffer-names "*compilation*")
+#+END_SRC
+**** Bury successful compilation buffer
+#+BEGIN_SRC emacs-lisp
+  (use-package bury-successful-compilation :ensure t
+    :bind ("C-c C-m" . recompile)
+    :config (bury-successful-compilation 1))
 #+END_SRC
 
 *** Define word
@@ -1399,7 +1408,6 @@ Inform the driver that init has completed.
 - [ ] dedicated-buffer
 - [ ] ibuffer{-vc,}
 - [ ] conf-mode
-- [ ] bury-successful copmpilation buffer (see section Compilation config)
 - [ ] latex config
 - [ ] flyspell
 - [ ] latex
