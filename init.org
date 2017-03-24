@@ -374,6 +374,7 @@ location
   (use-package fic-mode :ensure t
     :diminish (fic-mode . "")
     :config
+    (push "DISCUSS" fic-highlighted-words)
     (push "RESUME" fic-highlighted-words)
     (defun turn-off-fic-mode ()
        "Turn fic-mode off."
