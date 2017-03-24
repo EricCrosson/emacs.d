@@ -899,7 +899,12 @@ TODO: make this work
          "ff" 'counsel-find-file
          "fr" 'counsel-recentf
          "fo" 'ff-find-other-file
+         "jk" 'counsel-imenu
          ;; TODO: cull unnecessary entries from recentf list (machine files)
+
+         ;;; movement commands
+         "ss" 'swiper
+         "sd" 'dump-jump-go
 
               ;;; buffer commands
          "bd" 'kill-this-buffer
@@ -907,10 +912,6 @@ TODO: make this work
          "C-i" 'switch-to-previous-buffer
          "bF" 'follow-this-buffer
          "br" 'revert-buffer-no-confirm
-
-              ;;; movement commands
-         "ss" 'swiper
-         "sd" 'dump-jump-go
 
          ;; compilation
          "cm" 'recompile
