@@ -1101,6 +1101,10 @@ TODO: make this work
 (use-package flycheck :ensure t
   :init (global-flycheck-mode))
 #+END_SRC
+*** Flyspell config
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+#+END_SRC
 *** Window manipulation
 **** Zoom frame config
 #+BEGIN_SRC emacs-lisp
