@@ -401,6 +401,14 @@ location
   (add-to-list 'auto-mode-alist '("\\.pro\\'" . conf-mode))
   (add-to-list 'auto-mode-alist '("\\.pri\\'" . conf-mode))
 #+END_SRC
+**** S-refactor config
+#+BEGIN_SRC emacs-lisp
+(use-package srefactor :ensure t
+  :config
+  (semantic-mode 1)
+  (evil-leader/set-key-for-mode 'c++-mode
+    "rh" 'srefactor-refactor-at-point))
+#+END_SRC
 *** Company mode
 #+BEGIN_SRC emacs-lisp
 (use-package company :ensure t
@@ -459,12 +467,28 @@ location
 *** C mode config
 TODO: determine when/where these are defined
 #+BEGIN_SRC emacs-lisp
-  ;; (add-to-list 'cc-search-directories '"../inc")
-  ;; (add-to-list 'cc-search-directories '"../src")
+  (defun esc-customize-cc-search-directories ()
+    (add-to-list 'cc-search-directories '"../inc")
+    (add-to-list 'cc-search-directories '"../src"))
+  (add-hook 'cc-mode-hook 'esc-customize-cc-search-directories)
 
   (setq-default ff-always-in-other-window t)
 #+END_SRC
+**** Irony config
+#+BEGIN_SRC emacs-lisp
+  (use-package irony :ensure t
+    :config
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
 
+    (defun my-irony-mode-hook ()
+      (define-key irony-mode-map
+        [remap completion-at-point] 'counsel-irony)
+      (define-key irony-mode-map
+        [remap complete-symbol] 'counsel-irony))
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+#+END_SRC
 *** Shell config
 
 There's no reason to query you about your favorite shell with every
