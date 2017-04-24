@@ -22,3 +22,6 @@ init.el
 /org-clock-save.el
 /recentf
 /quelpa
+/srecode-map.el
+/irony
+/semanticdb
