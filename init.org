@@ -337,239 +337,6 @@ location
         mouse-yank-at-point t)
 #+END_SRC
 
-** Language configs
-*** Programming modes config
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
-#+END_SRC
-**** Aggressive indent config
-#+BEGIN_SRC emacs-lisp
-  (use-package aggressive-indent :ensure t
-    :config
-    (global-aggressive-indent-mode 1)
-    (defun turn-off-aggressive-indent-mode ()
-      (interactive)
-      (aggressive-indent-mode -1))
-    (remove-hook 'markdown-mode-hook 'turn-off-aggressive-indent-mode))
-#+END_SRC
-**** Rainbow-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode :ensure t
-    :config
-    (defun turn-on-rainbow-mode()
-      "Turn on `rainbow-mode`."
-      (interactive)
-      (rainbow-mode 1))
-    (defun turn-off-rainbow-mode()
-      "Turn off `rainbow-mode`."
-      (interactive)
-      (rainbow-mode -1))
-    (add-hook 'prog-mode-hook 'turn-on-rainbow-mode)
-    ;; otherwise the first half of `#define` gets highlighted
-    (add-hook 'c-mode-common-hook 'turn-off-rainbow-mode))
-#+END_SRC
-**** FIC-mode config
-#+BEGIN_SRC emacs-lisp
-  (use-package fic-mode :ensure t
-    :diminish (fic-mode . "")
-    :config
-    (push "DISCUSS" fic-highlighted-words)
-    (push "RESUME" fic-highlighted-words)
-    (defun turn-off-fic-mode ()
-       "Turn fic-mode off."
-       (interactive)
-       (fic-mode -1))
-    (defun turn-on-fic-mode ()
-       "Turn fic-mode on."
-       (interactive)
-       (fic-mode 1))
-    (add-hook 'conf-mode-hook 'turn-on-fic-mode)
-    (add-hook 'yaml-mode-hook 'turn-on-fic-mode)
-    ;; TODO: prove that this works?
-    (add-hook 'markdown-mode-hook 'turn-on-fic-mode)
-    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
-#+END_SRC
-*** C modes config
-**** Rtags config
-#+BEGIN_SRC emacs-lisp
-  (use-package rtags :ensure t
-    :bind ("C-;" . rtags-find-symbol-at-point))
-#+END_SRC
-**** Qt config
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.pro\\'" . conf-mode))
-  (add-to-list 'auto-mode-alist '("\\.pri\\'" . conf-mode))
-#+END_SRC
-**** S-refactor config
-#+BEGIN_SRC emacs-lisp
-(use-package srefactor :ensure t
-  :config
-  (semantic-mode 1)
-  (evil-leader/set-key-for-mode 'c++-mode
-    "rh" 'srefactor-refactor-at-point))
-#+END_SRC
-*** Company mode
-#+BEGIN_SRC emacs-lisp
-(use-package company :ensure t
-  :defer t
-  :init (global-company-mode))
-#+END_SRC
-*** Python config
-#+BEGIN_SRC emacs-lisp
-  (setq python-indent 4
-        python-enable-yapf-format-on-save nil)
-#+END_SRC
-**** anaconda mode
-#+BEGIN_SRC emacs-lisp
-  (use-package anaconda-mode :ensure t
-    :defer t
-    :init
-    (progn
-      (setq anaconda-mode-installation-directory
-            (expand-file-name "anaconda-mode" esc-meta-directory))
-      (add-hook 'python-mode-hook 'anaconda-mode))
-    :config
-    (progn
-      ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode
-      ;;                                           "hh" 'anaconda-mode-show-doc
-      ;;                                           "gg" 'anaconda-mode-find-definitions
-      ;;                                           "ga" 'anaconda-mode-find-assignments
-      ;;                                           "gu" 'anaconda-mode-find-references)
-      ;; (evilified-state-evilify anaconda-mode-view-mode anaconda-mode-view-mode-map
-      ;;                          (kbd "q") 'quit-window)
-      ;; (spacemacs|hide-lighter anaconda-mode)
-
-      (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
-        (evil--jumps-push))))
-#+END_SRC
-**** company-anaconda
-#+BEGIN_SRC emacs-lisp
-  (use-package company-anaconda :ensure t
-    :defer t
-    :init
-    (add-to-list 'company-backends 'company-anaconda))
-#+END_SRC
-**** yapf
-#+BEGIN_SRC emacs-lisp
-  (use-package py-yapf :ensure t
-    ;; FIXME: have something this cool
-    ;; :init
-    ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode "=" 'py-yapf-buffer)
-    :config
-    (when python-enable-yapf-format-on-save
-      (add-hook 'python-mode-hook 'py-yapf-enable-on-save)))
-#+END_SRC
-*** Coffeescript config
-#+BEGIN_SRC emacs-lisp
-  (use-package coffee-mode :ensure t)
-#+END_SRC
-*** C mode config
-TODO: determine when/where these are defined
-#+BEGIN_SRC emacs-lisp
-  (defun esc-customize-cc-search-directories ()
-    (add-to-list 'cc-search-directories '"../inc")
-    (add-to-list 'cc-search-directories '"../src"))
-  (add-hook 'cc-mode-hook 'esc-customize-cc-search-directories)
-
-  (setq-default ff-always-in-other-window t)
-#+END_SRC
-**** Irony config
-#+BEGIN_SRC emacs-lisp
-  (use-package irony :ensure t
-    :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-
-    (defun my-irony-mode-hook ()
-      (define-key irony-mode-map
-        [remap completion-at-point] 'counsel-irony)
-      (define-key irony-mode-map
-        [remap complete-symbol] 'counsel-irony))
-    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
-    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
-#+END_SRC
-*** Shell config
-
-There's no reason to query you about your favorite shell with every
-new terminal.
-#+BEGIN_SRC emacs-lisp
-  (setq explicit-shell-file-name
-        (if (file-exists-p "/usr/bin/zsh")
-            "/usr/bin/zsh"
-          "/bin/bash"))
-#+END_SRC
-
-Destroy term buffers when the process is exited.
-#+BEGIN_SRC emacs-lisp
-  (defadvice term-handle-exit
-      (after term-kill-buffer-on-exit activate)
-    (kill-buffer))
-#+END_SRC
-
-Mark scripts executable on save.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
-#+END_SRC
-
-*** Markdown config
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode :ensure t)
-#+END_SRC
-*** Lua mode config
-#+BEGIN_SRC emacs-lisp
-  (use-package lua-mode :ensure t)
-#+END_SRC
-*** Magithub config
-#+BEGIN_SRC emacs-lisp
-  (use-package magithub :ensure t
-    :after magit
-    :config (magithub-feature-autoinject t))
-#+END_SRC
-*** Yasnippet config
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :load-path "~/.emacs.d/plugins/yasnippet"
-    :config
-    (yas-reload-all)
-    (yas-global-mode 1))
-#+END_SRC
-*** RestructuredText config
-   #+BEGIN_SRC emacs-lisp
-     (use-package rst :ensure t
-       :config (add-hook 'rst-mode-hook 'auto-fill-mode))
-   #+END_SRC
-*** Yaml mode
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode
-    :ensure t
-    :mode (("\\.yml$" . yaml-mode)))
-#+END_SRC
-*** Bitbake config
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
-  (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
-#+END_SRC
-*** Docker config
-#+BEGIN_SRC emacs-lisp
-  (use-package dockerfile-mode :ensure t)
-  (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
-#+END_SRC
-*** Qml mode config
-#+BEGIN_SRC emacs-lisp
-  (use-package qml-mode :ensure t
-    :config
-    (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
-
-  (use-package company-qml :ensure t
-    :config (add-to-list 'company-backends 'company-qml))
-#+END_SRC
-*** Prose
-**** Writegood mode config
-#+BEGIN_SRC emacs-lisp
-   (use-package writegood-mode :ensure t)
-#+END_SRC
-
 ** Core
 *** Org mode config
 
@@ -785,6 +552,240 @@ TODO: make this work
 *** Mouse avoidance config
 #+BEGIN_SRC emacs-lisp
   (mouse-avoidance-mode 'exile)
+#+END_SRC
+
+** Language configs
+*** Programming modes config
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+#+END_SRC
+**** Aggressive indent config
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent :ensure t
+    :config
+    (global-aggressive-indent-mode 1)
+    (defun turn-off-aggressive-indent-mode ()
+      (interactive)
+      (aggressive-indent-mode -1))
+    (remove-hook 'markdown-mode-hook 'turn-off-aggressive-indent-mode))
+#+END_SRC
+**** Rainbow-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode :ensure t
+    :config
+    (defun turn-on-rainbow-mode()
+      "Turn on `rainbow-mode`."
+      (interactive)
+      (rainbow-mode 1))
+    (defun turn-off-rainbow-mode()
+      "Turn off `rainbow-mode`."
+      (interactive)
+      (rainbow-mode -1))
+    (add-hook 'prog-mode-hook 'turn-on-rainbow-mode)
+    ;; otherwise the first half of `#define` gets highlighted
+    (add-hook 'c-mode-common-hook 'turn-off-rainbow-mode))
+#+END_SRC
+**** FIC-mode config
+#+BEGIN_SRC emacs-lisp
+  (use-package fic-mode :ensure t
+    :diminish (fic-mode . "")
+    :config
+    (push "DISCUSS" fic-highlighted-words)
+    (push "RESUME" fic-highlighted-words)
+    (defun turn-off-fic-mode ()
+       "Turn fic-mode off."
+       (interactive)
+       (fic-mode -1))
+    (defun turn-on-fic-mode ()
+       "Turn fic-mode on."
+       (interactive)
+       (fic-mode 1))
+    (add-hook 'conf-mode-hook 'turn-on-fic-mode)
+    (add-hook 'yaml-mode-hook 'turn-on-fic-mode)
+    ;; TODO: prove that this works?
+    (add-hook 'markdown-mode-hook 'turn-on-fic-mode)
+    (add-hook 'prog-mode-hook 'turn-on-fic-mode))
+#+END_SRC
+*** C modes config
+**** Rtags config
+#+BEGIN_SRC emacs-lisp
+  (use-package rtags :ensure t
+    :bind ("C-;" . rtags-find-symbol-at-point))
+#+END_SRC
+**** Qt config
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.pro\\'" . conf-mode))
+  (add-to-list 'auto-mode-alist '("\\.pri\\'" . conf-mode))
+#+END_SRC
+**** S-refactor config
+#+BEGIN_SRC emacs-lisp
+  (use-package srefactor :ensure t
+    :config
+    (semantic-mode 1)
+    (after 'evil-leader
+      (evil-leader/set-key-for-mode 'c++-mode
+        "rh" 'srefactor-refactor-at-point)))
+#+END_SRC
+*** Company mode
+#+BEGIN_SRC emacs-lisp
+(use-package company :ensure t
+  :defer t
+  :init (global-company-mode))
+#+END_SRC
+*** Python config
+#+BEGIN_SRC emacs-lisp
+  (setq python-indent 4
+        python-enable-yapf-format-on-save nil)
+#+END_SRC
+**** anaconda mode
+#+BEGIN_SRC emacs-lisp
+  (use-package anaconda-mode :ensure t
+    :defer t
+    :init
+    (progn
+      (setq anaconda-mode-installation-directory
+            (expand-file-name "anaconda-mode" esc-meta-directory))
+      (add-hook 'python-mode-hook 'anaconda-mode))
+    :config
+    (progn
+      ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode
+      ;;                                           "hh" 'anaconda-mode-show-doc
+      ;;                                           "gg" 'anaconda-mode-find-definitions
+      ;;                                           "ga" 'anaconda-mode-find-assignments
+      ;;                                           "gu" 'anaconda-mode-find-references)
+      ;; (evilified-state-evilify anaconda-mode-view-mode anaconda-mode-view-mode-map
+      ;;                          (kbd "q") 'quit-window)
+      ;; (spacemacs|hide-lighter anaconda-mode)
+
+      (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
+        (evil--jumps-push))))
+#+END_SRC
+**** company-anaconda
+#+BEGIN_SRC emacs-lisp
+  (use-package company-anaconda :ensure t
+    :defer t
+    :init
+    (add-to-list 'company-backends 'company-anaconda))
+#+END_SRC
+**** yapf
+#+BEGIN_SRC emacs-lisp
+  (use-package py-yapf :ensure t
+    ;; FIXME: have something this cool
+    ;; :init
+    ;; (spacemacs/set-leader-keys-for-major-mode 'python-mode "=" 'py-yapf-buffer)
+    :config
+    (when python-enable-yapf-format-on-save
+      (add-hook 'python-mode-hook 'py-yapf-enable-on-save)))
+#+END_SRC
+*** Coffeescript config
+#+BEGIN_SRC emacs-lisp
+  (use-package coffee-mode :ensure t)
+#+END_SRC
+*** C mode config
+TODO: determine when/where these are defined
+#+BEGIN_SRC emacs-lisp
+  (defun esc-customize-cc-search-directories ()
+    (add-to-list 'cc-search-directories '"../inc")
+    (add-to-list 'cc-search-directories '"../src"))
+  (add-hook 'cc-mode-hook 'esc-customize-cc-search-directories)
+
+  (setq-default ff-always-in-other-window t)
+#+END_SRC
+**** Irony config
+#+BEGIN_SRC emacs-lisp
+  (use-package irony :ensure t
+    :config
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+
+    (defun my-irony-mode-hook ()
+      (define-key irony-mode-map
+        [remap completion-at-point] 'counsel-irony)
+      (define-key irony-mode-map
+        [remap complete-symbol] 'counsel-irony))
+    (add-hook 'irony-mode-hook 'my-irony-mode-hook)
+    (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+#+END_SRC
+*** Shell config
+
+There's no reason to query you about your favorite shell with every
+new terminal.
+#+BEGIN_SRC emacs-lisp
+  (setq explicit-shell-file-name
+        (if (file-exists-p "/usr/bin/zsh")
+            "/usr/bin/zsh"
+          "/bin/bash"))
+#+END_SRC
+
+Destroy term buffers when the process is exited.
+#+BEGIN_SRC emacs-lisp
+  (defadvice term-handle-exit
+      (after term-kill-buffer-on-exit activate)
+    (kill-buffer))
+#+END_SRC
+
+Mark scripts executable on save.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+#+END_SRC
+
+*** Markdown config
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode :ensure t)
+#+END_SRC
+*** Lua mode config
+#+BEGIN_SRC emacs-lisp
+  (use-package lua-mode :ensure t)
+#+END_SRC
+*** Magithub config
+#+BEGIN_SRC emacs-lisp
+  (use-package magithub :ensure t
+    :after magit
+    :config (magithub-feature-autoinject t))
+#+END_SRC
+*** Yasnippet config
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :load-path "~/.emacs.d/plugins/yasnippet"
+    :config
+    (yas-reload-all)
+    (yas-global-mode 1))
+#+END_SRC
+*** RestructuredText config
+   #+BEGIN_SRC emacs-lisp
+     (use-package rst :ensure t
+       :config (add-hook 'rst-mode-hook 'auto-fill-mode))
+   #+END_SRC
+*** Yaml mode
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode
+    :ensure t
+    :mode (("\\.yml$" . yaml-mode)))
+#+END_SRC
+*** Bitbake config
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
+  (add-to-list 'auto-mode-alist '("\\.bbappend\\'" . conf-mode))
+#+END_SRC
+*** Docker config
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode :ensure t)
+  (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
+#+END_SRC
+*** Qml mode config
+#+BEGIN_SRC emacs-lisp
+  (use-package qml-mode :ensure t
+    :config
+    (add-to-list 'auto-mode-alist '("\\.qml$" . qml-mode)))
+
+  (use-package company-qml :ensure t
+    :config (add-to-list 'company-backends 'company-qml))
+#+END_SRC
+*** Prose
+**** Writegood mode config
+#+BEGIN_SRC emacs-lisp
+   (use-package writegood-mode :ensure t)
 #+END_SRC
 
 ** Extra
