@@ -564,6 +564,7 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (add-hook 'prog-mode-hook 'electric-pair-local-mode)
+  (add-hook 'prog-mode-hook 'highlight-numbers-mode)
 #+END_SRC
 **** Aggressive indent config
 #+BEGIN_SRC emacs-lisp
