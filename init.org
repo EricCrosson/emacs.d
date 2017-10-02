@@ -570,7 +570,6 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp
   (use-package aggressive-indent :ensure t
     :config
-    (global-aggressive-indent-mode 1)
     (defun turn-off-aggressive-indent-mode ()
       (interactive)
       (aggressive-indent-mode -1))
