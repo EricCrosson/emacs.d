@@ -1101,6 +1101,10 @@ Mark scripts executable on save.
   (use-package gitignore-mode :ensure t)
   (use-package gitconfig-mode :ensure t)
 #+END_SRC
+*** WIndow rotation
+#+BEGIN_SRC emacs-lisp
+  (use-package rotate :ensure t)
+#+END_SRC
 *** Winner config
     #+BEGIN_SRC emacs-lisp
   (use-package winner
