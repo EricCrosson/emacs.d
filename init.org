@@ -193,17 +193,11 @@ Fire up the mood lighting
             (region    "#444")))
 #+END_SRC
 
-Nord theme
-#+BEGIN_SRC emacs-lisp
-  (use-package nord-theme :ensure t)
-#+END_SRC
-
-These days I'm intrigued by =darkokai= theme
+My trusty dark theme
 #+BEGIN_SRC emacs-lisp
   (use-package darkokai-theme :ensure t
     :config
-    (setq darkokai-mode-line-padding 1)
-    (load-theme 'darkokai t))
+    (setq darkokai-mode-line-padding 1))
 #+END_SRC
 
 And the inverse, for those high-contrast days
@@ -212,6 +206,13 @@ And the inverse, for those high-contrast days
     :quelpa
     (anti-darkokai :fetcher github
                    :repo "ericcrosson/anti-darkokai"))
+#+END_SRC
+
+Startup-theme of the month
+#+BEGIN_SRC emacs-lisp
+(use-package nord-theme :ensure t
+  :config
+  (load-theme 'nord t))
 #+END_SRC
 
 ** Macros
