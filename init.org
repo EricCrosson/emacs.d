@@ -1324,8 +1324,8 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit :ensure t)
 #+END_SRC
-** Save session config
-*** Saveplace config
+*** Save session config
+**** Saveplace config
 #+BEGIN_SRC emacs-lisp
   (use-package saveplace
     :ensure t
@@ -1365,7 +1365,7 @@ Keep a history of =M-x= across sessions.
   (desktop-save-mode 1)                   ;use desktop file
 #+END_SRC
 
-** undo-tree config
+*** undo-tree config
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
@@ -1393,7 +1393,7 @@ Keep a history of =M-x= across sessions.
         ad-do-it)))
 #+END_SRC
 
-** Impatient mode
+*** Impatient mode
 #+BEGIN_SRC emacs-lisp
   (use-package impatient-mode :ensure t
     :defer t
@@ -1406,7 +1406,12 @@ Keep a history of =M-x= across sessions.
 TODO: consider how useful it would be to extend this to other markdown
 types. pandoc is a possibility, but then you are observing something
 other than what will be published.
-** Restart-emacs config
+*** Wakatime mode
+#+BEGIN_SRC emacs-lisp
+  (use-package wakatime-mode :ensure t
+    :config (global-wakatime-mode))
+#+END_SRC
+*** Restart-emacs config
 #+BEGIN_SRC emacs-lisp
   (use-package restart-emacs :ensure t)
 #+END_SRC
