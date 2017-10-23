@@ -565,7 +565,6 @@ TODO: make this work
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (add-hook 'prog-mode-hook 'electric-pair-local-mode)
-  (add-hook 'prog-mode-hook 'highlight-numbers-mode)
 #+END_SRC
 **** Aggressive indent config
 #+BEGIN_SRC emacs-lisp
@@ -1320,6 +1319,11 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
      (add-hook 'tea-time-notification-hook 'esc/notify-tea-steeped))
 #+END_SRC
 
+*** Highlight-numbers mode
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-numbers :ensure t
+    :config (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+#+END_SRC
 *** Sudo edit
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit :ensure t)
