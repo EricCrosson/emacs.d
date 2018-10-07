@@ -9,6 +9,8 @@ emojis
 url
 /eshell
 /session.*
+/magithub/
+/projectile-bookmarks.eld
 
 ## personal (host-specific) save data
 meta/
