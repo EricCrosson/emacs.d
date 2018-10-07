@@ -1053,6 +1053,11 @@ Mark scripts executable on save.
   (use-package evil-lion :ensure t
     :config (evil-lion-mode))
 #+END_SRC
+**** evil-multiple-cursors
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-mc :ensure t
+    :config (global-evil-mc-mode 1))
+#+END_SRC
 *** Git config
 **** Git time machine config
 #+BEGIN_SRC emacs-lisp
