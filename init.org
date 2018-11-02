@@ -529,6 +529,24 @@ TODO: make this work
              (end-of-buffer)
              (dired-next-line -1)))))
    #+END_SRC
+*** Shell config
+
+There's no reason to query you about your favorite shell with every
+new terminal.
+#+BEGIN_SRC emacs-lisp
+  (setq explicit-shell-file-name
+        (if (file-exists-p "/usr/bin/zsh")
+            "/usr/bin/zsh"
+          "/bin/bash"))
+#+END_SRC
+
+Destroy term buffers when the process is exited.
+#+BEGIN_SRC emacs-lisp
+  (defadvice term-handle-exit
+      (after term-kill-buffer-on-exit activate)
+    (kill-buffer))
+#+END_SRC
+
 *** Diminish config
    #+BEGIN_SRC emacs-lisp
   (use-package diminish
@@ -721,24 +739,11 @@ TODO: determine when/where these are defined
     (add-hook 'irony-mode-hook 'my-irony-mode-hook)
     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
 #+END_SRC
-*** Shell config
-
-There's no reason to query you about your favorite shell with every
-new terminal.
+*** Stratos config
 #+BEGIN_SRC emacs-lisp
-  (setq explicit-shell-file-name
-        (if (file-exists-p "/usr/bin/zsh")
-            "/usr/bin/zsh"
-          "/bin/bash"))
+  (add-to-list 'auto-mode-alist '("\\.fl\\'" . ruby-mode))
 #+END_SRC
-
-Destroy term buffers when the process is exited.
-#+BEGIN_SRC emacs-lisp
-  (defadvice term-handle-exit
-      (after term-kill-buffer-on-exit activate)
-    (kill-buffer))
-#+END_SRC
-
+*** Shell-mode config
 Mark scripts executable on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
