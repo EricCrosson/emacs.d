@@ -432,10 +432,11 @@ TODO: make this work
 #+END_SRC
 *** Dired config
 #+BEGIN_SRC emacs-lisp
-  (use-package dired-smart-jump
-    :quelpa (dired-smart-jump
-             :fetcher github
-             :repo "ericcrosson/dired-smart-jump"))
+  (after "dired"
+    (use-package dired-smart-jump
+      :quelpa (dired-smart-jump
+               :fetcher github
+               :repo "ericcrosson/dired-smart-jump")))
 #+END_SRC
 
    #+BEGIN_SRC emacs-lisp
