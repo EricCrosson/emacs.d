@@ -11,6 +11,7 @@ url
 /session.*
 /magithub/
 /projectile-bookmarks.eld
+/request/
 
 ## personal (host-specific) save data
 meta/
