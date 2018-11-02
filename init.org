@@ -431,6 +431,13 @@ TODO: make this work
             ("MEETING" :foreground "blue" :weight bold))))
 #+END_SRC
 *** Dired config
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-smart-jump
+    :quelpa (dired-smart-jump
+             :fetcher github
+             :repo "ericcrosson/dired-smart-jump"))
+#+END_SRC
+
    #+BEGIN_SRC emacs-lisp
      (use-package dired-details :ensure t
        :config (dired-details-install)
@@ -515,19 +522,22 @@ TODO: make this work
          (define-key dired-mode-map (kbd "<left>") 'dired-find-parent-directory)
          (define-key dired-mode-map (vector 'remap 'evil-backward-char) 'dired-find-parent-directory)
 
-         (define-key dired-mode-map (vector 'remap 'beginning-of-buffer)
-           (defun dired-back-to-top ()
-             (interactive)
-             (beginning-of-buffer)
-             (unless (search-forward ".." nil 'noerror)
-               (beginning-of-buffer))
-             (dired-next-line 1)))
+         ;; TODO: extract into separate package
+         ;; (define-key dired-mode-map (vector 'remap 'beginning-of-buffer)
+         ;;   (defun dired-back-to-top ()
+         ;;     (interactive)
+         ;;     (beginning-of-buffer)
+         ;;     (unless (search-forward ".." nil 'noerror)
+         ;;       (beginning-of-buffer))
+         ;;     (dired-next-line 1)))
 
-         (define-key dired-mode-map (vector 'remap 'end-of-buffer)
-           (defun dired-jump-to-bottom ()
-             (interactive)
-             (end-of-buffer)
-             (dired-next-line -1)))))
+         ;; (define-key dired-mode-map (vector 'remap 'end-of-buffer)
+         ;;   (defun dired-jump-to-bottom ()
+         ;;     (interactive)
+         ;;     (end-of-buffer)
+         ;;     (dired-next-line -1)))
+
+         ))
    #+END_SRC
 *** Shell config
 
