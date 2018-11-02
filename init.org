@@ -804,6 +804,10 @@ Mark scripts executable on save.
     :ensure t
     :mode (("\\.yml$" . yaml-mode)))
 #+END_SRC
+*** Graphviz Dot mode
+#+BEGIN_SRC emacs-lisp
+  (use-package graphviz-dot-mode :ensure t)
+#+END_SRC
 *** Bitbake config
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.bb\\'" . conf-mode))
