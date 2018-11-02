@@ -800,6 +800,12 @@ Mark scripts executable on save.
    (use-package writegood-mode :ensure t)
 #+END_SRC
 
+*** Pine script
+#+BEGIN_SRC emacs-lisp
+  (use-package pine-script-mode
+    :ensure t
+    :mode (("\\.pine" . pine-script-mode)))
+#+END_SRC
 ** Extra
 *** Ivy
 #+BEGIN_SRC emacs-lisp
