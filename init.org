@@ -1168,6 +1168,16 @@ Mark scripts executable on save.
     ;; then bind zoom commands with a microstate
     )
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartrep :ensure t
+    :config
+    (smartrep-define-key
+     global-map "C-x w"
+     '(("+" . zoom-all-frames-in)
+       ("-" . zoom-all-frames-out)))
+    )
+#+END_SRC
 **** Windmove config
 #+BEGIN_SRC emacs-lisp
  ;; Windmove from shift keys
