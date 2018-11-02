@@ -1146,7 +1146,7 @@ Mark scripts executable on save.
 *** Projectile config
    #+BEGIN_SRC emacs-lisp
      (use-package counsel-projectile :ensure t
-       :config (counsel-projectile-on))
+       :config (counsel-projectile-mode 1))
    #+END_SRC
 *** Flycheck config
 #+BEGIN_SRC emacs-lisp
