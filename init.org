@@ -908,140 +908,149 @@ Mark scripts executable on save.
 #+END_SRC
 **** evil-leader
 #+BEGIN_SRC emacs-lisp
-     (use-package evil-leader :ensure t
-       :init
-       ;; TODO: autoload these defuns
-       (defun revert-buffer-no-confirm ()
-         "Revert buffer without prompting the user for anything."
-         (interactive)
-         (revert-buffer :noconfirm t))
+  (use-package evil-leader :ensure t
+    :init
+    ;; TODO: autoload these defuns
+    (defun revert-buffer-no-confirm ()
+      "Revert buffer without prompting the user for anything."
+      (interactive)
+      (revert-buffer :noconfirm t))
 
-       (defun xorg-dim ()
-         "Run the command `xset dpms force off` to dim Xorg screens."
-         (interactive)
-         (call-process-shell-command "xset dpms force off"))
+    (defun xorg-dim ()
+      "Run the command `xset dpms force off` to dim Xorg screens."
+      (interactive)
+      (call-process-shell-command "xset dpms force off"))
 
-       (defun esc-insert-long-date ()
-         "Insert date at point in YYYY-MM-DD format."
-         (interactive)
-         (insert (format-time-string "%A %B %d, %Y")))
-       (defun esc-insert-short-date ()
-         "Insert date at point in human-readable format, e.g. Tuesday
-               October 18, 2016."
-         (interactive)
-         (insert (format-time-string "%Y-%m-%d")))
+    (defun esc-insert-long-date ()
+      "Insert date at point in YYYY-MM-DD format."
+      (interactive)
+      (insert (format-time-string "%A %B %d, %Y")))
 
-       (defun esc/split-below-and-move ()
-         (interactive)
-         (split-window-below)
-         (other-window 1))
-       (defun esc/split-right-and-move ()
-         (interactive)
-         (split-window-right)
-         (other-window 1))
-       (bind-keys
-        ("C-x 2" . esc/split-below-and-move)
-        ("C-x 3" . esc/split-right-and-move))
+    (defun esc-insert-short-date ()
+      "Insert date at point in human-readable format, e.g. Tuesday
+            October 18, 2016."
+      (interactive)
+      (insert (format-time-string "%Y-%m-%d")))
 
-       (defun follow-this-buffer ()
-         "Open the current buffer in `follow-mode`.  Additionally, open
-     as many vertical windows as possible with 80 columns in each."
-         (interactive)
-         (delete-other-windows)
-         (while (< 80 (window-width))
-           (split-window-horizontally)
-           (balance-windows))
-         (delete-window)
-         (balance-windows)
-         (follow-mode t))
+    (defun esc-insert-timestamp ()
+      "Insert timestamp at point in YYYY-MM-DD|HH:MM (UTC time)"
+      (interactive)
+      (insert (format-time-string "%Y-%m-%d|%H:%M" nil t)))
 
-       :config
-       (setq evil-leader/leader "<SPC>")
-       (setq evil-leader/no-prefix-mode-rx '("dired-mode"
-                                             "magit-.*-mode"))
-       (evil-leader/set-key
+    (defun esc/split-below-and-move ()
+      (interactive)
+      (split-window-below)
+      (other-window 1))
+    (defun esc/split-right-and-move ()
+      (interactive)
+      (split-window-right)
+      (other-window 1))
+    (bind-keys
+     ("C-x 2" . esc/split-below-and-move)
+     ("C-x 3" . esc/split-right-and-move))
 
-              ;;; stock emacs functions
-         "y" 'execute-extended-command
-         "qQ" 'save-buffers-kill-terminal
+    (defun follow-this-buffer ()
+      "Open the current buffer in `follow-mode`.  Additionally, open
+  as many vertical windows as possible with 80 columns in each."
+      (interactive)
+      (delete-other-windows)
+      (while (< 80 (window-width))
+        (split-window-horizontally)
+        (balance-windows))
+      (delete-window)
+      (balance-windows)
+      (follow-mode t))
 
-              ;;; ace-jump commands
-         "jl" 'avy-goto-line
-         "jf" 'avy-goto-char
+    :config
+    (setq evil-leader/leader "<SPC>")
+    (setq evil-leader/no-prefix-mode-rx '("dired-mode"
+                                          "magit-.*-mode"))
+    (evil-leader/set-key
 
-         ;; comment
-         ";" 'evil-commentary
+           ;;; stock emacs functions
+      "y" 'execute-extended-command
+      "qQ" 'save-buffers-kill-terminal
 
-              ;;; file commands
-         "ff" 'counsel-find-file
-         "fr" 'counsel-recentf
-         "fo" 'ff-find-other-file
-         "jk" 'counsel-imenu
-         ;; TODO: cull unnecessary entries from recentf list (machine files)
+           ;;; ace-jump commands
+      "jl" 'avy-goto-line
+      "jf" 'avy-goto-char
 
-         ;;; movement commands
-         "ss" 'swiper
-         "sd" 'dump-jump-go
+      ;; comment
+      ";" 'evil-commentary
 
-              ;;; buffer commands
-         "bd" 'kill-this-buffer
-         "bb" 'ivy-switch-buffer
-         "C-i" 'switch-to-previous-buffer
-         "bF" 'follow-this-buffer
-         "br" 'revert-buffer-no-confirm
+           ;;; file commands
+      "ff" 'counsel-find-file
+      "fr" 'counsel-recentf
+      "fo" 'ff-find-other-file
+      "jk" 'counsel-imenu
+      ;; TODO: cull unnecessary entries from recentf list (machine files)
 
-         ;; compilation
-         "cm" 'recompile
+      ;;; movement commands
+      "ss" 'swiper
+      "sd" 'dump-jump-go
 
-              ;;; magit commands
-         "gs" 'magit-status
+           ;;; buffer commands
+      "bd" 'kill-this-buffer
+      "bb" 'ivy-switch-buffer
+      "C-i" 'switch-to-previous-buffer
+      "bF" 'follow-this-buffer
+      "br" 'revert-buffer-no-confirm
 
-              ;;; user commands
-         "od" 'xorg-dim
+      ;; compilation
+      "cm" 'recompile
 
-              ;;; fixme: does this need to be bound to insert-mode?
-              ;;; company
-         "k" 'counsel-company
+           ;;; magit commands
+      "gs" 'magit-status
 
-              ;;; registers
-         "ry" 'browse-kill-ring
+           ;;; user commands
+      "od" 'xorg-dim
 
-              ;;; time-clocking
-         "co" 'org-clock-out
-         "ci" 'org-clock-in
-         "cl" 'org-clock-in-last
-         "cq" 'org-clock-cancel
+           ;;; fixme: does this need to be bound to insert-mode?
+           ;;; company
+      "k" 'counsel-company
 
-              ;;; insertion commands
-         "id" 'esc-insert-short-date
-         "iD" 'esc-insert-long-date
+           ;;; registers
+      "ry" 'browse-kill-ring
 
-              ;;; magnar is the man
-         "v" 'er/expand-region
+           ;;; time-clocking
+      "co" 'org-clock-out
+      "ci" 'org-clock-in
+      "cl" 'org-clock-in-last
+      "cq" 'org-clock-cancel
 
-              ;;; counsel commands
-         "pf" 'counsel-projectile-find-file
-         "pd" 'counsel-projectile-find-dir
-         "pa" 'counsel-projectile-ag
-         "a" 'counsel-ag
-         "pb" 'counsel-projectile-switch-to-buffer
-         "pp" 'counsel-projectile-switch-project
+           ;;; insertion commands
+      "id" 'esc-insert-short-date
+      "iD" 'esc-insert-long-date
+      "it" 'esc-insert-timestamp
 
-              ;;; eyebrowse commands
-         "0" 'eyebrowse-switch-to-window-config-0
-         "1" 'eyebrowse-switch-to-window-config-1
-         "2" 'eyebrowse-switch-to-window-config-2
-         "3" 'eyebrowse-switch-to-window-config-3
-         "4" 'eyebrowse-switch-to-window-config-4
-         "5" 'eyebrowse-switch-to-window-config-5
-         "6" 'eyebrowse-switch-to-window-config-6
-         "7" 'eyebrowse-switch-to-window-config-7
-         "8" 'eyebrowse-switch-to-window-config-8
-         "9" 'eyebrowse-switch-to-window-config-9
-         "`" 'eyebrowse-last-window-config
-         "\\" 'eyebrowse-close-window-config
-         )
-       (global-evil-leader-mode))
+           ;;; magnar is the man
+      "v" 'er/expand-region
+
+           ;;; counsel commands
+      "pf" 'counsel-projectile-find-file
+      "pd" 'counsel-projectile-find-dir
+      "pa" 'counsel-projectile-ag
+      "a" 'counsel-ag
+      "pb" 'counsel-projectile-switch-to-buffer
+      "pp" 'counsel-projectile-switch-project
+
+           ;;; eyebrowse commands
+      "0" 'eyebrowse-switch-to-window-config-0
+      "1" 'eyebrowse-switch-to-window-config-1
+      "2" 'eyebrowse-switch-to-window-config-2
+      "3" 'eyebrowse-switch-to-window-config-3
+      "4" 'eyebrowse-switch-to-window-config-4
+      "5" 'eyebrowse-switch-to-window-config-5
+      "6" 'eyebrowse-switch-to-window-config-6
+      "7" 'eyebrowse-switch-to-window-config-7
+      "8" 'eyebrowse-switch-to-window-config-8
+      "9" 'eyebrowse-switch-to-window-config-9
+      "`" 'eyebrowse-last-window-config
+      "\\" 'eyebrowse-close-window-config
+
+      "" 'toggle-maximize-buffer
+      )
+    (global-evil-leader-mode))
 #+END_SRC
 **** evil-magit
 #+BEGIN_SRC emacs-lisp
