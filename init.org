@@ -254,13 +254,6 @@ Anything I end up doing more than three times...
     (esc-insert-short-date)
     (comment-line 1))
 #+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (use-package clone-indirect-buffer-other-frame
-    :quelpa (clone-indirect-buffer-other-frame
-             :fetcher github
-             :repo "ericcrosson/clone-indirect-buffer-other-frame"))
-#+END_SRC
 
 ** Aliases
 I did not grow up in an era where this is a straightforward mnemonic
@@ -1392,6 +1385,15 @@ Keep a history of =M-x= across sessions.
         backup-by-copying-when-mismatch t)
   (mkdir (car desktop-path) t)            ; ensure desktop-save dir exists
   (desktop-save-mode 1)                   ;use desktop file
+#+END_SRC
+
+*** clone-indirect-buffer-other-frame
+#+BEGIN_SRC emacs-lisp
+  (use-package clone-indirect-buffer-other-frame
+    :quelpa (clone-indirect-buffer-other-frame
+             :fetcher github
+             :repo "ericcrosson/clone-indirect-buffer-other-frame")
+    :bind ("C-x 5 c" . clone-indirect-buffer-other-frame))
 #+END_SRC
 
 *** undo-tree config
