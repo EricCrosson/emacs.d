@@ -753,6 +753,28 @@ Mark scripts executable on save.
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode :ensure t)
 #+END_SRC
+*** Typescript config
+#+BEGIN_SRC emacs-lisp
+  (use-package tide :ensure t
+    :config (add-hook 'typescript-mode-hook 'tide/configure-tide))
+
+  (defun tide/configure-tide ()
+    (tide-setup)
+    (flycheck-mode 1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (company-mode-on)
+    (eldoc-mode t)
+    (tide-hl-identifier-node t)
+    (company-mode t)
+    (setq company-backends '(company-tide company-yasnippet))
+    (bind-key "TAB" 'yas-expand yas-minor-mode-map))
+
+  ;; aligns annotation to the right hand side
+  ;; (setq company-tooltip-align-annotations t)
+
+  ;; formats the buffer before saving
+  ;; (add-hook 'before-save-hook 'tide-format-before-save)
+#+END_SRC
 *** Lua mode config
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode :ensure t)
