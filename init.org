@@ -247,6 +247,13 @@ Anything I end up doing more than three times...
     (esc-insert-short-date)
     (comment-line 1))
 #+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package clone-indirect-buffer-other-frame
+    :quelpa (clone-indirect-buffer-other-frame
+             :fetcher github
+             :repo "ericcrosson/clone-indirect-buffer-other-frame"))
+#+END_SRC
 
 ** Aliases
 I did not grow up in an era where this is a straightforward mnemonic
