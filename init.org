@@ -627,9 +627,11 @@ TODO: make this work
 #+END_SRC
 **** Qt config
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.pro\\'" . conf-mode))
-  (add-to-list 'auto-mode-alist '("\\.pri\\'" . conf-mode))
+  (use-package qt-pro-mode
+    :ensure t
+    :mode ("\\.pro\\'" "\\.pri\\'"))
 #+END_SRC
+
 **** S-refactor config
 #+BEGIN_SRC emacs-lisp
   (use-package srefactor :ensure t
