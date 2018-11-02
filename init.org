@@ -406,7 +406,7 @@ TODO: make this work
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
-     (sh . t)))
+     (shell . t)))
 #+END_SRC
 **** Org gtd
 #+BEGIN_SRC emacs-lisp
