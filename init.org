@@ -1303,12 +1303,6 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
     (setq keyfreq-file
           (expand-file-name "keyfreq" esc-meta-directory)))
 #+END_SRC
-*** Ztree
-#+BEGIN_SRC emacs-lisp
-   (use-package ztree :ensure t
-     :init
-     (setq ztree-dir-move-focus t))
-#+END_SRC
 *** Dumb jump config
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump :ensure t
