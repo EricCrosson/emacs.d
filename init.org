@@ -1020,8 +1020,6 @@ Mark scripts executable on save.
       "9" 'eyebrowse-switch-to-window-config-9
       "`" 'eyebrowse-last-window-config
       "\\" 'eyebrowse-close-window-config
-
-      "" 'toggle-maximize-buffer
       )
     (global-evil-leader-mode))
 #+END_SRC
