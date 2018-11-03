@@ -37,6 +37,7 @@ sort is produced
 
     ;;; Code:
 #+END_SRC
+
 *** User data
   Hello, My Name Is
   #+BEGIN_SRC emacs-lisp
@@ -56,6 +57,7 @@ First order of business: let's get out the rat poison.
             tool-bar-mode
             scroll-bar-mode)))
 #+END_SRC
+
 ** Package management
 *** Archives
 Configure remote package archives
@@ -69,6 +71,7 @@ Configure remote package archives
               ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
 #+END_SRC
+
 *** Use-package
 First there was =use-package=
 #+BEGIN_SRC emacs-lisp
@@ -79,10 +82,13 @@ First there was =use-package=
 
 (require 'use-package)
 #+END_SRC
+
 *** Quelpa
 #+BEGIN_SRC emacs-lisp
   (use-package quelpa :ensure t)
-  (use-package quelpa-use-package :ensure t)
+  (use-package quelpa-use-package
+    :ensure t
+    :after (quelpa use-package))
 #+END_SRC
 
 ** Layout and load paths
@@ -214,34 +220,26 @@ Startup-theme of the month
     (load-theme 'nimbus t))
 #+END_SRC
 
+Favored theme as of late
 #+BEGIN_SRC emacs-lisp
-(use-package nord-theme :ensure t
-  :config
-  (load-theme 'nord t)
-  (set-face-foreground 'font-lock-comment-face "#b3daff"))
+  (use-package nord-theme :ensure t
+    :config
+    (load-theme 'nord t)
+    (set-face-foreground 'font-lock-comment-face "#b3daff"))
 #+END_SRC
 
 ** Macros
-  I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
-  a read; stop what you're doing and go take a look if you haven't.
-  #+BEGIN_SRC emacs-lisp
+I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
+a read; stop what you're doing and go take a look if you haven't.
+#+BEGIN_SRC emacs-lisp
 (defmacro after (mode &rest body)
   "`eval-after-load' MODE evaluate BODY."
   (declare (indent defun))
   `(eval-after-load ,mode
      '(progn ,@body)))
-  #+END_SRC
-  
-** Functions
-The Alt-Tab of buffers
-#+BEGIN_SRC emacs-lisp
-  (defun switch-to-previous-buffer ()
-    "Switch to previously open buffer.
-  Repeated invocations toggle between the two most recently opened buffers."
-    (interactive)
-    (switch-to-buffer (other-buffer (current-buffer) 1)))
 #+END_SRC
-
+
+** Functions
 Anything I end up doing more than three times...
 #+BEGIN_SRC emacs-lisp
   (defun insert-program-header ()
@@ -952,7 +950,6 @@ Mark scripts executable on save.
            ;;; buffer commands
       "bd" 'kill-this-buffer
       "bb" 'ivy-switch-buffer
-      "C-i" 'switch-to-previous-buffer
       "br" 'revert-buffer-no-confirm
 
       ;; compilation
@@ -1159,7 +1156,7 @@ Mark scripts executable on save.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
-*** Window manipulation
+*** Window and buffer manipulation
 **** other-window-previous-mode
 #+BEGIN_SRC emacs-lisp
   (use-package other-window-previous-mode
@@ -1229,6 +1226,25 @@ Mark scripts executable on save.
              :repo "EricCrosson/follow-current-buffer")
     :init (evil-leader/set-key "bF" 'follow-current-buffer))
 #+END_SRC
+
+**** switch-to-previous-buffer-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package switch-to-previous-buffer-mode
+    :after (evil-leader)
+    :quelpa (switch-to-previous-buffer-mode
+             :fetcher github
+             :repo "EricCrosson/switch-to-previous-buffer-mode")
+    :config
+    (defun esc-switch-to-previous-buffer-mode-hook ()
+      "Personal hook to bind/unbind keys for `switch-to-previous-buffer-mode'."
+      (if switch-to-previous-buffer-mode
+          (evil-leader/set-key "C-i" 'switch-to-previous-buffer)
+        (evil-leader/set-key "C-i" nil)))
+    (add-hook 'switch-to-previous-buffer-mode-hook
+              'esc-switch-to-previous-buffer-mode-hook)
+    (switch-to-previous-buffer-mode 1))
+#+END_SRC
+
 *** Rainbow delimeters mode config
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
