@@ -922,18 +922,6 @@ Mark scripts executable on save.
       (interactive)
       (insert (format-time-string "%Y-%m-%d|%H:%M" nil t)))
 
-    (defun follow-this-buffer ()
-      "Open the current buffer in `follow-mode`.  Additionally, open
-  as many vertical windows as possible with 80 columns in each."
-      (interactive)
-      (delete-other-windows)
-      (while (< 80 (window-width))
-        (split-window-horizontally)
-        (balance-windows))
-      (delete-window)
-      (balance-windows)
-      (follow-mode t))
-
     :config
     (setq evil-leader/leader "<SPC>")
     (setq evil-leader/no-prefix-mode-rx '("dired-mode"
@@ -966,7 +954,6 @@ Mark scripts executable on save.
       "bd" 'kill-this-buffer
       "bb" 'ivy-switch-buffer
       "C-i" 'switch-to-previous-buffer
-      "bF" 'follow-this-buffer
       "br" 'revert-buffer-no-confirm
 
       ;; compilation
@@ -1209,6 +1196,7 @@ Mark scripts executable on save.
        ("-" . zoom-all-frames-out)))
     )
 #+END_SRC
+
 **** Windmove config
 #+BEGIN_SRC emacs-lisp
  ;; Windmove from shift keys
@@ -1234,6 +1222,14 @@ Mark scripts executable on save.
            ("C-x 3" . split-and-move-right)))
 #+END_SRC
 
+**** Follow current buffer config
+#+BEGIN_SRC emacs-lisp
+  (use-package follow-current-buffer
+    :quelpa (follow-current-buffer
+             :fetcher github
+             :repo "EricCrosson/follow-current-buffer")
+    :init (evil-leader/set-key "bF" 'follow-current-buffer))
+#+END_SRC
 *** Rainbow delimeters mode config
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
