@@ -8,9 +8,11 @@ before_install:
   - ln -s $(readlink -e .) ~/.emacs.d
 
 env:
+  # Those were the days
   # - EVM_EMACS=emacs-24.4-travis
   # - EVM_EMACS=emacs-24.5-travis
-  - EVM_EMACS=emacs-25.1-travis
+  # - EVM_EMACS=emacs-25.1-travis
+  - EVM_EMACS=emacs-26.1-travis
   - EVM_EMACS=emacs-git-snapshot-travis
 
 script:
