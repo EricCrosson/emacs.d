@@ -1174,6 +1174,14 @@ Mark scripts executable on save.
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 *** Window manipulation
+**** other-window-previous-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package other-window-previous-mode
+    :quelpa (other-window-previous-mode
+             :fetcher github
+             :repo "EricCrosson/other-window-previous-mode")
+    :config (other-window-previous-mode 1))
+#+END_SRC
 **** Zygospore toggle maximize-buffer
 #+BEGIN_SRC emacs-lisp
   (use-package zygospore
