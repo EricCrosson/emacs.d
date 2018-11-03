@@ -1288,6 +1288,7 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
     :commands revert-buffer-no-confirm
     :bind ("C-x M-r" . revert-buffer-no-confirm))
 #+END_SRC
+
 *** Browse kill ring config
 #+BEGIN_SRC emacs-lisp
   (use-package browse-kill-ring
