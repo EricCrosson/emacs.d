@@ -522,22 +522,6 @@ TODO: make this work
          (define-key dired-mode-map (vector 'remap 'evil-forward-char) 'dired-find-file)
          (define-key dired-mode-map (kbd "<left>") 'dired-find-parent-directory)
          (define-key dired-mode-map (vector 'remap 'evil-backward-char) 'dired-find-parent-directory)
-
-         ;; TODO: extract into separate package
-         ;; (define-key dired-mode-map (vector 'remap 'beginning-of-buffer)
-         ;;   (defun dired-back-to-top ()
-         ;;     (interactive)
-         ;;     (beginning-of-buffer)
-         ;;     (unless (search-forward ".." nil 'noerror)
-         ;;       (beginning-of-buffer))
-         ;;     (dired-next-line 1)))
-
-         ;; (define-key dired-mode-map (vector 'remap 'end-of-buffer)
-         ;;   (defun dired-jump-to-bottom ()
-         ;;     (interactive)
-         ;;     (end-of-buffer)
-         ;;     (dired-next-line -1)))
-
          ))
    #+END_SRC
 *** Shell config
@@ -586,7 +570,7 @@ Destroy term buffers when the process is exited.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'eval-expression-minibuffer-setup-hook 'eldoc-mode)
 #+END_SRC
-*** TIme clocking config...
+*** Time clocking config...
 #+BEGIN_SRC emacs-lisp
   (setq org-clock-persist 'history)
   (org-clock-persistence-insinuate)
@@ -922,16 +906,6 @@ Mark scripts executable on save.
   (use-package evil-leader :ensure t
     :init
     ;; TODO: autoload these defuns
-    (defun revert-buffer-no-confirm ()
-      "Revert buffer without prompting the user for anything."
-      (interactive)
-      (revert-buffer :noconfirm t))
-
-    (defun xorg-dim ()
-      "Run the command `xset dpms force off` to dim Xorg screens."
-      (interactive)
-      (call-process-shell-command "xset dpms force off"))
-
     (defun esc-insert-long-date ()
       "Insert date at point in YYYY-MM-DD format."
       (interactive)
@@ -947,18 +921,6 @@ Mark scripts executable on save.
       "Insert timestamp at point in YYYY-MM-DD|HH:MM (UTC time)"
       (interactive)
       (insert (format-time-string "%Y-%m-%d|%H:%M" nil t)))
-
-    (defun esc/split-below-and-move ()
-      (interactive)
-      (split-window-below)
-      (other-window 1))
-    (defun esc/split-right-and-move ()
-      (interactive)
-      (split-window-right)
-      (other-window 1))
-    (bind-keys
-     ("C-x 2" . esc/split-below-and-move)
-     ("C-x 3" . esc/split-right-and-move))
 
     (defun follow-this-buffer ()
       "Open the current buffer in `follow-mode`.  Additionally, open
@@ -1214,6 +1176,13 @@ Mark scripts executable on save.
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 #+END_SRC
 *** Window manipulation
+**** Zygospore toggle maximize-buffer
+#+BEGIN_SRC emacs-lisp
+  (use-package zygospore
+    :ensure t
+    :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
+#+END_SRC
+
 **** Zoom frame config
 #+BEGIN_SRC emacs-lisp
   (use-package zoom-frm :ensure t
@@ -1247,6 +1216,16 @@ Mark scripts executable on save.
      (add-hook 'org-shiftleft-final-hook 'windmove-left)
      (add-hook 'org-shiftdown-final-hook 'windmove-down)
      (add-hook 'org-shiftright-final-hook 'windmove-right)))
+#+END_SRC
+
+**** Split-and-move config
+#+BEGIN_SRC emacs-lisp
+  (use-package split-and-move
+    :quelpa (split-and-move
+             :fetcher github
+             :repo "EricCrosson/split-and-move")
+    :bind (("C-x 2" . split-and-move-below)
+           ("C-x 3" . split-and-move-right)))
 #+END_SRC
 
 *** Rainbow delimeters mode config
@@ -1300,15 +1279,14 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
   (use-package misc
     :commands zap-up-to-char
     :init ; seeing as I don't use these commands terribly often
-    (after 'esc-mode
-      (esc-key "M-z"     'zap-up-to-char) ; up-to, life saver
-      (esc-key "M-Z"     'zap-to-char)))
+    :bind (("M-z" . zap-up-to-char)  ; up-to, life saver
+           ("M-Z" . zap-to-char)))
+#+END_SRC
 
+#+BEGIN_SRC emacs-lisp
   (use-package misc-cmds
     :commands revert-buffer-no-confirm
-    :init ; takes a while to need the get-out-of-jail-free button
-    (after 'esc-mode
-      (esc-key "C-x M-r" 'revert-buffer-no-confirm)))
+    :bind ("C-x M-r" . revert-buffer-no-confirm))
 #+END_SRC
 *** Browse kill ring config
 #+BEGIN_SRC emacs-lisp
