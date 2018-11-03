@@ -431,14 +431,6 @@ TODO: make this work
             ("MEETING" :foreground "blue" :weight bold))))
 #+END_SRC
 *** Dired config
-#+BEGIN_SRC emacs-lisp
-  (after "dired"
-    (use-package dired-smart-jump
-      :quelpa (dired-smart-jump
-               :fetcher github
-               :repo "ericcrosson/dired-smart-jump")))
-#+END_SRC
-
    #+BEGIN_SRC emacs-lisp
      (use-package dired-details :ensure t
        :config (dired-details-install)
@@ -524,6 +516,14 @@ TODO: make this work
          (define-key dired-mode-map (vector 'remap 'evil-backward-char) 'dired-find-parent-directory)
          ))
    #+END_SRC
+**** dired-smart-jump
+#+BEGIN_SRC emacs-lisp
+  (after "dired"
+    (use-package dired-smart-jump
+      :quelpa (dired-smart-jump
+               :fetcher github
+               :repo "ericcrosson/dired-smart-jump")))
+#+END_SRC
 *** Shell config
 
 There's no reason to query you about your favorite shell with every
