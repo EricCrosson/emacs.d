@@ -15,6 +15,7 @@ url
 
 ## personal (host-specific) save data
 meta/
+/secrets/
 
 ## undo-tree
 *~undo-tree~*
