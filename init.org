@@ -975,7 +975,7 @@ Record one frame per keystroke.
 #+BEGIN_SRC emacs-lisp
   (use-package gif-screencast
     :ensure t
-    :bind (:map gif-screencast-mode-map
+    :bind (;;:map gif-screencast-mode-map
                 ("<f7>" . gif-screencast)
                 ("<f8>" . gif-screencast-stop)
                 ("<f9>" . gif-screencast-toggle-pause))
