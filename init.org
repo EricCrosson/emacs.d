@@ -984,7 +984,7 @@ Record one frame per keystroke.
     (setq gif-screencast-args '("-x")) ;; To shut up the shutter sound of `screencapture' (see `gif-screencast-command').
     (setq gif-screencast-cropping-program "mogrify") ;; Optional: Used to crop the capture to the Emacs frame.
     (setq gif-screencast-capture-format "ppm") ;; Optional: Required to crop captured images.
-    (gif-screencast-mode 1))
+    )
 #+END_SRC
 
 *** Avy
