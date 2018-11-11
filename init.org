@@ -1360,7 +1360,9 @@ Record one frame per keystroke.
       "pa" 'counsel-projectile-ag
       "pb" 'counsel-projectile-switch-to-buffer
       "pp" 'counsel-projectile-switch-project
-      "pk" 'projectile-kill-buffers)
+      "pk" 'projectile-kill-buffers
+      "ps" 'projectile-save-project-buffers
+      "p%" 'projectile-replace-regexp)
     (counsel-projectile-mode 1))
 #+END_SRC
 
