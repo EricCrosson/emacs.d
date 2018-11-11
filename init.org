@@ -880,7 +880,7 @@ TODO: use from melpa stable)
   (use-package yaml-mode
     :ensure t
     :pin melpa-stable
-    :after (fic-mode
+    :after (fic-mode)
     :mode (("\\.yml$" . yaml-mode))
     :config (add-hook 'yaml-mode-hook 'turn-on-fic-mode))
 #+END_SRC
