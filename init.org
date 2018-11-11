@@ -1074,6 +1074,14 @@ Record one frame per keystroke.
     :config (paradox-enable))
 #+END_SRC
 
+*** Unselectable-window mode
+#+BEGIN_SRC emacs-lisp
+  (use-package unselectable-window-mode
+    :quelpa (unselectable-window-mode
+             :fetcher github
+             :repo "EricCrosson/unselectable-window-mode")
+    :bind ("C-c C-w C-m" . unselectable-window-mode))
+#+END_SRC
 *** Evil config
 #+BEGIN_SRC emacs-lisp
        ;;; evil configuration
