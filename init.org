@@ -182,7 +182,7 @@ Favored font of late
     (when (font-exists-p esc-font)
       (set-face-attribute 'default nil
                           :font esc-font
-                          :height 95
+                          :height 150
                           :weight 'normal
                           :width 'normal)))
 #+END_SRC
