@@ -670,6 +670,20 @@ the first half of `#define`.
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
 #+END_SRC
 
+*** Clojure config
+#+BEGIN_SRC emacs-lisp
+  (use-package clojure-mode
+    :ensure t
+    :pin melpa-stable)
+#+END_SRC
+**** CIDER
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :ensure t
+    :pin melpa-stable
+    :after (clojure-mode))
+#+END_SRC
+
 *** C modes config
 **** Rtags config
 #+BEGIN_SRC emacs-lisp
