@@ -855,6 +855,13 @@ Mark scripts executable on save.
   ;; (add-hook 'before-save-hook 'tide-format-before-save)
 #+END_SRC
 
+**** JSON mode
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :ensure t
+    :pin melpa-stable)
+    ;; :mode ("\\.json\\'"))
+#+END_SRC
 *** Lua mode config
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
