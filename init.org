@@ -233,18 +233,27 @@ Favored theme as of late
     (load-theme 'nord t)
     ;; (set-face-foreground 'font-lock-comment-face "#b3daff")
     (set-face-foreground 'font-lock-comment-face "#7C7C7C")
-    (set-face-foreground 'font-lock-doc-face "#B4C4C8"))
+    (set-face-foreground 'font-lock-doc-face "#B4C4C8")
+
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     '(flyspell-duplicate ((t (:underline "DarkOrange"))))
+     '(flyspell-incorrect ((t (:underline "Red1"))))))
 #+END_SRC
 
+***
 ** Macros
 I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
 a read; stop what you're doing and go take a look if you haven't.
 #+BEGIN_SRC emacs-lisp
-(defmacro after (mode &rest body)
-  "`eval-after-load' MODE evaluate BODY."
-  (declare (indent defun))
-  `(eval-after-load ,mode
-     '(progn ,@body)))
+  (defmacro after (mode &rest body)
+    "`eval-after-load' MODE evaluate BODY."
+    (declare (indent defun))
+    `(eval-after-load ,mode
+       '(progn ,@body)))
 #+END_SRC
 
 ** Functions
