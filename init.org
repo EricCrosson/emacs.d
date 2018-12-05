@@ -1727,7 +1727,7 @@ Beware the magic nums, my son
                                             esc-meta-directory)))
 #+END_SRC
 
-*** Savehist config
+**** Savehist config
 Keep a history of =M-x= across sessions.
 #+BEGIN_SRC emacs-lisp
   (use-package savehist
@@ -1742,7 +1742,7 @@ Keep a history of =M-x= across sessions.
     (savehist-mode 1))
 #+END_SRC
 
-*** Save desktop config
+**** Save desktop config
 #+BEGIN_SRC emacs-lisp
   (defadvice desktop-save-in-desktop-dir (before ensure-desktop-dir-exists activate)
       "Ensure `desktop-dirname' exists before function
