@@ -1843,7 +1843,9 @@ Have a great day~
 
 Inform the driver that init has completed.
 #+BEGIN_SRC emacs-lisp
-  (message "All done, %s%s" (user-login-name) ".")
+  (message "All done, %s." (user-login-name))
   ;;; .emacs.el ends here
 #+END_SRC
 
+
+#  LocalWords:  gtd
