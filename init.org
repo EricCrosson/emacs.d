@@ -1825,6 +1825,16 @@ other than what will be published.
     :pin melpa-stable)
 #+END_SRC
 
+** OS-Specific config
+# TODO: wrap in a block to prevent execution on other operating-systems
+#+BEGIN_SRC emacs-lisp
+  (use-package osx-browse
+    :ensure t
+    :pin melpa-stable
+    :config
+    (osx-browse-mode 1)
+    (setq browse-url-dwim-always-confirm-extraction nil))
+#+END_SRC
 ** Fin
 Start the server if we made it this far in one piece.
 #+BEGIN_SRC emacs-lisp
