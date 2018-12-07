@@ -1842,7 +1842,8 @@ other than what will be published.
     :pin melpa-stable
     :config
     (osx-browse-mode 1)
-    (setq browse-url-dwim-always-confirm-extraction nil))
+    (setq browse-url-dwim-always-confirm-extraction nil)
+    (global-set-key (kbd "s-w") nil))
 #+END_SRC
 ** Fin
 Start the server if we made it this far in one piece.
