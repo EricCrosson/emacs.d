@@ -1049,6 +1049,13 @@ TODO: use from melpa stable)
     :pin melpa-stable)
 #+END_SRC
 
+*** unkillable-scratch config
+#+BEGIN_SRC emacs-lisp
+  (use-package unkillable-scratch
+    :ensure t
+    :pin melpa-stable
+    :config (unkillable-scratch t))
+#+END_SRC
 *** smartrep config
 #+BEGIN_SRC emacs-lisp
   (use-package smartrep
