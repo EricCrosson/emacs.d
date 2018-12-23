@@ -1681,7 +1681,7 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
     :after (evil-leader)
     :commands revert-buffer-no-confirm
     :bind ("C-x M-r" . revert-buffer-no-confirm)
-    :config (evil-leader/set-key "br" 'revert-buffer-no-confirm))
+    :init (evil-leader/set-key "br" 'revert-buffer-no-confirm))
 #+END_SRC
 
 *** Browse kill ring config
