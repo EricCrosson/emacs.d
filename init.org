@@ -1965,4 +1965,4 @@ Inform the driver that init has completed.
 
 
 ** File-specific                                                  :noexport:
-#  LocalWords:  gtd Tronesque
+#  LocalWords:  gtd Tronesque darkokai
