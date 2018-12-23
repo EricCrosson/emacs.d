@@ -1438,6 +1438,14 @@ Record one frame per keystroke.
     :config (evil-leader/set-key "gm" 'git-messenger:popup-message))
 #+END_SRC
 
+**** Magit forge
+#+BEGIN_SRC emacs-lisp
+  (use-package forge
+    :ensure t
+    :pin melpa-stable
+    :after (magit))
+#+END_SRC
+
 *** Window rotation
 #+BEGIN_SRC emacs-lisp
   (use-package rotate
