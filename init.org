@@ -189,6 +189,7 @@ Favored font of late
 
 *** Themes
 Fire up the mood lighting
+**** bliss
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package bliss-theme
     :ensure t
@@ -201,8 +202,7 @@ Fire up the mood lighting
           '((highlight "#333")
             (region    "#444")))
 #+END_SRC
-
-My trusty dark theme
+**** darkokai
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package darkokai-theme
     :ensure t
@@ -216,16 +216,14 @@ And the inverse, for those high-contrast days
     (anti-darkokai :fetcher github
                    :repo "ericcrosson/anti-darkokai"))
 #+END_SRC
-
-Startup-theme of the (last) month
-#+BEGIN_SRC emacs-lisp no
+**** nimbus & nord combo
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package nimbus-theme
     :ensure t
     :config (load-theme 'nimbus t))
 #+END_SRC
 
-Favored theme as of late
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package nord-theme
     :ensure t
     :pin melpa-stable
@@ -243,8 +241,49 @@ Favored theme as of late
      '(flyspell-duplicate ((t (:underline "DarkOrange"))))
      '(flyspell-incorrect ((t (:underline "Red1"))))))
 #+END_SRC
+**** Tronesque
+To use this theme, I would need to increase the contrast of the
+mode-line in non-selected windows.
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package tronesque-theme
+    :quelpa (tronesque-theme
+             :fetcher github
+             :repo "esc-emacs/tronesque-theme"))
+#+END_SRC
+**** Doom themes
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-themes
+    :ensure t
+    :pin melpa-stable
+    :config (load-theme 'doom-city-lights t))
+#+END_SRC
+**** Notes
+Also interesting
+| Dark theme | Light theme |
+|------------+-------------|
+| spacegray  | snowish     |
+| obsidian   |             |
 
-***
+**** theme-manager
+#+BEGIN_SRC emacs-lisp
+  (use-package theme-manager
+    :quelpa (theme-manager
+             :fetcher github
+             :repo "EricCrosson/theme-manager"))
+#+END_SRC
+*** OS X Customization
+TODO: wrap in osx specific block
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . light))
+#+END_SRC
+*** all-the-icons
+To install icons, run `M-x all-the-icons-install-fonts`
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t
+    :pin melpa-stable)
+#+END_SRC
 ** Macros
 I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
 a read; stop what you're doing and go take a look if you haven't.
