@@ -1036,6 +1036,12 @@ TODO: use from melpa stable)
     :commands notifications-notify)
 #+END_SRC
 
+*** Red-pen config
+#+BEGIN_SRC emacs-lisp
+  (use-package redpen-paragraph
+    :ensure t
+    :pin melpa-stable)
+#+END_SRC
 *** Writegood mode config
 #+BEGIN_SRC emacs-lisp
   (use-package writegood-mode
