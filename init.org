@@ -1949,12 +1949,10 @@ Start the server if we made it this far in one piece.
 
 Have a great day~
 #+BEGIN_SRC emacs-lisp
-  (setq Don t    ;allows `eval-buffer' on *scratch*
-        Panic t  ;with `initial-scratch-message'
-        initial-scratch-message
-         (concat (propertize "Don't\nPanic\n"
-                     'font-lock-face '(:height 10.0 :inherit variable-pitch))
-                 "\n")) ;newline makes inserted text normal-sized
+  (use-package dont-panic
+    :quelpa (dont-panic
+             :fetcher github
+             :repo "EricCrosson/dont-panic"))
 #+END_SRC
 
 Inform the driver that init has completed.
