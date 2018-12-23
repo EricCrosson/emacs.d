@@ -1007,6 +1007,29 @@ TODO: use from melpa stable)
 #+END_SRC
 
 ** Extra
+*** vertical-line mode
+#+BEGIN_SRC emacs-lisp
+  (use-package vline-mode
+    :quelpa (vline-mode
+             :fetcher github
+             :repo "EricCrosson/vline-mode")
+    :defer t
+    :bind ("C-c v" . vline-mode))
+#+END_SRC
+*** OpenAPI config
+#+BEGIN_SRC emacs-lisp
+  (use-package openapi-yaml-mode
+    :after (yaml-mode)
+    :quelpa (openapi-yaml-mode
+             :fetcher github
+             :repo "esc-emacs/openapi-yaml-mode")
+    :mode (("\\.openapi.yml" . openapi-yaml-mode)
+           ("\\.swagger.yml" . openapi-yaml-mode)
+           ("\\.openapi.yaml" . openapi-yaml-mode)
+           ("\\.swagger.yaml" . openapi-yaml-mode))
+    :hook ((openapi-yaml-mode . electric-pair-local-mode)
+           (openapi-yaml-mode . flyspell-mode)))
+#+END_SRC
 *** Notifications config
 #+BEGIN_SRC emacs-lisp
   (use-package notifications
