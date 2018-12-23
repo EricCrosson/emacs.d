@@ -1419,6 +1419,14 @@ Record one frame per keystroke.
     :after (evil-leader)
     :commands magit-status
     :config (evil-leader/set-key "gs" 'magit-status))
+**** Magit-todos config
+#+BEGIN_SRC emacs-lisp
+  (use-package magit-todos
+    :ensure t
+    :pin melpa-stable
+    :config (magit-todos-mode 1))
+#+END_SRC
+
 #+END_SRC
 
 **** Git messenger config
