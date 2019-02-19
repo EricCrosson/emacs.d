@@ -423,7 +423,7 @@ location
 #+BEGIN_SRC emacs-lisp
   (use-package dash
     :ensure t
-    :pin melpa-stable
+    ;;:pin melpa-stable
     :config (put '--each 'lisp-indent-function 1))
 #+END_SRC
 
@@ -549,9 +549,17 @@ TODO: add current clocked-in task to modeline
 #+END_SRC
 
 **** dired-details
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package dired-details
     :ensure t
+    :after (dash dired)
+    :config (dired-details-install))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-details
+    :quelpa (dired-details
+             :fetcher github
+             :repo "emacsmirror/dired-details")
     :after (dash dired)
     :config (dired-details-install))
 #+END_SRC
@@ -1037,7 +1045,7 @@ TODO: use from melpa stable)
 #+END_SRC
 
 *** Graphviz Dot mode
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package graphviz-dot-mode
     :ensure t
     :pin melpa-stable)
@@ -1148,7 +1156,8 @@ TODO: use from melpa stable)
 #+BEGIN_SRC emacs-lisp
   (use-package smartrep
     :ensure t
-    :pin melpa-stable)
+    ;; :pin melpa-stable
+    )
 #+END_SRC
 
 *** kill-term-buffer-on-exit-mode
@@ -1381,7 +1390,7 @@ Record one frame per keystroke.
 #+END_SRC
 
 **** evil-magit
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package evil-magit
     :ensure t
     :pin melpa-stable
@@ -1544,7 +1553,8 @@ Record one frame per keystroke.
 **** Magithub config
 Question: is this necessary in tandem with `forge`?
 I am not sure how the two packages relate.
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
+  (defvar magithub-settings-popup "")
   (use-package magithub
     :ensure t
     :pin melpa-stable
@@ -1674,9 +1684,25 @@ I am not sure how the two packages relate.
 
 **** Zoom frame config
 #+BEGIN_SRC emacs-lisp
+  (use-package frame-fns
+    :quelpa (frame-fns
+             :fetcher github
+             :repo "esc-emacs/frame-fns"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+  (use-package frame-cmds
+    :quelpa (frame-cmds
+             :fetcher github
+             :repo "esc-emacs/frame-cmds"))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
   (use-package zoom-frm
-    :ensure t
-    :after (smartrep)
+    :quelpa (zoom-frm
+             :fetcher github
+             :repo "esc-emacs/zoom-frm")
+    :after (smartrep frame-fns frame-cmds)
     :config
     (smartrep-define-key
      global-map "C-x w"

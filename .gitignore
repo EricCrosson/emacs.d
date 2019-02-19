@@ -29,3 +29,5 @@ init.el
 /srecode-map.el
 /irony
 /semanticdb
+/forge-database.sqlite
+/transient
