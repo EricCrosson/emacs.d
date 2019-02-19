@@ -91,6 +91,17 @@ First there was =use-package=
     :after (quelpa))
 #+END_SRC
 
+*** exec-path-from-shell
+Which came first, the Emacs or the shell?
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :pin melpa-stable
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+END_SRC
+
 ** Layout and load paths
 #+BEGIN_SRC emacs-lisp
   (defcustom esc-meta-directory "~/.emacs.d/meta/"
@@ -167,22 +178,25 @@ First there was =use-package=
 #+BEGIN_SRC emacs-lisp
   (defun font-exists-p (font)
     "True FONT is recognized by Emacs, nil otherwise."
-    (member esc-font (font-family-list)))
+    (member font (font-family-list)))
 #+END_SRC
 
 Favored font of late
 #+BEGIN_SRC emacs-lisp
-  (let ((esc-font "Source Code Pro"))
+  (let ((esc-font "Hack"))
     ;; install `esc-font`
     (when (not (font-exists-p esc-font))
       (call-process
-       (expand-file-name "font-install-source-code-pro.sh"
+       ;; TODO: interpolate esc-font into the script name
+       ;; (expand-file-name "font-install-source-code-pro.sh"
+       ;;                   "~/.emacs.d/bin")
+       (expand-file-name "font-install-hack.sh"
                          "~/.emacs.d/bin")))
     ;; use `esc-font`
     (when (font-exists-p esc-font)
       (set-face-attribute 'default nil
                           :font esc-font
-                          :height 150
+                          :height 165
                           :weight 'normal
                           :width 'normal)))
 #+END_SRC
@@ -284,6 +298,10 @@ To install icons, run `M-x all-the-icons-install-fonts`
     :ensure t
     :pin melpa-stable)
 #+END_SRC
+*** cursor config
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode 0)
+#+END_SRC
 ** Macros
 I took the macro below from [[http://milkbox.net/note/single-file-master-emacs-configuration/][milkypostman]]. His article is really worth
 a read; stop what you're doing and go take a look if you haven't.
@@ -326,13 +344,14 @@ perhaps to change the color to `(face-attribute 'default
   )
 #+END_SRC
 
+TODO: on mac set the frame-title color to same as default text
+
 #+BEGIN_SRC emacs-lisp
   (setq gc-cons-threshold 100000000)
   (put 'overwrite-mode 'disabled t)       ;There shall be no 'insert'
   (fset 'yes-or-no-p 'y-or-n-p)           ;change yes-no to y-n
   (setq ;debug-on-error t
         inhibit-startup-screen t
-        initial-scratch-message nil
         ring-bell-function 'ignore        ;turn off alarms completely
         disabled-command-function 'beep   ;alert me when accessing disabled funcs
         redisplay-dont-pause t            ;don't pause refreshes
@@ -381,15 +400,10 @@ GNU/Linux files can be
 #+END_SRC
 
 It is my belief that backup files should not be so obtrusive as to
-tempt users to disable them.
+tempt users to disable them
 #+NAME: stash-backups
 #+BEGIN_SRC emacs-lisp
-  (push '("." . "~/.config/.emacs.d/") backup-directory-alist)
-#+END_SRC
-
-Keep me informed
-#+BEGIN_SRC emacs-lisp
-    (global-auto-revert-mode 1)
+  (push `("." . ,(concat esc-meta-directory "backups/")) backup-directory-alist)
 #+END_SRC
 
 =i-search= is capable of spanning whitespace regions
@@ -397,7 +411,7 @@ Keep me informed
   (setq search-whitespace-regexp "[ \t\r\n]+")
 #+END_SRC
 
-Share the Xorg clipboard and at point, not at the middle-click
+Share the Xorg clipboard and insert at point, not at the middle-click
 location
 #+BEGIN_SRC emacs-lisp
   (setq x-select-enable-clipboard t
@@ -519,7 +533,6 @@ TODO: add current clocked-in task to modeline
               wdired-abort-changes)
       (eval `(defadvice ,it (after revert-buffer activate)
                (revert-buffer))))
-    (add-hook 'dired-mode-hook 'auto-revert-mode)
 
     (after 'ibuf-ext
       (add-to-list 'ibuffer-saved-filter-groups
@@ -547,25 +560,27 @@ TODO: add current clocked-in task to modeline
 #+BEGIN_SRC emacs-lisp
   (use-package dired-x
     :after (dired)
+    :init (setq dired-omit-verbose nil)
     :config
     (setq-default dired-omit-files-p t)
     (setq dired-omit-files
-          (concat dired-omit-files "\\|"
-                  "\\.pyc$\\|"
-                  "\\.elc$\\|"
-                  "\\.~undo-tree~\\.gz$\\|"
-                  "\\.projectile$\\|"
-                  "\\.DS_Store$")
+          (concat dired-omit-files
+                  "\\|\\.pyc$"
+                  "\\|\\.elc$"
+                  "\\|\\.~undo-tree~\\.gz$"
+                  "\\|\\.projectile$"
+                  "\\|\\.DS_Store$")
           dired-guess-shell-alist-user
           '(("\\.mp4$" "cvlc" "mplayer")
             ("\\.avi$" "cvlc" "mplayer")
             ("\\.mkv$" "cvlc" "mplayer")
-            ("\\.pdf$" "evince" "zathura")
+            ;; ("\\.pdf$" "evince" "zathura")
             ("\\.tar.bz2" "dtrx -n --one=here" "tar jxvf")
             ("\\.tar.gz" "dtrx -n --one=here" "tar xzvf")
             ("\\.rar" "dtrx -n --one=here" "unrar e")
             ("\\.zip" "dtrx -n --one=here")
-            ("\\.*$" "xdg-open"))))
+            ;; ("\\.*$" "xdg-open")
+            ("\\.*$" "open"))))
 #+END_SRC
 
 **** dired-aux
@@ -614,26 +629,17 @@ new terminal.
           "/bin/bash"))
 #+END_SRC
 
-*** Diminish config
+*** auto-revert-mode config
 #+BEGIN_SRC emacs-lisp
-  (use-package diminish
-    :config
-    ;; TODO: move to undo-tree config
-    (after 'undo-tree-autoloads
-      (global-undo-tree-mode t)
-      (setq undo-tree-visualizer-timestamps t
-            undo-tree-visualizer-relative-timestamps t))
-
-    ;; less clutter on the mode line
-    (diminish 'auto-revert-mode)
-    (diminish 'auto-fill-function)
-    (after 'test-mode (diminish 'test-mode))
-    (after 'autopair (diminish 'autopair-mode))
-    (after 'abbrev (diminish 'abbrev-mode))
-    (after 'org-indent (diminish 'org-indent-mode))
-    (after 'magit (diminish 'magit-auto-revert-mode))
-    (after 'eldoc (diminish 'eldoc-mode))
-    (after 'smerge-mode (diminish 'smerge-mode)))
+  (use-package autorevert
+    :diminish
+    :hook (dired-mode . auto-revert-mode)
+    :config (global-auto-revert-mode 1))
+#+END_SRC
+
+*** eldoc config
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc :diminish)
 #+END_SRC
 
 *** Minibuffer config
@@ -708,6 +714,10 @@ the first half of `#define`.
     :config
     (push "DISCUSS" fic-highlighted-words)
     (push "RESUME" fic-highlighted-words)
+    (push "DEBUG" fic-highlighted-words)
+    (push "TEST" fic-highlighted-words)
+    (push "DOCUMENT" fic-highlighted-words)
+    (push "LIMITATION" fic-highlighted-words)
     (defun turn-off-fic-mode ()
        "Turn fic-mode off."
        (interactive)
@@ -720,13 +730,57 @@ the first half of `#define`.
     (add-hook 'prog-mode-hook 'turn-on-fic-mode))
 #+END_SRC
 
-*** Clojure config
+*** LISP modes config
+**** show-paren mode
+#+BEGIN_SRC emacs-lisp
+  (use-package paren
+    :config (show-paren-mode t))
+#+END_SRC
+
+**** Paredit
+#+BEGIN_SRC emacs-lisp :tangle no
+  ;; TODO: resume
+  (use-package paredit
+    :after (eldoc)
+    :quelpa (paredit
+             :fetcher github
+             :repo "esc-emacs/paredit")
+    :config
+    (eldoc-add-command
+     'paredit-backward-delete
+     'paredit-close-round)
+
+    (add-hook 'ielm-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+    (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode))
+#+END_SRC
+
+**** Paxedit
+#+BEGIN_SRC emacs-lisp
+  (use-package paxedit
+    :ensure t
+    :pin melpa-stable
+    :after (paredit)
+    :hook ((emacs-lisp-mode . paxedit-mode)
+           (clojure-mode . paxedit-mode))
+    :config (setf paxedit-alignment-cleanup nil))
+#+END_SRC
+
+**** Clojure config
 #+BEGIN_SRC emacs-lisp
   (use-package clojure-mode
     :ensure t
-    :pin melpa-stable)
+    :pin melpa-stable
+    :config
+    (add-hook 'clojure-mode-hook 'electric-pair-local-mode)
+    ;; TODO: allow fic-mode to parse docstrings
+    (add-hook 'clojure-mode-hook 'turn-on-fic-mode))
 #+END_SRC
-**** CIDER
+
+***** CIDER
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
@@ -783,10 +837,10 @@ the first half of `#define`.
     :ensure t
     :defer t
     :pin melpa-stable
+    :hook python-mode
     :init
     (setq anaconda-mode-installation-directory
           (expand-file-name "anaconda-mode" esc-meta-directory))
-    (add-hook 'python-mode-hook 'anaconda-mode)
     :config
     (defadvice anaconda-mode-goto (before python/anaconda-mode-goto activate)
       (evil--jumps-push)))
@@ -842,10 +896,8 @@ Always open associated header/source files in a separate window.
   (use-package irony
     :ensure t
     :pin melpa-stable
+    :hook (c++-mode c-mode)
     :config
-    (add-hook 'c++-mode-hook 'irony-mode)
-    (add-hook 'c-mode-hook 'irony-mode)
-
     (defun my-irony-mode-hook ()
       (define-key irony-mode-map [remap completion-at-point] 'counsel-irony)
       (define-key irony-mode-map [remap complete-symbol] 'counsel-irony))
@@ -879,35 +931,11 @@ Mark scripts executable on save.
 #+END_SRC
 
 *** Javascript config
+**** indium config
 #+BEGIN_SRC emacs-lisp
   (use-package indium
     :ensure t
     :pin melpa-stable)
-#+END_SRC
-
-**** Typescript config
-#+BEGIN_SRC emacs-lisp
-  (use-package tide
-    :ensure t
-    :pin melpa-stable
-    :config (add-hook 'typescript-mode-hook 'tide/configure-tide))
-
-  (defun tide/configure-tide ()
-    (tide-setup)
-    (flycheck-mode 1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (company-mode-on)
-    (eldoc-mode 1)
-    (tide-hl-identifier-node t)
-    (company-mode 1)
-    (setq company-backends '(company-tide company-yasnippet))
-    (bind-key "TAB" 'yas-expand yas-minor-mode-map))
-
-  ;; aligns annotation to the right hand side
-  ;; (setq company-tooltip-align-annotations t)
-
-  ;; formats the buffer before saving
-  ;; (add-hook 'before-save-hook 'tide-format-before-save)
 #+END_SRC
 
 **** JSON mode
@@ -915,22 +943,69 @@ Mark scripts executable on save.
   (use-package json-mode
     :ensure t
     :pin melpa-stable)
-    ;; :mode ("\\.json\\'"))
+#+END_SRC
+
+**** Typescript config
+#+BEGIN_SRC emacs-lisp
+  (use-package typescript-mode
+    :ensure t
+    :pin melpa-stable
+    :config
+    (defun esc-config-typescript-mode ()
+      (define-key typescript-mode-map (vector 'remap 'fill-paragraph) 'js-c-fill-paragraph))
+    (add-hook 'typescript-mode-hook 'esc-config-typescript-mode))
+#+END_SRC
+
+***** tide config
+#+BEGIN_SRC emacs-lisp
+  (use-package tide
+    :ensure t
+    :pin melpa-stable
+    :after (typescript-mode company flycheck)
+    :hook ((typescript-mode . tide-setup)
+           (typescript-mode . tide-hl-identifier-mode)
+           (typescript-mode . company-mode-on)
+           (typescript-mode . turn-on-flycheck-mode)
+           (typescript-mode . turn-on-eldoc-mode)
+           ;; (before-save . tide-format-before-save)
+           )
+    :config
+    (defun tide/configure-tide ()
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (setq company-backends '(company-tide company-yasnippet))
+      (bind-key "TAB" 'yas-expand yas-minor-mode-map)
+      ;; aligns annotation to the right hand side
+      ;; (setq company-tooltip-align-annotations t)
+      )
+    (add-hook 'typescript-mode-hook 'tide/configure-tide))
+#+END_SRC
+
+***** web-mode config
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :pin melpa-stable
+    :after (tide)
+    :config
+    (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+    (add-hook 'web-mode-hook
+              (lambda ()
+                (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                  (setup-tide-mode))))
+    ;; enable typescript-tslint checker
+    (flycheck-add-mode 'typescript-tslint 'web-mode))
+#+END_SRC
+***** ts-comint
+Wasn't working :\
+Install dependencies: `npm i -g tsun`
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package ts-comint :ensure t)
 #+END_SRC
 *** Lua mode config
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
     :ensure t
     :pin melpa-stable)
-#+END_SRC
-
-*** Magithub config
-#+BEGIN_SRC emacs-lisp
-  (use-package magithub
-    :ensure t
-    :pin melpa-stable
-    :after magit
-    :config (magithub-feature-autoinject t))
 #+END_SRC
 
 *** Yasnippet config
@@ -982,9 +1057,19 @@ TODO: use from melpa stable)
   (add-to-list 'auto-mode-alist '("\\.env\\'" . conf-mode))
 #+END_SRC
 
+***** docker-compose mode
+#+BEGIN_SRC emacs-lisp
+    (use-package docker-compose-mode
+      :ensure t
+      :pin melpa-stable
+      :mode ("docker-compose[^/]*\\.yaml\\'"))
+#+END_SRC
+
 *** bats config
-#+BEGIN_SRC emacs-lisp :tangle no
-  (use-package bats-mode :ensure t)
+#+BEGIN_SRC emacs-lisp
+  (use-package bats-mode
+    :ensure t
+    :interpreter ("bats" . bats-mode))
 #+END_SRC
 
 *** Qml mode config
@@ -1018,6 +1103,7 @@ TODO: use from melpa stable)
     :defer t
     :bind ("C-c v" . vline-mode))
 #+END_SRC
+
 *** OpenAPI config
 #+BEGIN_SRC emacs-lisp
   (use-package openapi-yaml-mode
@@ -1072,10 +1158,13 @@ TODO: use from melpa stable)
              :fetcher github
              :repo "EricCrosson/kill-term-buffer-on-exit-mode"))
 #+END_SRC
-*** keycast-mode config
 
+*** keycast-mode config
 Display each keypress with `keycast-mode`.
-#+BEGIN_SRC emacs-lisp
+
+TODO: add `mode-line-buffer-identification` to mode line in order for
+this package to work.
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package keycast
     :ensure t
     :pin melpa-stable
@@ -1115,7 +1204,7 @@ Record one frame per keystroke.
     (use-package counsel
       :ensure t
       :pin melpa-stable
-      :after (company evil-leader)
+      :after (evil-leader)
       :config (evil-leader/set-key
                 "a" 'counsel-ag
                 "k" 'counsel-company
@@ -1129,7 +1218,7 @@ Record one frame per keystroke.
   (use-package ivy
     :ensure t
     :pin melpa-stable
-    :after (avy counsel evil-leader)
+    :after (counsel evil-leader)
     :diminish ivy-mode
     :bind (:map ivy-minibuffer-map
                 ("C-j" . ivy-next-line)
@@ -1153,7 +1242,7 @@ Record one frame per keystroke.
     (evil-leader/set-key
       "ss" 'swiper
       "bb" 'ivy-switch-buffer)
-    (ivy-mode 1))
+    (ivy-mode t))
 #+END_SRC
 
 *** Which-key mode
@@ -1192,7 +1281,7 @@ Record one frame per keystroke.
     :quelpa (unselectable-window-mode
              :fetcher github
              :repo "EricCrosson/unselectable-window-mode")
-    :bind ("C-c C-w C-m" . unselectable-window-mode))
+    :bind ("C-c w" . unselectable-window-mode))
 #+END_SRC
 *** Evil config
 #+BEGIN_SRC emacs-lisp
@@ -1272,7 +1361,7 @@ Record one frame per keystroke.
       ;; TODO: cull unnecessary entries from recentf list (machine files)
 
            ;;; buffer commands
-      "bd" 'kill-this-buffer
+      "bd" 'kill-current-buffer
 
       ;; compilation
       "cm" 'recompile
@@ -1367,6 +1456,16 @@ Record one frame per keystroke.
     :config (global-evil-mc-mode 1))
 #+END_SRC
 
+**** evil-numbers
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-numbers
+    :ensure t
+    :pin melpa-stable
+    :after (evil)
+    :bind (("C-c +" . evil-numbers/inc-at-pt)
+           ("C-c -" . evil-numbers/dec-at-pt)))
+#+END_SRC
+
 *** Git config
 **** Git modes
 #+BEGIN_SRC emacs-lisp
@@ -1391,7 +1490,7 @@ Record one frame per keystroke.
             (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 #+END_SRC
 
-**** Git gutter config
+**** Git-gutter+ config
 #+BEGIN_SRC emacs-lisp
   (use-package git-gutter+
     :ensure t
@@ -1413,14 +1512,27 @@ Record one frame per keystroke.
       "gu" 'git-gutter+-unstage-whole-buffer))
 #+END_SRC
 
+***** git-gutter+-refresh-on-magit-commit
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package git-gutter-plus-refresh-on-magit-commit
+    :quelpa (git-gutter-plus-refresh-on-magit-commit
+             :fetcher github
+             :repo "EricCrosson/git-gutter-plus-refresh-on-magit-commit"))
+#+END_SRC
+
 **** Magit config
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
     :pin melpa-stable
     :after (evil-leader)
+    :diminish magit-auto-revert-mode
     :commands magit-status
-    :config (evil-leader/set-key "gs" 'magit-status))
+    :config (evil-leader/set-key
+              "gs" 'magit-status
+              "gS" 'magit-clone))
+#+END_SRC
+
 **** Magit-todos config
 #+BEGIN_SRC emacs-lisp
   (use-package magit-todos
@@ -1429,6 +1541,15 @@ Record one frame per keystroke.
     :config (magit-todos-mode 1))
 #+END_SRC
 
+**** Magithub config
+Question: is this necessary in tandem with `forge`?
+I am not sure how the two packages relate.
+#+BEGIN_SRC emacs-lisp
+  (use-package magithub
+    :ensure t
+    :pin melpa-stable
+    :after (magit)
+    :config (magithub-feature-autoinject t))
 #+END_SRC
 
 **** Git messenger config
@@ -1488,7 +1609,7 @@ Record one frame per keystroke.
   (use-package counsel-projectile
     :ensure t
     :pin melpa-stable
-    :after (counsel ripgrep)
+    :after (counsel)
     :config
     (evil-leader/set-key
       "pf" 'counsel-projectile-find-file
@@ -1516,13 +1637,21 @@ Record one frame per keystroke.
 (use-package flycheck
   :ensure t
   :pin melpa-stable
-  :init (global-flycheck-mode 1))
+  :init (global-flycheck-mode 1)
+  :config
+  ;; TODO: autoload only
+  (defun turn-on-flycheck-mode ()
+    "Turn on `flycheck-mode'."
+    (interactive)
+    (flycheck-mode 1)))
 #+END_SRC
 
 *** Flyspell config
 #+BEGIN_SRC emacs-lisp
   (use-package flyspell
-    :config (add-hook 'prog-mode-hook 'flyspell-prog-mode))
+    :config
+    (add-hook 'org-mode-hook 'flyspell-mode)
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode))
 #+END_SRC
 
 *** Window and buffer manipulation
@@ -1628,6 +1757,26 @@ Record one frame per keystroke.
     :demand t
     :diminish beacon-mode
     :config (beacon-mode 1))
+#+END_SRC
+
+*** spray
+TODO: create evil keybindings
+TODO: configure default wpm
+[[https://gitlab.com/iankelling/spray][Documentation]]
+#+BEGIN_SRC emacs-lisp
+  (use-package spray
+    :quelpa (spray
+             :fetcher git
+             :url "https://gitlab.com/iankelling/spray.git")
+    :after (evil-leader)
+    :bind (
+           ("<f5>" . spray-mode)
+           ("<f6>" . spray-start/stop)
+           )
+    :config
+    (setq spray-wpm 1200)
+    ;; (evil-leader/set-key)
+    )
 #+END_SRC
 
 *** Compilation buffer config
@@ -1813,7 +1962,7 @@ Beware the magic nums, my son
   (use-package highlight-numbers
     :ensure t
     :pin melpa-stable
-    :config (add-hook 'prog-mode-hook 'highlight-numbers-mode))
+    :hook (prog-mode . highlight-numbers-mode))
 #+END_SRC
 
 *** Sudo edit
@@ -1880,9 +2029,14 @@ Keep a history of =M-x= across sessions.
     :ensure t
     :diminish undo-tree-mode
     :config
-    (setq undo-limit (* 1024 1024))
-    (undo-tree-mode 1)
-    ;; (setq undo-tree-auto-save-history nil)
+
+    (global-undo-tree-mode 1)
+    (setq undo-tree-visualizer-timestamps t
+          undo-tree-visualizer-relative-timestamps t
+          undo-limit (* 1024 1024)
+          ;; undo-tree-auto-save-history nil
+          )
+
     (defadvice undo-tree-make-history-save-file-name
         (after undo-tree activate)
       "Make zipped `undo-tree' files obvious."
@@ -1933,16 +2087,55 @@ other than what will be published.
 #+END_SRC
 
 ** OS-Specific config
-# TODO: wrap in a block to prevent execution on other operating-systems
-#+BEGIN_SRC emacs-lisp
-  (use-package osx-browse
+TODO: replace with (use-package with-os) after submission to melpa is approved
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package with-os
     :ensure t
     :pin melpa-stable
     :config
-    (osx-browse-mode 1)
-    (setq browse-url-dwim-always-confirm-extraction nil)
-    (global-set-key (kbd "s-w") nil))
+    (with-os
+     :darwin
+     (use-package osx-browse
+       :ensure t
+       :pin melpa-stable
+       :config
+       (osx-browse-mode 1)
+       (setq browse-url-dwim-always-confirm-extraction nil)
+       (global-set-key (kbd "s-w") nil))))
 #+END_SRC
+*** Begin sexp
+#+BEGIN_SRC emacs-lisp :tangle no
+  (cond
+#+END_SRC
+*** Microsoft Windows
+#+BEGIN_SRC emacs-lisp :tangle no
+   ((string-equal system-type "windows-nt")
+    (progn
+      (message "Microsoft Windows")))
+#+END_SRC
+*** Mac OS X
+#+BEGIN_SRC emacs-lisp :tangle no
+  ((string-equal system-type "darwin")
+   (progn
+     (use-package osx-browse
+       :ensure t
+       :pin melpa-stable
+       :config
+       (osx-browse-mode 1)
+       (setq browse-url-dwim-always-confirm-extraction nil)
+       (global-set-key (kbd "s-w") nil))))
+#+END_SRC
+*** GNU/Linux
+#+BEGIN_SRC emacs-lisp :tangle no
+   ((string-equal system-type "gnu/linux")
+    (progn
+      (message "Linux")))
+#+END_SRC
+*** Conclude sexp
+#+BEGIN_SRC emacs-lisp :tangle no
+)
+#+END_SRC
+
 ** Fin
 Start the server if we made it this far in one piece.
 #+BEGIN_SRC emacs-lisp
@@ -1963,6 +2156,5 @@ Inform the driver that init has completed.
   ;;; .emacs.el ends here
 #+END_SRC
 
-
 ** File-specific                                                  :noexport:
 #  LocalWords:  gtd Tronesque darkokai

@@ -1,5 +1,7 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: console.log
-# key: cl
+# name: ava-test
+# key: test
 # --
-console.log($0);
+test('$0', t => {
+
+})
