@@ -1210,16 +1210,22 @@ Record one frame per keystroke.
 
 *** Counsel
 #+BEGIN_SRC emacs-lisp
-    (use-package counsel
-      :ensure t
-      :pin melpa-stable
-      :after (evil-leader)
-      :config (evil-leader/set-key
-                "a" 'counsel-ag
-                "k" 'counsel-company
-                "ff" 'counsel-find-file
-                "fr" 'counsel-recentf
-                "jk" 'counsel-imenu))
+  (use-package counsel
+    :ensure t
+    :pin melpa-stable
+    :after (evil-leader)
+    :bind ("C-x C-f" . counsel-find-file)
+    :config
+    (evil-leader/set-key
+      "a" 'counsel-ag
+      "k" 'counsel-company
+      "ff" 'counsel-find-file
+      "fr" 'counsel-recentf
+      "jk" 'counsel-imenu)
+    (setq counsel-find-file-ignore-regexp
+          (concat counsel-find-file-ignore-regexp
+                  "package-lock\\.json"
+                  )))
 #+END_SRC
 
 *** Ivy
