@@ -200,6 +200,15 @@ Favored font of late
                           :weight 'normal
                           :width 'normal)))
 #+END_SRC
+
+Highlight escape sequences
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-escape-sequences
+    :ensure t
+    :config
+    (put 'hes-escape-backslash-face 'face-alias 'font-lock-builtin-face)
+    (put 'hes-escape-sequence-face 'face-alias 'font-lock-builtin-face))
+#+END_SRC
 
 *** Themes
 Fire up the mood lighting
