@@ -947,7 +947,12 @@ Mark scripts executable on save.
            (markdown-mode . flyspell-mode)))
 #+END_SRC
 
-*** Javascript config
+*** JavaScript config
+**** prettier config
+#+BEGIN_SRC emacs-lisp
+  (use-package prettier-js
+    :ensure t)
+#+END_SRC
 **** indium config
 #+BEGIN_SRC emacs-lisp
   (use-package indium
