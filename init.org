@@ -992,14 +992,15 @@ Mark scripts executable on save.
            ;; (before-save . tide-format-before-save)
            )
     :config
-    (defun tide/configure-tide ()
+    (defun tide/configure-tide-typescript ()
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (setq company-backends '(company-tide company-yasnippet))
       (bind-key "TAB" 'yas-expand yas-minor-mode-map)
       ;; aligns annotation to the right hand side
       ;; (setq company-tooltip-align-annotations t)
+      (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
       )
-    (add-hook 'typescript-mode-hook 'tide/configure-tide))
+    (add-hook 'typescript-mode-hook 'tide/configure-tide-typescript))
 #+END_SRC
 
 ***** web-mode config
