@@ -1,7 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: block-comment
-# key: /*
+# name: t.context
+# key: tc
 # --
-/**
- * $0
- */
+t.context.

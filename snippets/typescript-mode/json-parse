@@ -1,7 +1,5 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: anonymous-function
-# key: ()
+# name: JSON.parse
+# key: jp
 # --
-() => {
-    $0
-}
+JSON.parse($0)
