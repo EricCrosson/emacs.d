@@ -974,7 +974,7 @@ Mark scripts executable on save.
     :pin melpa-stable
     :config
     (defun esc-config-typescript-mode ()
-      (define-key typescript-mode-map (vector 'remap 'fill-paragraph) 'js-c-fill-paragraph))
+      (define-key typescript-mode-map (vector 'remap 'fill-paragraph) 'js-fill-paragraph))
     (add-hook 'typescript-mode-hook 'esc-config-typescript-mode))
 #+END_SRC
 
