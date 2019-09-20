@@ -1332,9 +1332,11 @@ Record one frame per keystroke.
              :fetcher github
              :repo "EricCrosson/avoid-accidental-termination-mode")
     :after (evil-leader)
-    :config (evil-leader/set-key
-              "qq" 'kill-emacs
-              "qQ" 'save-buffers-kill-terminal))
+    :config
+    (evil-leader/set-key
+      "qq" 'kill-emacs
+      "qQ" 'save-buffers-kill-terminal)
+    (global-unset-key (kbd "s-q")))
 #+END_SRC
 
 *** Paradox
