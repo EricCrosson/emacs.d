@@ -676,6 +676,10 @@ new terminal.
   (mouse-avoidance-mode 'exile)
 #+END_SRC
 
+*** Compilation config
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-c m" 'compile)
+#+END_SRC
 ** Language configs
 *** Programming modes config
 #+BEGIN_SRC emacs-lisp
@@ -1437,6 +1441,7 @@ Record one frame per keystroke.
 
       ;; compilation
       "cm" 'recompile
+      "cM" 'compile
 
       ;;; time-clocking
       "co" 'org-clock-out
