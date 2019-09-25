@@ -4,7 +4,7 @@
 # --
 new Writable({
     // objectMode: true,
-    write($0chunk: string, _: string, callback: any) {
+    write($0chunk: string, _: string, callback: (error?: Error | null) => void) {
         callback()
     }
 })

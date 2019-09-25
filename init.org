@@ -98,8 +98,9 @@ Which came first, the Emacs or the shell?
     :ensure t
     :pin melpa-stable
     :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
+    ;; (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+    ;; )
 #+END_SRC
 
 ** Layout and load paths
@@ -967,7 +968,7 @@ Mark scripts executable on save.
     :pin melpa-stable)
 #+END_SRC
 
-**** Typescript config
+**** TypeScript config
 #+BEGIN_SRC emacs-lisp
   (use-package typescript-mode
     :ensure t
@@ -992,13 +993,14 @@ Mark scripts executable on save.
            ;; (before-save . tide-format-before-save)
            )
     :config
+    (flycheck-add-mode 'javascript-eslint 'typescript-mode)
+    ;; (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
     (defun tide/configure-tide-typescript ()
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (setq company-backends '(company-tide company-yasnippet))
       (bind-key "TAB" 'yas-expand yas-minor-mode-map)
       ;; aligns annotation to the right hand side
       ;; (setq company-tooltip-align-annotations t)
-      (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
       )
     (add-hook 'typescript-mode-hook 'tide/configure-tide-typescript))
 #+END_SRC
@@ -1024,6 +1026,41 @@ Install dependencies: `npm i -g tsun`
 #+BEGIN_SRC emacs-lisp :tangle no
   (use-package ts-comint :ensure t)
 #+END_SRC
+
+**** PureScript config
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package purescript-mode
+    :ensure t
+    :config
+    (add-hook 'purescript-mode-hook 'turn-on-purescript-decl-scan))
+#+END_SRC
+
+***** psc-ide-emacs
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package psc-ide
+    :ensure t
+    :after (purescript-mode)
+    :config
+      (defun purescript-mode/configure-purescript-mode ()
+        (psc-ide-mode)
+        (company-mode)
+        (flycheck-mode)
+        (turn-on-purescript-indentation)
+        )
+      (add-hook 'purescript-mode-hook 'purescript-mode/configure-purescript-mode))
+#+END_SRC
+
+***** psci-mode
+#+BEGIN_SRC emacs-lisp :tangle no
+  (use-package psci
+    :ensure t
+    :pin melpa-stable
+    :after (purescript-mode)
+    :config
+    (add-hook 'purescript-mode-hook 'inferior-psci-mode)
+    )
+#+END_SRC
+
 *** Lua mode config
 #+BEGIN_SRC emacs-lisp
   (use-package lua-mode
@@ -1231,16 +1268,19 @@ Record one frame per keystroke.
     :after (evil-leader)
     :bind ("C-x C-f" . counsel-find-file)
     :config
+    (counsel-mode 1)
     (evil-leader/set-key
       "a" 'counsel-ag
       "k" 'counsel-company
       "ff" 'counsel-find-file
       "fr" 'counsel-recentf
       "jk" 'counsel-imenu)
-    (setq counsel-find-file-ignore-regexp
-          (concat counsel-find-file-ignore-regexp
-                  "package-lock\\.json"
-                  )))
+    (setq counsel-find-file-ignore-regexp "package-lock\\.json")
+    ;; (setq counsel-find-file-ignore-regexp
+    ;;       (concat counsel-find-file-ignore-regexp
+    ;;               "package-lock\\.json"
+    ;;               ))
+    )
 #+END_SRC
 
 *** Ivy
@@ -1411,10 +1451,10 @@ Record one frame per keystroke.
 #+END_SRC
 
 **** evil-magit
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
   (use-package evil-magit
     :ensure t
-    :pin melpa-stable
+    ;; :pin melpa-stable
     :after (evil)
     :config (add-hook 'git-commit-mode-hook 'evil-insert-state))
 #+END_SRC
