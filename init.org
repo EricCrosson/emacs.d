@@ -734,6 +734,7 @@ the first half of `#define`.
     :ensure t
     :diminish fic-mode
     :config
+    (push "REFACTOR" fic-highlighted-words)
     (push "DISCUSS" fic-highlighted-words)
     (push "RESUME" fic-highlighted-words)
     (push "DEBUG" fic-highlighted-words)
@@ -969,7 +970,11 @@ Mark scripts executable on save.
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
     :ensure t
-    :pin melpa-stable)
+    :pin melpa-stable
+    :config
+    (defun buffer-local-do-not-require-final-newline ()
+      (setq-local require-final-newline nil))
+    (add-hook 'json-mode-hook 'buffer-local-do-not-require-final-newline))
 #+END_SRC
 
 **** TypeScript config
@@ -979,7 +984,7 @@ Mark scripts executable on save.
     :pin melpa-stable
     :config
     (defun esc-config-typescript-mode ()
-      (define-key typescript-mode-map (vector 'remap 'fill-paragraph) 'js-fill-paragraph))
+      (define-key typescript-mode-map (vector 'remap 'fill-paragraph) 'js-c-fill-paragraph))
     (add-hook 'typescript-mode-hook 'esc-config-typescript-mode))
 #+END_SRC
 
@@ -989,6 +994,7 @@ Mark scripts executable on save.
     :ensure t
     :pin melpa-stable
     :after (typescript-mode company flycheck)
+    :bind ("M-." . tide-jump-to-definition)
     :hook ((typescript-mode . tide-setup)
            (typescript-mode . tide-hl-identifier-mode)
            (typescript-mode . company-mode-on)
@@ -1003,6 +1009,7 @@ Mark scripts executable on save.
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (setq company-backends '(company-tide company-yasnippet))
       (bind-key "TAB" 'yas-expand yas-minor-mode-map)
+      (bind-key "M-." nil evil-normal-state-map)
       ;; aligns annotation to the right hand side
       ;; (setq company-tooltip-align-annotations t)
       )
