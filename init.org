@@ -854,6 +854,14 @@ the first half of `#define`.
         python-enable-yapf-format-on-save nil)
 #+END_SRC
 
+**** coconut config
+#+BEGIN_SRC emacs-lisp
+  (use-package coconut-mode
+    :quelpa (coconut-mode
+             :fetcher github
+             :repo "esc-emacs/coconut-mode"))
+#+END_SRC
+
 **** anaconda mode
 #+BEGIN_SRC emacs-lisp
   (use-package anaconda-mode

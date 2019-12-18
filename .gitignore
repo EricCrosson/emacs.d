@@ -31,3 +31,4 @@ init.el
 /semanticdb
 /forge-database.sqlite
 /transient
+/projectile.cache
