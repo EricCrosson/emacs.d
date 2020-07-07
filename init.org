@@ -65,10 +65,10 @@ Configure remote package archives
   (require 'package)
   (setq package-enable-at-startup nil)
       (mapc (lambda (source) (add-to-list 'package-archives source) t)
-            '(("gnu" . "http://elpa.gnu.org/packages/")
-              ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
-              ("melpa" . "http://melpa.milkbox.net/packages/")
-              ("org" . "http://orgmode.org/elpa/")))
+            '(("gnu" . "https://elpa.gnu.org/packages/")
+              ("melpa-stable" . "https://melpa-stable.milkbox.net/packages/")
+              ("melpa" . "https://melpa.milkbox.net/packages/")
+              ("org" . "https://orgmode.org/elpa/")))
   (package-initialize)
 #+END_SRC
 
@@ -197,7 +197,7 @@ Favored font of late
     (when (font-exists-p esc-font)
       (set-face-attribute 'default nil
                           :font esc-font
-                          :height 165
+                          :height 130
                           :weight 'normal
                           :width 'normal)))
 #+END_SRC
@@ -253,15 +253,11 @@ And the inverse, for those high-contrast days
     :pin melpa-stable
     :config
     (load-theme 'nord t)
-    ;; (set-face-foreground 'font-lock-comment-face "#b3daff")
+    ; (set-face-foreground 'font-lock-comment-face "#b3daff")
     (set-face-foreground 'font-lock-comment-face "#7C7C7C")
     (set-face-foreground 'font-lock-doc-face "#B4C4C8")
 
     (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
      '(flyspell-duplicate ((t (:underline "DarkOrange"))))
      '(flyspell-incorrect ((t (:underline "Red1"))))))
 #+END_SRC
@@ -274,13 +270,34 @@ mode-line in non-selected windows.
              :fetcher github
              :repo "esc-emacs/tronesque-theme"))
 #+END_SRC
+
 **** Doom themes
-#+BEGIN_SRC emacs-lisp
+This one was changed out from under me! I like the one from 2019 ish,
+try to find that if you can't find a good fit elsewhere.
+#+BEGIN_SRC emacs-lisp no
   (use-package doom-themes
     :ensure t
     :pin melpa-stable
     :config (load-theme 'doom-city-lights t))
 #+END_SRC
+
+**** Night owl theme
+#+BEGIN_SRC emacs-lisp
+  (use-package night-owl-theme
+    :ensure t
+    :pin melpa-stable
+    :config (load-theme 'night-owl t)
+
+    (setq fci-rule-color "#637777")
+
+    (custom-set-faces
+     '(default ((t (:background nil))))
+     '(git-gutter+-modified ((t (:inherit bold :foreground "#82AAFF" :background nil))))
+     '(git-gutter+-added ((t (:inherit bold :foreground "#C792EA" :background nil))))
+     '(git-gutter+-deleted ((t (:inherit bold :foreground "#F78C6C" :background nil)))))
+    )
+#+END_SRC
+
 **** Notes
 Also interesting
 | Dark theme | Light theme |
@@ -680,6 +697,12 @@ new terminal.
 #+BEGIN_SRC emacs-lisp
   (bind-key "C-c m" 'compile)
 #+END_SRC
+
+*** Buffer config
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-x M-b" 'bury-buffer)
+#+END_SRC
+
 ** Language configs
 *** Programming modes config
 #+BEGIN_SRC emacs-lisp
@@ -1002,7 +1025,10 @@ Mark scripts executable on save.
     :ensure t
     :pin melpa-stable
     :after (typescript-mode company flycheck)
-    :bind ("M-." . tide-jump-to-definition)
+    :bind (("M-." . tide-jump-to-definition)
+           ("M-R" . tide-restart-server)
+           ("C-c C-n" . tide-rename-symbol)
+           ("C-c C-f" . tide-rename-file))
     :hook ((typescript-mode . tide-setup)
            (typescript-mode . tide-hl-identifier-mode)
            (typescript-mode . company-mode-on)
@@ -1032,6 +1058,16 @@ Mark scripts executable on save.
     :after (tide)
     :config
     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+
+    (defun setup-tide-mode ()
+      (interactive)
+      (tide-setup)
+      (flycheck-mode +1)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (eldoc-mode +1)
+      (tide-hl-identifier-mode +1)
+      (company-mode +1))
+
     (add-hook 'web-mode-hook
               (lambda ()
                 (when (string-equal "tsx" (file-name-extension buffer-file-name))
@@ -1081,7 +1117,7 @@ Install dependencies: `npm i -g tsun`
 #+END_SRC
 
 *** Lua mode config
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
   (use-package lua-mode
     :ensure t
     :pin melpa-stable)
@@ -1170,6 +1206,26 @@ TODO: use from melpa stable)
     :ensure t
     :pin melpa-stable
     :mode (("\\.pine" . pine-script-mode)))
+#+END_SRC
+
+*** terraform mode
+#+BEGIN_SRC emacs-lisp
+  (use-package hcl-mode
+    :ensure t
+    :pin melpa-stable
+    :config (setq hcl-indent-level 4))
+
+  (use-package terraform-mode
+    :ensure t
+    :pin melpa-stable
+    :after (hcl-mode)
+    :config (setq terraform-indent-level 4))
+
+  (use-package company-terraform
+    :ensure t
+    :pin melpa-stable
+    :after (terraform-mode company)
+    :hook ((terraform-mode . company-terraform-init)))
 #+END_SRC
 
 ** Extra
@@ -1293,6 +1349,7 @@ Record one frame per keystroke.
       "k" 'counsel-company
       "ff" 'counsel-find-file
       "fr" 'counsel-recentf
+      "fd" 'save-buffer
       "jk" 'counsel-imenu)
     (setq counsel-find-file-ignore-regexp "package-lock\\.json")
     ;; (setq counsel-find-file-ignore-regexp
@@ -1704,10 +1761,12 @@ I am not sure how the two packages relate.
     :pin melpa-stable
     :after (counsel)
     :config
+    (setq projectile-enable-caching t)
     (evil-leader/set-key
       "pf" 'counsel-projectile-find-file
       "pd" 'counsel-projectile-find-dir
       "pa" 'counsel-projectile-ag
+      "pr" 'counsel-projectile-rg
       "pb" 'counsel-projectile-switch-to-buffer
       "pp" 'counsel-projectile-switch-project
       "pk" 'projectile-kill-buffers
@@ -2186,7 +2245,9 @@ other than what will be published.
     :ensure t
     :config
     (load (expand-file-name "wakatime" esc-secrets-directory))
-    (global-wakatime-mode))
+    (setq wakatime-cli-path "/home/linuxbrew/.linuxbrew/bin/wakatime")
+    (global-wakatime-mode)
+)
 #+END_SRC
 *** Restart-emacs config
 #+BEGIN_SRC emacs-lisp
@@ -2266,4 +2327,4 @@ Inform the driver that init has completed.
 #+END_SRC
 
 ** File-specific                                                  :noexport:
-#  LocalWords:  gtd Tronesque darkokai
+#  LocalWords:  gtd Tronesque darkokai terraform
